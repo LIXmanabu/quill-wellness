@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.vite/
+
+# Locally-installed Claude Code skills (restore via: npx skills add pbakaus/impeccable)
+.agents/
+.claude/
+.impeccable/
+skills-lock.json
+.env.local
+
+# test screenshots (puppeteer harness output)
+*-home.png
+*-body.png
+*-more.png
+*-checkout.png
+*-pro.png
+feature-*.png
+desktop-*.png
+
+# CI workflow needs a token scope we do not have; deploying from gh-pages branch instead
+.github/

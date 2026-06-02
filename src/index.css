@@ -1,0 +1,832 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream font-sans antialiased;
+    color: #1A1410;
+    font-feature-settings: 'kern', 'liga';
+  }
+  /* Better selection */
+  ::selection {
+    background-color: #1A1410;
+    color: #F7F2EA;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F7F2EA;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #C8B8A2;
+    border: 2px solid #F7F2EA;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8B7E6E;
+  }
+}
+
+@layer components {
+  /* ─── Editorial typography ─────────────────────────────────────── */
+  .font-display {
+    font-family: 'Instrument Serif', Fraunces, Georgia, serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  .display-italic {
+    font-family: 'Cormorant Garamond', 'Instrument Serif', Fraunces, Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .editorial-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-soft font-sans;
+  }
+  .editorial-num {
+    font-family: 'Instrument Serif', serif;
+    @apply text-ink-soft font-normal;
+  }
+
+  /* ─── Cards ────────────────────────────────────────────────────── */
+  .card-paper {
+    @apply bg-cream-light border border-ink/10 transition-all duration-300;
+    box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.85);
+  }
+  .card-paper-hover {
+    @apply hover:border-ink/30 hover:shadow-ink;
+  }
+  .card-ink {
+    @apply bg-ink text-cream border border-ink;
+  }
+  .card-bone {
+    @apply bg-bone border border-ink/10;
+  }
+  .card-sage {
+    @apply bg-sage-pale border border-sage/20;
+  }
+  .card-clay {
+    @apply bg-clay-pale border border-clay/20;
+  }
+  .card-blush {
+    @apply bg-blush-pale border border-blush/30;
+  }
+  .card-gold {
+    @apply bg-gold-pale border border-gold/30;
+  }
+
+  /* ─── Buttons ──────────────────────────────────────────────────── */
+  .btn-ink {
+    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-ink text-cream text-sm font-medium tracking-wide transition-all duration-200 hover:bg-ink-light hover:-translate-y-px;
+  }
+  .btn-ink:hover { box-shadow: 0 4px 14px rgba(26, 20, 16, 0.22); }
+  .btn-ink:active { transform: translateY(0); box-shadow: none; transition-duration: 80ms; }
+  .btn-ink:focus-visible { outline: 2px solid oklch(25% 0.02 60); outline-offset: 3px; }
+  .btn-cream {
+    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-cream-light text-ink border border-ink/20 text-sm font-medium tracking-wide transition-all duration-300 hover:border-ink hover:-translate-y-0.5;
+  }
+  .btn-cream:active { transform: translateY(0) !important; transition-duration: 80ms; }
+  .btn-cream:focus-visible { outline: 2px solid oklch(25% 0.02 60); outline-offset: 3px; }
+  .btn-clay {
+    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-clay text-cream text-sm font-medium tracking-wide transition-all duration-300 hover:bg-clay-dark;
+  }
+  .btn-clay:active { transform: translateY(1px); transition-duration: 80ms; }
+  .btn-clay:focus-visible { outline: 2px solid oklch(48% 0.12 35); outline-offset: 3px; }
+  .btn-ghost {
+    @apply inline-flex items-center gap-1.5 text-sm font-medium text-ink hover:text-clay transition-colors;
+  }
+  .btn-ghost:active { opacity: 0.7; }
+  .btn-ghost:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+  /* ─── Pills / chips ────────────────────────────────────────────── */
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border;
+  }
+  .chip-ink {
+    @apply bg-ink text-cream border-ink;
+  }
+  .chip-cream {
+    @apply bg-cream-light text-ink border-ink/20;
+  }
+
+  /* ─── Editorial dividers ───────────────────────────────────────── */
+  .rule-ink {
+    @apply border-t border-ink/15;
+  }
+  .rule-double {
+    border-top: 1px solid rgba(26,20,16,0.15);
+    border-bottom: 1px solid rgba(26,20,16,0.15);
+    height: 5px;
+  }
+
+  /* ─── Section heading patterns ─────────────────────────────────── */
+  .section-heading {
+    @apply font-serif text-3xl sm:text-4xl text-ink leading-tight tracking-tight font-light;
+  }
+  .section-sub {
+    @apply text-ink-soft text-base sm:text-lg leading-relaxed font-sans font-normal mt-2 mb-8;
+    max-width: 38rem;
+  }
+  .page-section {
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .page-section-wide {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  /* ─── State badges ─────────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em];
+  }
+  .badge-success { background: oklch(91% 0.07 148); color: oklch(38% 0.14 148); }
+  .badge-error   { background: oklch(92% 0.06 25);  color: oklch(40% 0.16 25);  }
+  .badge-warning { background: oklch(93% 0.07 75);  color: oklch(42% 0.15 75);  }
+  .badge-info    { background: oklch(91% 0.05 245); color: oklch(40% 0.14 245); }
+
+  /* ─── Max mode — colourful accents only when isMax ─────────────── */
+  .max-rainbow-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 100;
+    background: linear-gradient(
+      90deg,
+      #C8654A 0%,
+      #A67C1A 17%,
+      #5A6B5D 34%,
+      #3F7CB0 50%,
+      #9173C0 67%,
+      #B96A72 84%,
+      #C8654A 100%
+    );
+    background-size: 200% 100%;
+    animation: rainbow-flow 10s linear infinite;
+  }
+  .max-rainbow-bar--top { top: 0; }
+  .max-rainbow-bar--bottom {
+    bottom: 0;
+    animation-direction: reverse;
+  }
+
+  @keyframes rainbow-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* Italic accent words get a flowing brand-color gradient in Max mode.
+     Descendants get the SAME gradient but WITHOUT animation, so each
+     character span doesn't run its own keyframe loop (massive scroll-lag
+     killer). The parent's animation visually shifts the whole word. */
+  .max-mode .display-italic.text-clay {
+    background: linear-gradient(
+      120deg,
+      #C8654A 0%,
+      #A67C1A 25%,
+      #5A6B5D 50%,
+      #9173C0 75%,
+      #C8654A 100%
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 10s ease infinite;
+  }
+  .max-mode .display-italic.text-clay * {
+    background: linear-gradient(120deg, #C8654A 0%, #A67C1A 25%, #5A6B5D 50%, #9173C0 75%, #C8654A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Quill logo in navbar gets a softer gradient */
+  .max-mode .masthead {
+    background: linear-gradient(
+      90deg,
+      rgba(200,101,74,0.06),
+      rgba(212,167,68,0.08),
+      rgba(90,107,93,0.06),
+      rgba(201,179,232,0.08),
+      rgba(200,101,74,0.06)
+    );
+    background-size: 200% 100%;
+    animation: rainbow-flow 18s linear infinite;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  /* Max-mode cursor: pulses between warm yellow and bright green on a
+     ~4s cycle so it feels alive without being noisy. Trail stays a
+     static yellow-green blend (animating all 11 cursor nodes was a
+     known scroll-perf killer). Hover overrides everything with purple. */
+  .max-mode .cursor-dot:not(.is-hover) {
+    animation: max-cursor-pulse 4s ease-in-out infinite;
+  }
+  @keyframes max-cursor-pulse {
+    0%, 100% {
+      background: radial-gradient(circle at 40% 40%, #FFD27A 0%, #F0B95E 65%, #A67C1A 100%);
+      box-shadow: 0 0 14px rgba(255, 210, 122, 0.85), 0 0 28px rgba(212, 167, 68, 0.5);
+    }
+    50% {
+      background: radial-gradient(circle at 40% 40%, #DDEE7A 0%, #A8C95E 65%, #6B8744 100%);
+      box-shadow: 0 0 14px rgba(168, 201, 94, 0.85), 0 0 28px rgba(107, 135, 68, 0.5);
+    }
+  }
+  .max-mode .cursor-trail:not(.is-hover) {
+    background: #BCC25F; /* static yellow-green — the blend between the two pulse ends */
+  }
+  /* Purple on hover — overrides the pulse animation cleanly because
+     :not(.is-hover) above means the keyframes don't apply here. */
+  .max-mode .cursor-dot.is-hover {
+    background: radial-gradient(circle at 40% 40%, #D9C7E8 0%, #A582D7 65%, #8B6BB8 100%);
+    box-shadow: 0 0 16px rgba(165, 130, 215, 0.85), 0 0 32px rgba(139, 107, 184, 0.55);
+  }
+  .max-mode .cursor-trail.is-hover {
+    background: #A582D7;
+  }
+
+  /* Editorial labels in clay get a subtle hue shift. Parent animates;
+     descendants get static gradient (no per-char animation loop). */
+  .max-mode .editorial-label.text-clay,
+  .max-mode .text-clay.editorial-num,
+  .max-mode .editorial-num.text-clay,
+  .max-mode .num-display.text-clay {
+    background: linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #3F7CB0, #9173C0, #C8654A);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 10s ease infinite;
+  }
+  .max-mode .editorial-label.text-clay *,
+  .max-mode .text-clay.editorial-num *,
+  .max-mode .editorial-num.text-clay *,
+  .max-mode .num-display.text-clay * {
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* ── More rainbow accents in Max mode ── */
+
+  /* Big editorial numbers (.editorial-num) get the gradient — parent animates only */
+  .max-mode .editorial-num {
+    background: linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #3F7CB0, #9173C0, #C8654A);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 14s ease infinite;
+  }
+  .max-mode .editorial-num * {
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Marquee separators (the ✺ ✿ stars between phrases) rotate hues */
+  .max-mode .text-clay,
+  .max-mode .text-gold {
+    /* Only colour-shift text — not backgrounds */
+  }
+
+  /* Card borders pick up a faint static gradient (no animation — was
+     running gradient-shift on every card simultaneously, killing scroll
+     perf on pages with 20+ cards). */
+  .max-mode .card-paper {
+    border-color: transparent !important;
+    background:
+      linear-gradient(#FBF7F0, #FBF7F0) padding-box,
+      linear-gradient(120deg, #C8654A33, #A67C1A33, #5A6B5D33, #9173C033) border-box;
+  }
+
+  /* Favorite heart, when filled, becomes a gradient */
+  .max-mode button[aria-pressed="true"] .display-italic {
+    background: linear-gradient(120deg, #B96A72, #C8654A, #A67C1A, #9173C0, #B96A72);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 6s ease infinite;
+  }
+
+  /* Section title accent — the italic word — already covered above.
+     Add the underline-grow link colour to flow too. */
+  .max-mode .link-underline::after {
+    background: linear-gradient(90deg, #C8654A, #A67C1A, #5A6B5D, #9173C0, #C8654A);
+    background-size: 200% 100%;
+    animation: rainbow-flow 6s linear infinite;
+  }
+
+  /* Quill logo wordmark — parent animates, descendants inherit */
+  .max-mode .font-display.text-3xl.text-ink,
+  .max-mode .font-display.md\:text-4xl.text-ink {
+    background: linear-gradient(120deg, #1A1410, #C8654A, #A67C1A, #5A6B5D, #9173C0, #1A1410);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 14s ease infinite;
+  }
+  .max-mode .font-display.text-3xl.text-ink *,
+  .max-mode .font-display.md\:text-4xl.text-ink * {
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Big oversized SplitText headlines on hero — parent animates only */
+  .max-mode h1 .display-italic,
+  .max-mode h2 .display-italic,
+  .max-mode h3 .display-italic {
+    background: linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #3F7CB0, #9173C0, #C8654A);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 12s ease infinite;
+  }
+  .max-mode h1 .display-italic *,
+  .max-mode h2 .display-italic *,
+  .max-mode h3 .display-italic * {
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Section bottom borders use a static gradient image instead of an
+     animated one (animating per-section eats scroll perf). */
+  .max-mode .border-b.border-ink\/15 {
+    border-image: linear-gradient(90deg, #C8654A55, #A67C1A88, #5A6B5D88, #9173C088, #C8654A55) 1;
+    border-bottom-style: solid;
+  }
+
+  /* Very subtle rainbow tint on the whole cream background.
+     Note: background-attachment:fixed was removed — it caused major scroll
+     lag because every pixel of scroll forced a viewport-wide recomposite.
+     Without fixed, the gradient scrolls naturally with the page (still
+     visible enough at the top + repeating slightly via the body class). */
+  .max-mode {
+    background:
+      radial-gradient(circle at 10% 10%, rgba(232, 180, 184, 0.10), transparent 40%),
+      radial-gradient(circle at 90% 30%, rgba(212, 167, 68, 0.10), transparent 45%),
+      #F7F2EA;
+  }
+
+  /* Chips get a faint rainbow border in Max mode. The padding-box fill is
+     light cream, so force dark text — otherwise cream-text chips (e.g. the
+     "For you" badge) vanish against it. */
+  .max-mode .chip {
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(#FBF7F0, #FBF7F0) padding-box,
+      linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #9173C0, #C8654A) border-box;
+    background-size: 100% 100%, 300% 300%;
+    animation: gradient-shift 10s ease infinite;
+    color: #1A1410;
+    -webkit-text-fill-color: #1A1410;
+  }
+
+  /* Buttons (btn-ink) get a subtle gold-to-clay shimmer on hover */
+  .max-mode .btn-ink:hover {
+    background: linear-gradient(120deg, #1A1410, #9B4423, #B08A2E, #1A1410);
+    background-size: 300% 300%;
+    animation: gradient-shift 4s ease infinite;
+  }
+
+  /* Marquee separators (the ✺ ✿ stars) hue-shift */
+  .max-mode .text-gold,
+  .max-mode .text-clay {
+    /* These cycle on element-by-element basis where they're separators */
+  }
+
+  /* Spotlight cards get a slightly brighter gold glow on hover (still
+     uses the same radial — no multi-stop perf cost) */
+  .max-mode .spotlight-card::before {
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(212, 167, 68, 0.28), transparent 45%);
+  }
+
+  /* Number prefix (e.g., editorial-num "01") and clay text-only — already covered */
+
+  /* (Removed per-section reveal flash — it ran a box-shadow animation
+     on every Reveal element entering view, which added paint cost on
+     scroll-heavy pages.) */
+
+  /* Animated "MAX" badge in masthead is more vibrant */
+  .max-mode .pro-badge {
+    background: linear-gradient(120deg, #C8654A 0%, #A67C1A 25%, #5A6B5D 50%, #9173C0 75%, #C8654A 100%) !important;
+    background-size: 300% 300% !important;
+    animation: gradient-shift 3s ease infinite !important;
+    color: #1A1410 !important;
+    font-weight: 700;
+  }
+
+  /* Utility: rainbow gradient text — applied to user name etc.
+     Parent runs the animation; descendants inherit a static gradient so
+     they're visible without each one running its own keyframe loop. */
+  .tier-gradient-text,
+  .max-mode .tier-gradient-text {
+    background: linear-gradient(120deg, #C8654A 0%, #A67C1A 17%, #5A6B5D 34%, #3F7CB0 50%, #9173C0 67%, #B96A72 84%, #C8654A 100%);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 8s ease infinite;
+  }
+  .tier-gradient-text *,
+  .max-mode .tier-gradient-text * {
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* MyQuill profile chips get vivid label colours in Max */
+  .max-mode .editorial-label {
+    color: #9B4423;
+  }
+  .max-mode .text-ink-soft {
+    color: #5A4A3E;
+  }
+
+  /* Ghost / text CTAs (e.g. Home "browse" links): legible in every mode via
+     their own classes; repainted rainbow only when Max is on. text-fill
+     overrides the element's base colour, so this works over any utility. */
+  .max-mode .cta-rainbow {
+    background: linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #3F7CB0, #9173C0, #C8654A);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  /* ─── Pro mode treatment ───────────────────────────────────────── */
+  .pro-card {
+    @apply relative;
+    background: linear-gradient(#FBF7F0, #FBF7F0) padding-box,
+      linear-gradient(120deg, #A67C1A, #C8654A, #5A6B5D, #A67C1A) border-box;
+    border: 1.5px solid transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 10s ease infinite;
+  }
+  .pro-badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em];
+    background: linear-gradient(120deg, #A67C1A 0%, #C8654A 100%);
+    background-size: 200% 200%;
+    color: #FBF7F0;
+    animation: gradient-shift 6s ease infinite;
+  }
+  .text-gradient-pro {
+    background: linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #C8654A);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  /* ─── Rainbow frame ────────────────────────────────────────────── */
+  /* Replaces the old left-edge side-stripes on dark cards with a full
+     animated gradient border (a frame, not a side accent). Kept bright
+     on purpose. Honors prefers-reduced-motion via the global rule below. */
+  .rainbow-frame {
+    border: 2px solid transparent;
+    background:
+      linear-gradient(#1A1410, #1A1410) padding-box,
+      linear-gradient(135deg, #C8654A 0%, #A67C1A 20%, #5A6B5D 40%, #3F7CB0 60%, #9173C0 80%, #C8654A 100%) border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: rainbow-flow 8s linear infinite;
+  }
+
+  /* ─── Scroll reveal ────────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-slide-left {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-slide-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-slide-right {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-slide-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ─── Underline animation ──────────────────────────────────────── */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute left-0 -bottom-0.5 w-full h-px bg-current origin-left;
+    transform: scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ─── Hover spotlight ──────────────────────────────────────────── */
+  .spotlight-card {
+    @apply relative overflow-hidden;
+  }
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,167,68,0.18), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
+
+  /* ─── Noise overlay ────────────────────────────────────────────── */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.055;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Checkout form inputs ─────────────────────────────────────── */
+  .checkout-field input,
+  .checkout-field select {
+    @apply w-full bg-cream border border-ink/20 px-3 py-2.5 text-sm text-ink placeholder-ink-softer focus:outline-none focus:border-ink transition-colors;
+    font-family: inherit;
+  }
+  .checkout-field input:disabled,
+  .checkout-field select:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* ─── Magazine masthead ────────────────────────────────────────── */
+  .masthead {
+    @apply flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.25em] text-ink-soft border-b border-ink/15 py-2;
+  }
+
+  /* ─── Custom cursor — warm amber default, purple on interactive ──
+     Default: gradient blend of warm yellow + peach, with a small glow.
+     Trail: tiny uniform dots in a thin line behind the lead.
+     Hover (on links/buttons/inputs): switches to rich purple. */
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle at 40% 40%, #F4C26B 0%, #E69A5C 70%, #D88247 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(230, 154, 92, 0.75),
+                0 0 20px rgba(212, 167, 68, 0.4);
+    transition: width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+                height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+                background 0.22s ease,
+                box-shadow 0.22s ease;
+    will-change: transform;
+  }
+  .cursor-dot.is-hover {
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 40% 40%, #9173C0 0%, #A582D7 70%, #8B6BB8 100%);
+    box-shadow: 0 0 16px rgba(165, 130, 215, 0.85),
+                0 0 32px rgba(139, 107, 184, 0.55);
+  }
+
+  .cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #E69A5C;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: background 0.22s ease;
+    will-change: transform;
+  }
+  .cursor-trail.is-hover {
+    background: #A582D7;
+  }
+
+  .cursor-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #8B6BB8;
+    text-shadow: 0 0 8px rgba(244, 238, 252, 0.85);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    animation: cursor-label-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  @keyframes cursor-label-in {
+    from { opacity: 0; transform: translate3d(0, 0, 0) translate(8px, 16px); }
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 768px), (pointer: coarse) {
+    .cursor-dot, .cursor-trail, .cursor-label { display: none; }
+  }
+
+  /* Hide default cursor on interactive elements when custom cursor active */
+  @media (pointer: fine) {
+    body { cursor: none; }
+    a, button, [role="button"], input, label, [data-cursor-hover] { cursor: none; }
+  }
+
+  /* ─── Marquee container ────────────────────────────────────────── */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* ─── View Transitions ─────────────────────────────────────────── */
+  @supports (view-transition-name: none) {
+    /* Suppress fallback page-in animation — VT owns the entry */
+    .animate-page-in { animation: none !important; }
+
+    /* Root swap: clean opacity-only fade with slight timing asymmetry */
+    ::view-transition-old(root) {
+      animation: 200ms ease-out both _vt-out;
+    }
+    ::view-transition-new(root) {
+      animation: 360ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both _vt-in;
+    }
+
+    /* Named hero morphs: let the browser FLIP the geometry automatically,
+       just tune the cross-fade timing for a more deliberate reveal. */
+    ::view-transition-old(hero-body),
+    ::view-transition-old(hero-sport),
+    ::view-transition-old(hero-skincare),
+    ::view-transition-old(hero-wellness),
+    ::view-transition-old(hero-diet),
+    ::view-transition-old(hero-tips),
+    ::view-transition-old(hero-about),
+    ::view-transition-old(hero-myquill),
+    ::view-transition-old(hero-pro) {
+      animation: 220ms ease-in both _vt-out;
+    }
+    ::view-transition-new(hero-body),
+    ::view-transition-new(hero-sport),
+    ::view-transition-new(hero-skincare),
+    ::view-transition-new(hero-wellness),
+    ::view-transition-new(hero-diet),
+    ::view-transition-new(hero-tips),
+    ::view-transition-new(hero-about),
+    ::view-transition-new(hero-myquill),
+    ::view-transition-new(hero-pro) {
+      animation: 520ms cubic-bezier(0.22, 1, 0.36, 1) both _vt-in;
+    }
+
+    /* Prevent blend artifacts on complex backgrounds */
+    ::view-transition-image-pair(root) { isolation: isolate; }
+
+    @keyframes _vt-out { to   { opacity: 0; } }
+    @keyframes _vt-in  { from { opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-old(root),
+      ::view-transition-new(root),
+      ::view-transition-old(*),
+      ::view-transition-new(*) { animation: none; }
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+  /* Decorative numbers */
+  .num-display {
+    font-family: 'Instrument Serif', serif;
+    font-feature-settings: 'lnum';
+  }
+}
+
+/* Scrollbar styling for concern panels */
+.panel-scroll::-webkit-scrollbar { width: 4px; }
+.panel-scroll::-webkit-scrollbar-track { background: transparent; }
+.panel-scroll::-webkit-scrollbar-thumb { background: #C8B8A2; border-radius: 2px; }
+
+/* ── Keyboard focus ─────────────────────────────────────────────────
+   A visible focus ring for keyboard / assistive-tech users. :focus-visible
+   means mouse and touch interactions stay ring-free, so the design is
+   undisturbed for pointer users while keyboard users can always see where
+   they are. */
+:focus-visible {
+  outline: 2px solid #C8654A; /* clay */
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+/* Programmatic focus on non-interactive containers shouldn't flash a ring. */
+[tabindex="-1"]:focus { outline: none; }
+
+/* ── Touch ergonomics ───────────────────────────────────────────────
+   On touch devices, guarantee a comfortable tap target for compact
+   controls (the critique flagged sub-44px buttons like "undo" and the
+   tracker ✕). min-height only affects block/flex/inline-block controls,
+   so inline text links inside paragraphs are left untouched. The bottom
+   tab bar already sizes its own targets, so it's excluded. */
+@media (pointer: coarse) {
+  button:not(.bottom-tabs button),
+  [role="button"],
+  summary {
+    min-height: 44px;
+  }
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    min-height: 44px;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal,
+  .reveal-slide-left,
+  .reveal-slide-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .marquee-track { animation: none !important; }
+  /* Restore the real pointer for anyone who opts out of motion; the
+     decorative cursor is hidden so it can't mask the system cursor. */
+  body { cursor: auto !important; }
+  .cursor-dot, .cursor-trail, .cursor-label { display: none !important; }
+}
