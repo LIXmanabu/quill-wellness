@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { createContext, useContext, useLayoutEffect, useState, useCallback } from 'react'
 
 // ─── Theme (light / optional dark) ────────────────────────────────────
 // Default is LIGHT — the app only goes dark if the visitor chooses it, and
@@ -19,7 +19,10 @@ function getInitial() {
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(getInitial)
 
-  useEffect(() => {
+  // useLayoutEffect (not useEffect) so the class is applied synchronously when
+  // toggled inside flushSync — the circular-reveal transition needs the new
+  // theme in the DOM before it snapshots the page.
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
     try { localStorage.setItem(KEY, theme) } catch {}
     // Keep the mobile browser chrome (status bar) matching the theme.

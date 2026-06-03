@@ -835,6 +835,30 @@
   }
 }
 
+/* ── Light/dark toggle: circular-reveal transition ──────────────────
+   When the theme toggle runs, it adds `.theme-vt` to <html> and animates a
+   growing circle on the new snapshot. These (unlayered) rules cancel the
+   page-navigation cross-fade so only the clean clip-reveal shows. */
+@supports (view-transition-name: none) {
+  :root.theme-vt::view-transition-old(root),
+  :root.theme-vt::view-transition-new(root) {
+    animation: none !important;
+    mix-blend-mode: normal;
+  }
+  :root.theme-vt::view-transition-new(root) { z-index: 2147483646; }
+  :root.theme-vt::view-transition-old(root) { z-index: 1; }
+}
+
+/* Sun/moon icon spins + scales in each time the theme flips. */
+@keyframes theme-icon-in {
+  from { transform: rotate(-120deg) scale(0.3); opacity: 0; }
+  to   { transform: rotate(0) scale(1); opacity: 1; }
+}
+.theme-icon { animation: theme-icon-in 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .theme-icon { animation: none; }
+}
+
 /* Scrollbar styling for concern panels */
 .panel-scroll::-webkit-scrollbar { width: 4px; }
 .panel-scroll::-webkit-scrollbar-track { background: transparent; }
