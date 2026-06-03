@@ -42,7 +42,7 @@ function publicUser(acc) {
 export async function signUp(email, password, name) {
   email = (email || '').trim().toLowerCase()
   if (!email || !password) return { error: { message: 'Email and password are required.' } }
-  if (password.length < 6)  return { error: { message: 'Password must be at least 6 characters.' } }
+  if (password.length < 8)  return { error: { message: 'Password must be at least 8 characters.' } }
 
   const accounts = loadAccounts()
   if (accounts.some((a) => a.email === email)) {

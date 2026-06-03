@@ -34,6 +34,14 @@ export default function AuthModal({ onGuest }) {
     return () => clearInterval(t)
   }, [lockLeft])
 
+  // Live password-strength requirements (shown on the sign-up screen).
+  const pwChecks = {
+    length: password.length >= 8,
+    letter: /[a-zA-Z]/.test(password),
+    number: /[0-9]/.test(password),
+  }
+  const pwStrong = pwChecks.length && pwChecks.letter && pwChecks.number
+
   async function handleMagicLink() {
     if (!email) { setError('Enter your email address first.'); return }
     setBusy(true); setError('')
@@ -73,7 +81,9 @@ export default function AuthModal({ onGuest }) {
   }
 
   async function handleSignUp(e) {
-    e.preventDefault(); setBusy(true); setError('')
+    e.preventDefault()
+    if (!pwStrong) { setError('Please pick a stronger password (see the requirements below).'); return }
+    setBusy(true); setError('')
     const { error } = await signUp(email, password, name)
     if (error) setError(error.message)   // success → App closes the modal
     setBusy(false)
@@ -131,10 +141,10 @@ export default function AuthModal({ onGuest }) {
 
             <div className="space-y-3 mb-6">
               <input type="email" placeholder="Email address" value={email}
-                onChange={(e) => setEmail(e.target.value)} required
+                onChange={(e) => setEmail(e.target.value)} required autoComplete="email"
                 className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
               <input type="password" placeholder="Password" value={password}
-                onChange={(e) => setPassword(e.target.value)} required
+                onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password"
                 className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
             </div>
 
@@ -186,12 +196,28 @@ export default function AuthModal({ onGuest }) {
               <input type="email" placeholder="Email address" value={email}
                 onChange={(e) => setEmail(e.target.value)} required
                 className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
-              <input type="password" placeholder="Password — at least 6 characters" value={password}
-                onChange={(e) => setPassword(e.target.value)} required minLength={6}
+              <input type="password" placeholder="Create a password" value={password}
+                onChange={(e) => setPassword(e.target.value)} required minLength={8}
+                autoComplete="new-password"
                 className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
+
+              {/* Live password requirements */}
+              {password.length > 0 && (
+                <ul className="text-[11px] space-y-1 pt-1">
+                  {[
+                    ['At least 8 characters', pwChecks.length],
+                    ['A letter', pwChecks.letter],
+                    ['A number', pwChecks.number],
+                  ].map(([label, ok]) => (
+                    <li key={label} className={`flex items-center gap-1.5 ${ok ? 'text-sage-dark' : 'text-ink-softer'}`}>
+                      <span>{ok ? '✓' : '○'}</span> {label}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
-            <button type="submit" disabled={busy}
+            <button type="submit" disabled={busy || !pwStrong}
               className="btn-ink w-full disabled:opacity-50 disabled:cursor-not-allowed">
               {busy ? 'Creating account…' : 'Create free account'}
             </button>
