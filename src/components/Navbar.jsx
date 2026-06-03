@@ -160,6 +160,9 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 </button>
               )
             })}
+
+            {/* Dark-mode toggle — sits right after the About tab on desktop */}
+            <ThemeToggle className="ml-1 pl-3 border-l border-ink/15 h-5" />
           </nav>
 
           {/* Right side: search + account indicator + Pro toggle */}
@@ -175,8 +178,9 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
               </svg>
             </button>
 
-            {/* Light / dark theme toggle */}
-            <ThemeToggle className="min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
+            {/* Light / dark theme toggle — only on mobile/tablet here; on desktop
+                it lives next to the About tab in the nav above. */}
+            <ThemeToggle className="lg:hidden min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
 
             {/* Show email initial + sign-out when logged in (production only) */}
             {!DEV_MODE && user && (
