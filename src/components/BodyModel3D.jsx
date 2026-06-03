@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { motion, useAnimationControls } from 'motion/react'
 
 // ─── Palette ─────────────────────────────────────────────────────────
 const C_FILL   = '#E8DFD0'
@@ -140,43 +141,39 @@ function Part({ part, isFront, selected, onSelect, onHover }) {
   )
 }
 
-// ─── Flip animation ───────────────────────────────────────────────────
-// Sequence: 'idle' → 'out' (rotate to 90°) → 'switching' (snap to -90°,
-// swap content) → 'in' (rotate to 0°) → 'idle'. Total ≈ 400 ms.
-function flipStyle(phase) {
-  switch (phase) {
-    case 'out':       return { transform: 'perspective(700px) rotateY(90deg)',  transition: 'transform 0.20s ease-in',  transformOrigin: 'center' }
-    case 'switching': return { transform: 'perspective(700px) rotateY(-90deg)', transition: 'none',                     transformOrigin: 'center' }
-    case 'in':        return { transform: 'perspective(700px) rotateY(0deg)',   transition: 'transform 0.20s ease-out',  transformOrigin: 'center' }
-    default:          return { transform: 'perspective(700px) rotateY(0deg)',   transition: 'none',                     transformOrigin: 'center' }
-  }
-}
-
 // ─── Public component ─────────────────────────────────────────────────
+// The figure turns between front and back with a Framer Motion flip: it
+// rotates edge-on, swaps the side that's showing at 90°, then settles back
+// with a spring so the turn feels physical rather than a hard cut.
 export default function BodyModel3D({ selectedRegion, onRegionClick, onRegionHover }) {
   const [isFront, setIsFront] = useState(true)
-  const [phase,   setPhase]   = useState('idle')
-  const timerRef = useRef(null)
+  const controls = useAnimationControls()
+  const flipping = useRef(false)
 
-  function flipTo(front) {
-    if (front === isFront || phase !== 'idle') return
-    clearTimeout(timerRef.current)
-    setPhase('out')
-    timerRef.current = setTimeout(() => {
+  async function flipTo(front) {
+    if (front === isFront || flipping.current) return
+    flipping.current = true
+
+    // Respect reduced-motion: swap instantly, no spin.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setIsFront(front)
-      setPhase('switching')
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        setPhase('in')
-        timerRef.current = setTimeout(() => setPhase('idle'), 200)
-      }))
-    }, 200)
+      flipping.current = false
+      return
+    }
+
+    // Turn to edge-on, swap content at the hidden mid-point, settle with a spring.
+    await controls.start({ rotateY: 90, transition: { duration: 0.18, ease: 'easeIn' } })
+    setIsFront(front)
+    controls.set({ rotateY: -90 })
+    await controls.start({ rotateY: 0, transition: { type: 'spring', stiffness: 240, damping: 20 } })
+    flipping.current = false
   }
 
   const visible = (views) =>
     views === 'both' || (views === 'front' && isFront) || (views === 'back' && !isFront)
 
   return (
-    <div className="w-full relative select-none" style={{ height: 440 }}>
+    <div className="w-full relative select-none" style={{ height: 440, perspective: 900 }}>
       {/* Toggle sits at the top — keeps the entire figure (including feet) freely clickable */}
       <div className="absolute top-2 left-1/2 -translate-x-1/2 inline-flex border border-ink/20 z-10">
         <button
@@ -195,10 +192,11 @@ export default function BodyModel3D({ selectedRegion, onRegionClick, onRegionHov
         </button>
       </div>
 
-      <svg
+      <motion.svg
         viewBox="0 0 400 510"
         className="w-full h-full"
-        style={flipStyle(phase)}
+        style={{ transformOrigin: 'center', transformStyle: 'preserve-3d' }}
+        animate={controls}
         aria-label="Interactive body diagram"
       >
         {PARTS.map((part, i) =>
@@ -213,7 +211,7 @@ export default function BodyModel3D({ selectedRegion, onRegionClick, onRegionHov
               />
             : null
         )}
-      </svg>
+      </motion.svg>
     </div>
   )
 }
