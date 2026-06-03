@@ -12,6 +12,7 @@ import Home from './pages/Home.jsx'
 import { ProProvider } from './context/ProContext.jsx'
 import { UserProvider, useUser } from './context/UserContext.jsx'
 import { AuthProvider, useAuth, DEV_MODE } from './context/AuthContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 import { usePro } from './context/ProContext.jsx'
 
 // Code-split: each route ships as its own chunk, loaded on demand.
@@ -241,12 +242,14 @@ function AppShell() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ProProvider>
-        <UserProvider>
-          <AppShell />
-        </UserProvider>
-      </ProProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <ProProvider>
+          <UserProvider>
+            <AppShell />
+          </UserProvider>
+        </ProProvider>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }

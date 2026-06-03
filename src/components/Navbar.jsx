@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import ProToggle from './ProToggle.jsx'
+import ThemeToggle from './ThemeToggle.jsx'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
@@ -173,6 +174,9 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 <circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" />
               </svg>
             </button>
+
+            {/* Light / dark theme toggle */}
+            <ThemeToggle className="min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
 
             {/* Show email initial + sign-out when logged in (production only) */}
             {!DEV_MODE && user && (

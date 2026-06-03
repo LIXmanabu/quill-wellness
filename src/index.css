@@ -3,18 +3,52 @@
 @tailwind utilities;
 
 @layer base {
+  /* ─── Theme tokens (neutrals) ──────────────────────────────────────
+     Space-separated RGB channels so Tailwind's `/<alpha>` opacities work.
+     :root = light (the original look). .dark = the optional dark theme,
+     applied by adding the `dark` class to <html> (see ThemeContext). */
+  :root {
+    --c-cream: 247 242 234;
+    --c-cream-light: 251 247 240;
+    --c-cream-dark: 237 228 211;
+    --c-cream-deeper: 224 212 189;
+    --c-ink: 26 20 16;
+    --c-ink-light: 61 51 43;
+    --c-ink-soft: 107 93 82;
+    --c-ink-softer: 155 142 130;
+    --c-bone: 232 223 208;
+    --c-scroll-track: 247 242 234;
+    --c-scroll-thumb: 200 184 162;
+    --c-scroll-thumb-hover: 139 126 110;
+  }
+  .dark {
+    --c-cream: 26 21 16;        /* main background — warm near-black */
+    --c-cream-light: 36 32 25;  /* cards / raised surfaces */
+    --c-cream-dark: 48 43 33;   /* hover surfaces */
+    --c-cream-deeper: 60 54 42;
+    --c-ink: 242 236 225;       /* primary text — warm off-white */
+    --c-ink-light: 221 211 197;
+    --c-ink-soft: 178 166 150;
+    --c-ink-softer: 138 126 110;
+    --c-bone: 42 38 31;
+    --c-scroll-track: 26 21 16;
+    --c-scroll-thumb: 74 67 55;
+    --c-scroll-thumb-hover: 107 96 80;
+    color-scheme: dark;         /* themes native controls / form widgets */
+  }
+
   html {
     scroll-behavior: smooth;
   }
   body {
     @apply bg-cream font-sans antialiased;
-    color: #1A1410;
+    color: rgb(var(--c-ink));
     font-feature-settings: 'kern', 'liga';
   }
   /* Better selection */
   ::selection {
-    background-color: #1A1410;
-    color: #F7F2EA;
+    background-color: rgb(var(--c-ink));
+    color: rgb(var(--c-cream));
   }
   /* Custom scrollbar */
   ::-webkit-scrollbar {
@@ -22,15 +56,15 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #F7F2EA;
+    background: rgb(var(--c-scroll-track));
   }
   ::-webkit-scrollbar-thumb {
-    background: #C8B8A2;
-    border: 2px solid #F7F2EA;
+    background: rgb(var(--c-scroll-thumb));
+    border: 2px solid rgb(var(--c-scroll-track));
     border-radius: 5px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #8B7E6E;
+    background: rgb(var(--c-scroll-thumb-hover));
   }
 }
 
@@ -80,6 +114,23 @@
   }
   .card-gold {
     @apply bg-gold-pale border border-gold/30;
+  }
+
+  /* Dark mode: pale accent fills become soft translucent tints so they sit
+     on the dark surface instead of glaring. Neutral cards already adapt via
+     the CSS variables; these are just the coloured accent cards. */
+  .dark .card-sage  { background-color: rgba(143, 166, 148, 0.14); border-color: rgba(143, 166, 148, 0.22); }
+  .dark .card-clay  { background-color: rgba(224, 133, 112, 0.14); border-color: rgba(224, 133, 112, 0.24); }
+  .dark .card-blush { background-color: rgba(232, 180, 184, 0.12); border-color: rgba(232, 180, 184, 0.24); }
+  .dark .card-gold  { background-color: rgba(226, 189, 106, 0.13); border-color: rgba(226, 189, 106, 0.26); }
+  .dark .card-paper { box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.04); }
+
+  /* `.rainbow-frame` cards have a hardcoded dark fill, so they stay dark in
+     both themes. Keep "cream" meaning light *inside* them so their text and
+     borders (text-cream, border-cream/…) stay readable in dark mode. */
+  .dark .rainbow-frame {
+    --c-cream: 247 242 234;
+    --c-cream-light: 251 247 240;
   }
 
   /* ─── Buttons ──────────────────────────────────────────────────── */
@@ -406,6 +457,18 @@
       radial-gradient(circle at 10% 10%, rgba(232, 180, 184, 0.10), transparent 40%),
       radial-gradient(circle at 90% 30%, rgba(212, 167, 68, 0.10), transparent 45%),
       #F7F2EA;
+  }
+  /* Keep Max mode dark when dark theme is on. */
+  .dark .max-mode {
+    background:
+      radial-gradient(circle at 10% 10%, rgba(232, 180, 184, 0.06), transparent 40%),
+      radial-gradient(circle at 90% 30%, rgba(212, 167, 68, 0.06), transparent 45%),
+      rgb(var(--c-cream));
+  }
+  .dark .max-mode .card-paper {
+    background:
+      linear-gradient(rgb(var(--c-cream-light)), rgb(var(--c-cream-light))) padding-box,
+      linear-gradient(120deg, #C8654A33, #A67C1A33, #5A6B5D33, #9173C033) border-box !important;
   }
 
   /* Chips get a faint rainbow border in Max mode. The padding-box fill is

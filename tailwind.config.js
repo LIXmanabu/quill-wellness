@@ -6,17 +6,20 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Neutrals are driven by CSS variables (see index.css) so the whole
+        // app re-themes for dark mode without touching component classes.
+        // Variables hold space-separated RGB channels for <alpha-value> support.
         cream: {
-          DEFAULT: '#F7F2EA',
-          light: '#FBF7F0',
-          dark: '#EDE4D3',
-          deeper: '#E0D4BD',
+          DEFAULT: 'rgb(var(--c-cream) / <alpha-value>)',
+          light:   'rgb(var(--c-cream-light) / <alpha-value>)',
+          dark:    'rgb(var(--c-cream-dark) / <alpha-value>)',
+          deeper:  'rgb(var(--c-cream-deeper) / <alpha-value>)',
         },
         ink: {
-          DEFAULT: '#1A1410',
-          light: '#3D332B',
-          soft: '#6B5D52',
-          softer: '#9B8E82',
+          DEFAULT: 'rgb(var(--c-ink) / <alpha-value>)',
+          light:   'rgb(var(--c-ink-light) / <alpha-value>)',
+          soft:    'rgb(var(--c-ink-soft) / <alpha-value>)',
+          softer:  'rgb(var(--c-ink-softer) / <alpha-value>)',
         },
         sage: {
           DEFAULT: '#5A6B5D',
@@ -46,7 +49,7 @@ export default {
           pale: '#F5EBD0',
           paler: '#FAF4E2',
         },
-        bone: '#E8DFD0',
+        bone: 'rgb(var(--c-bone) / <alpha-value>)',
         rust: '#9B4423',
       },
       fontFamily: {
