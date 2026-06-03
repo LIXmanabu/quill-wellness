@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { SUPABASE_ENABLED } from '../lib/supabase'
+import { checkLock, recordFailure, recordSuccess, formatWait } from '../lib/loginGuard'
 
 // ─── Auth modal ───────────────────────────────────────────────────────
 // Views: welcome → sign-up or sign-in. "Continue as guest" is always
@@ -17,8 +18,21 @@ export default function AuthModal({ onGuest }) {
   const [busy,     setBusy]     = useState(false)
   const [error,    setError]    = useState('')
   const [linkSent, setLinkSent] = useState(false)
+  const [lockLeft, setLockLeft] = useState(0)   // seconds remaining on a sign-in cooldown
 
   function go(next) { setError(''); setLinkSent(false); setView(next) }
+
+  // Tick the cooldown down to zero so the form re-enables on its own.
+  useEffect(() => {
+    if (lockLeft <= 0) return
+    const t = setInterval(() => {
+      setLockLeft((s) => {
+        if (s <= 1) { setError(''); return 0 }
+        return s - 1
+      })
+    }, 1000)
+    return () => clearInterval(t)
+  }, [lockLeft])
 
   async function handleMagicLink() {
     if (!email) { setError('Enter your email address first.'); return }
@@ -30,9 +44,31 @@ export default function AuthModal({ onGuest }) {
   }
 
   async function handleSignIn(e) {
-    e.preventDefault(); setBusy(true); setError('')
+    e.preventDefault()
+
+    // Blocked? Refuse before even contacting the server.
+    const lock = checkLock(email)
+    if (lock.locked) {
+      setLockLeft(lock.secondsLeft)
+      setError(`Too many attempts. Try again in ${formatWait(lock.secondsLeft)}.`)
+      return
+    }
+
+    setBusy(true); setError('')
     const { error } = await signIn(email, password)
-    if (error) setError(error.message)   // success → App closes the modal
+    if (error) {
+      const res = recordFailure(email)
+      if (res.locked) {
+        setLockLeft(res.secondsLeft)
+        setError(`Too many attempts. Sign-in locked for ${formatWait(res.secondsLeft)}.`)
+      } else if (res.attemptsLeft <= 2) {
+        setError(`${error.message} ${res.attemptsLeft} ${res.attemptsLeft === 1 ? 'try' : 'tries'} left before a temporary lock.`)
+      } else {
+        setError(error.message)
+      }
+    } else {
+      recordSuccess(email)   // success → App closes the modal
+    }
     setBusy(false)
   }
 
@@ -102,9 +138,9 @@ export default function AuthModal({ onGuest }) {
                 className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
             </div>
 
-            <button type="submit" disabled={busy}
+            <button type="submit" disabled={busy || lockLeft > 0}
               className="btn-ink w-full disabled:opacity-50 disabled:cursor-not-allowed">
-              {busy ? 'Signing in…' : 'Sign in'}
+              {lockLeft > 0 ? `Locked — ${formatWait(lockLeft)}` : busy ? 'Signing in…' : 'Sign in'}
             </button>
 
             {/* ── Passwordless option (only when the database is connected) ── */}
