@@ -3,9 +3,14 @@ import { createClient } from '@supabase/supabase-js'
 const SUPABASE_URL  = import.meta.env.VITE_SUPABASE_URL       || null
 const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_ANON_KEY  || null
 
-// In dev mode the keys are intentionally blank — use a no-op stub so
-// nothing throws on import. All Supabase calls are guarded by DEV_MODE
-// checks in AuthContext and UserContext and will never actually fire.
-export const supabase = (SUPABASE_URL && SUPABASE_ANON)
+// True only when real project keys are provided. When false, the app runs
+// in local-only mode (localStorage); when true, auth + profiles use the
+// real Supabase database. The anon key is public by design — Row-Level
+// Security on the database is what keeps each user's data private.
+export const SUPABASE_ENABLED = Boolean(SUPABASE_URL && SUPABASE_ANON)
+
+// When keys are blank, use a harmless placeholder client so imports never
+// throw; nothing calls it because SUPABASE_ENABLED gates every usage.
+export const supabase = SUPABASE_ENABLED
   ? createClient(SUPABASE_URL, SUPABASE_ANON)
   : createClient('https://placeholder.supabase.co', 'placeholder-key')

@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { SUPABASE_ENABLED } from '../lib/supabase'
 
 // ─── Auth modal ───────────────────────────────────────────────────────
-// Local-only accounts. Three views: welcome → sign-up or sign-in.
-// "Continue as guest" is always available. Nothing leaves the device.
+// Views: welcome → sign-up or sign-in. "Continue as guest" is always
+// available. With the database connected, accounts sync across devices and
+// a passwordless "email me a link" option appears; otherwise accounts are
+// local to this browser only.
 export default function AuthModal({ onGuest }) {
-  const { signIn, signUp } = useAuth()
+  const { signIn, signUp, signInWithMagicLink } = useAuth()
 
   const [view,     setView]     = useState('welcome')   // 'welcome' | 'signin' | 'signup'
   const [name,     setName]     = useState('')
@@ -13,8 +16,18 @@ export default function AuthModal({ onGuest }) {
   const [password, setPassword] = useState('')
   const [busy,     setBusy]     = useState(false)
   const [error,    setError]    = useState('')
+  const [linkSent, setLinkSent] = useState(false)
 
-  function go(next) { setError(''); setView(next) }
+  function go(next) { setError(''); setLinkSent(false); setView(next) }
+
+  async function handleMagicLink() {
+    if (!email) { setError('Enter your email address first.'); return }
+    setBusy(true); setError('')
+    const { error } = await signInWithMagicLink(email)
+    if (error) setError(error.message)
+    else setLinkSent(true)
+    setBusy(false)
+  }
 
   async function handleSignIn(e) {
     e.preventDefault(); setBusy(true); setError('')
@@ -94,6 +107,20 @@ export default function AuthModal({ onGuest }) {
               {busy ? 'Signing in…' : 'Sign in'}
             </button>
 
+            {/* ── Passwordless option (only when the database is connected) ── */}
+            {SUPABASE_ENABLED && (
+              linkSent ? (
+                <p className="text-xs text-ink-soft mt-4 text-center bg-cream-dark px-3 py-2 border border-ink/10">
+                  Check your inbox — we sent a one-click sign-in link to <span className="font-semibold">{email}</span>.
+                </p>
+              ) : (
+                <button type="button" onClick={handleMagicLink} disabled={busy}
+                  className="w-full mt-3 text-xs text-ink-soft hover:text-ink transition-colors py-2 underline underline-offset-4 decoration-ink/20 disabled:opacity-50">
+                  Or email me a sign-in link — no password needed
+                </button>
+              )
+            )}
+
             <p className="text-xs text-ink-softer mt-4 text-center">
               No account?{' '}
               <button type="button" onClick={() => go('signup')}
@@ -141,13 +168,23 @@ export default function AuthModal({ onGuest }) {
           </form>
         )}
 
-        {/* ── Local-only data notice (always visible) ─────────── */}
+        {/* ── Data notice (matches the active backend) ─────────── */}
         <div className="mt-8 pt-5 border-t border-ink/10">
           <p className="text-[10px] leading-relaxed text-ink-softer">
-            <span className="font-semibold text-ink-soft">This stays on your device.</span>{' '}
-            Quill saves your account and progress only in this browser — nothing is sent to a
-            server, nothing is collected, and no one else can see it. Clearing your browser
-            data will erase your account.
+            {SUPABASE_ENABLED ? (
+              <>
+                <span className="font-semibold text-ink-soft">Your account syncs securely.</span>{' '}
+                Quill saves your account so you can sign in from any device. Your password is
+                encrypted and never visible to anyone — if you forget it, you can reset it by email.
+              </>
+            ) : (
+              <>
+                <span className="font-semibold text-ink-soft">This stays on your device.</span>{' '}
+                Quill saves your account and progress only in this browser — nothing is sent to a
+                server, nothing is collected, and no one else can see it. Clearing your browser
+                data will erase your account.
+              </>
+            )}
           </p>
         </div>
 
