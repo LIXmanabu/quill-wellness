@@ -1,217 +1,260 @@
-import { useState, useRef } from 'react'
-import { motion, useAnimationControls } from 'motion/react'
+import { useRef, useState, useMemo, Suspense } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { OrbitControls, ContactShadows } from '@react-three/drei'
+import * as THREE from 'three'
 
-// ─── Palette ─────────────────────────────────────────────────────────
-const C_FILL   = '#E8DFD0'
-const C_HOVER  = '#E08570'
-const C_ACTIVE = '#C8654A'
-const C_STROKE = '#9C8878'
+// ─── Stylized female figure in react-three-fiber ──────────────────────
+// A procedurally sculpted, editorial mannequin (no external model files):
+// a lathe-revolved torso with bust/waist/hip curves plus capsule limbs.
+// Each body region is its own mesh, so clicks still drive the concern panel.
+// Colours follow the Quill palette and highlight on hover / selection.
 
-// ─── Region helpers ───────────────────────────────────────────────────
-const HEAD_IDS  = new Set(['face', 'head'])
-const TORSO_IDS = new Set(['chest', 'stomach', 'back'])
+const BASE = '#E7D7C4'   // warm bone "skin"
+const HOVER = '#E0A98C'  // soft clay tint
+const SELECT = '#C8654A' // clay (selected region)
 
-function resolveRegion(r, isFront) {
-  if (r === '_head')    return isFront ? 'face'    : 'head'
-  if (r === '_torso_u') return isFront ? 'chest'   : 'back'
-  if (r === '_torso_l') return isFront ? 'stomach' : 'back'
-  return r
+function colorFor(region, selectedRegion, hovered) {
+  if (region && region === selectedRegion) return SELECT
+  if (region && region === hovered) return HOVER
+  return BASE
 }
 
-function isHighlighted(r, selected) {
-  if (!selected) return false
-  if (r === '_head')    return HEAD_IDS.has(selected)
-  if (r === '_torso_u') return TORSO_IDS.has(selected)
-  if (r === '_torso_l') return TORSO_IDS.has(selected)
-  return r === selected
-}
-
-// ─── Body parts ───────────────────────────────────────────────────────
-// ViewBox "0 0 400 510", figure centred at x = 200.
-//
-// views: 'both' | 'front' | 'back'
-// r: null  → decorative, non-interactive
-//
-// Feminine proportions:
-//   shoulders ~100 px  →  waist 44 px  →  hips 92 px
-//
-// Front torso: bezier bows outward at chest (breast silhouette).
-// Back  torso: bezier curves straight inward (no breast bulge).
-// Front extras: eyes, breast-contour arc, navel.
-// Back  extras: dashed spine, shoulder-blade ovals, lumbar dimples.
-const PARTS = [
-
-  // ── Both views ─────────────────────────────────────────────────
-
-  // Head — tall oval (feminine)
-  { r: '_head',     views: 'both',  el: 'ellipse', props: { cx: 200, cy: 50,  rx: 30, ry: 38 } },
-  // Neck
-  { r: 'neck',      views: 'both',  el: 'rect',    props: { x: 186,  y: 85,   width: 28,  height: 30, rx: 5 } },
-  // Lower torso (stomach / back)
-  { r: '_torso_l',  views: 'both',  el: 'rect',    props: { x: 178,  y: 235,  width: 44,  height: 45, rx: 5 } },
-  // Hips — wide pelvis flare with bezier curves
-  { r: 'hips',      views: 'both',  el: 'path',    props: { d: 'M178,280 L222,280 C232,292 246,306 246,318 L154,318 C154,306 168,292 178,280 Z' } },
-  // Shoulder joints
-  { r: 'shoulders', views: 'both',  el: 'ellipse', props: { cx: 150, cy: 122, rx: 13, ry: 12 } },
-  { r: 'shoulders', views: 'both',  el: 'ellipse', props: { cx: 250, cy: 122, rx: 13, ry: 12 } },
-  // Upper arms — centred on shoulder cx
-  { r: 'arms',      views: 'both',  el: 'rect',    props: { x: 139,  y: 130,  width: 22,  height: 78, rx: 11 } },
-  { r: 'arms',      views: 'both',  el: 'rect',    props: { x: 239,  y: 130,  width: 22,  height: 78, rx: 11 } },
-  // Elbow joints
-  { r: 'arms',      views: 'both',  el: 'circle',  props: { cx: 150, cy: 210, r: 10 } },
-  { r: 'arms',      views: 'both',  el: 'circle',  props: { cx: 250, cy: 210, r: 10 } },
-  // Forearms
-  { r: 'arms',      views: 'both',  el: 'rect',    props: { x: 141,  y: 216,  width: 18,  height: 64, rx: 9 } },
-  { r: 'arms',      views: 'both',  el: 'rect',    props: { x: 241,  y: 216,  width: 18,  height: 64, rx: 9 } },
-  // Hands
-  { r: 'hands',     views: 'both',  el: 'ellipse', props: { cx: 150, cy: 290, rx: 10, ry: 12 } },
-  { r: 'hands',     views: 'both',  el: 'ellipse', props: { cx: 250, cy: 290, rx: 10, ry: 12 } },
-  // Thighs — wider spacing for feminine hips
-  { r: 'legs',      views: 'both',  el: 'rect',    props: { x: 160,  y: 318,  width: 30,  height: 74, rx: 15 } },
-  { r: 'legs',      views: 'both',  el: 'rect',    props: { x: 210,  y: 318,  width: 30,  height: 74, rx: 15 } },
-  // Knee joints
-  { r: 'knees',     views: 'both',  el: 'circle',  props: { cx: 175, cy: 395, r: 13 } },
-  { r: 'knees',     views: 'both',  el: 'circle',  props: { cx: 225, cy: 395, r: 13 } },
-  // Shins
-  { r: 'legs',      views: 'both',  el: 'rect',    props: { x: 164,  y: 405,  width: 22,  height: 68, rx: 11 } },
-  { r: 'legs',      views: 'both',  el: 'rect',    props: { x: 214,  y: 405,  width: 22,  height: 68, rx: 11 } },
-  // Ankle joints
-  { r: 'feet',      views: 'both',  el: 'circle',  props: { cx: 175, cy: 477, r: 9 } },
-  { r: 'feet',      views: 'both',  el: 'circle',  props: { cx: 225, cy: 477, r: 9 } },
-  // Feet
-  { r: 'feet',      views: 'both',  el: 'rect',    props: { x: 159,  y: 482,  width: 30,  height: 14, rx: 6 } },
-  { r: 'feet',      views: 'both',  el: 'rect',    props: { x: 209,  y: 482,  width: 30,  height: 14, rx: 6 } },
-
-  // ── Front only ─────────────────────────────────────────────────
-
-  // Upper torso FRONT — bezier bows outward at chest, creating breast silhouette
-  { r: '_torso_u',  views: 'front', el: 'path',    props: { d: 'M150,117 L250,117 C272,140 242,205 222,235 L178,235 C158,205 128,140 150,117 Z' } },
-  // Breast contour arc — gentle underside curve (decorative)
-  { r: null,        views: 'front', el: 'path',    props: { d: 'M175,186 C179,199 190,205 200,205 C210,205 221,199 225,186', fill: 'none', stroke: C_STROKE, strokeWidth: 1.2, strokeLinecap: 'round' } },
-  // Eyes
-  { r: null,        views: 'front', el: 'circle',  props: { cx: 191, cy: 46, r: 2.5, fill: C_STROKE, stroke: 'none' } },
-  { r: null,        views: 'front', el: 'circle',  props: { cx: 209, cy: 46, r: 2.5, fill: C_STROKE, stroke: 'none' } },
-  // Navel
-  { r: null,        views: 'front', el: 'circle',  props: { cx: 200, cy: 256, r: 2,  fill: C_STROKE, stroke: 'none' } },
-
-  // ── Back only ──────────────────────────────────────────────────
-
-  // Upper torso BACK — bezier curves straight inward (no breast bulge)
-  { r: '_torso_u',  views: 'back',  el: 'path',    props: { d: 'M150,117 L250,117 C246,148 226,196 222,235 L178,235 C174,196 154,148 150,117 Z' } },
-  // Spine — dashed centre line
-  { r: null,        views: 'back',  el: 'line',    props: { x1: 200, y1: 117, x2: 200, y2: 316, stroke: C_STROKE, strokeWidth: 1, strokeDasharray: '3 3' } },
-  // Shoulder blades
-  { r: null,        views: 'back',  el: 'ellipse', props: { cx: 178, cy: 158, rx: 14, ry: 20, fill: 'none', stroke: C_STROKE, strokeWidth: 1, opacity: 0.55 } },
-  { r: null,        views: 'back',  el: 'ellipse', props: { cx: 222, cy: 158, rx: 14, ry: 20, fill: 'none', stroke: C_STROKE, strokeWidth: 1, opacity: 0.55 } },
-  // Lumbar dimples
-  { r: null,        views: 'back',  el: 'circle',  props: { cx: 194, cy: 272, r: 2.5, fill: C_STROKE, stroke: 'none' } },
-  { r: null,        views: 'back',  el: 'circle',  props: { cx: 206, cy: 272, r: 2.5, fill: C_STROKE, stroke: 'none' } },
-]
-
-// ─── Single body part ─────────────────────────────────────────────────
-function Part({ part, isFront, selected, onSelect, onHover }) {
-  const [hovered, setHovered] = useState(false)
-  const isDecor  = part.r === null
-  const resolved = isDecor ? null : resolveRegion(part.r, isFront)
-  const active   = !isDecor && isHighlighted(part.r, selected)
-  const fill     = isDecor
-    ? (part.props.fill ?? C_FILL)
-    : (active ? C_ACTIVE : hovered ? C_HOVER : C_FILL)
-
-  const Tag = part.el
-
-  if (isDecor) {
-    const { fill: _f, ...rest } = part.props
-    return <Tag fill={fill} pointerEvents="none" {...rest} />
-  }
-
-  const { fill: _f, stroke: _s, strokeWidth: _sw, ...svgProps } = part.props
+// A single sculpted piece. `children` is the geometry element; the material
+// (with a soft sheen for a skin-like finish) is attached here.
+function Part({ region, ctx, children, ...meshProps }) {
+  const color = colorFor(region, ctx.selectedRegion, ctx.hovered)
+  const interactive = Boolean(region)
   return (
-    <Tag
-      fill={fill}
-      stroke={C_STROKE}
-      strokeWidth={1.5}
-      strokeLinejoin="round"
-      style={{ cursor: 'pointer', transition: 'fill 0.14s ease' }}
-      onClick={()       => onSelect(resolved)}
-      onMouseEnter={()  => { setHovered(true);  onHover(resolved) }}
-      onMouseLeave={()  => { setHovered(false); onHover(null) }}
-      {...svgProps}
-    />
+    <mesh
+      {...meshProps}
+      castShadow
+      receiveShadow
+      onPointerOver={interactive ? (e) => { e.stopPropagation(); ctx.setHovered(region); document.body.style.cursor = 'pointer' } : undefined}
+      onPointerOut={interactive ? () => { ctx.setHovered(null); document.body.style.cursor = '' } : undefined}
+      onClick={interactive ? (e) => { e.stopPropagation(); ctx.onSelect(region) } : undefined}
+    >
+      {children}
+      <meshPhysicalMaterial
+        color={color}
+        roughness={0.62}
+        metalness={0.02}
+        sheen={0.5}
+        sheenRoughness={0.7}
+        sheenColor={'#f3d9c4'}
+        clearcoat={0.12}
+        clearcoatRoughness={0.6}
+      />
+    </mesh>
   )
 }
 
-// ─── Public component ─────────────────────────────────────────────────
-// The figure turns between front and back with a Framer Motion flip: it
-// rotates edge-on, swaps the side that's showing at 90°, then settles back
-// with a spring so the turn feels physical rather than a hard cut.
-export default function BodyModel3D({ selectedRegion, onRegionClick, onRegionHover }) {
-  const [isFront, setIsFront] = useState(true)
-  const controls = useAnimationControls()
-  const flipping = useRef(false)
+// Build a revolved torso segment from a radius/height profile.
+function lathePoints(pairs) {
+  return pairs.map(([r, y]) => new THREE.Vector2(r, y))
+}
 
-  async function flipTo(front) {
-    if (front === isFront || flipping.current) return
-    flipping.current = true
-
-    // Respect reduced-motion: swap instantly, no spin.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsFront(front)
-      flipping.current = false
-      return
-    }
-
-    // Turn to edge-on, swap content at the hidden mid-point, settle with a spring.
-    await controls.start({ rotateY: 90, transition: { duration: 0.18, ease: 'easeIn' } })
-    setIsFront(front)
-    controls.set({ rotateY: -90 })
-    await controls.start({ rotateY: 0, transition: { type: 'spring', stiffness: 240, damping: 20 } })
-    flipping.current = false
-  }
-
-  const visible = (views) =>
-    views === 'both' || (views === 'front' && isFront) || (views === 'back' && !isFront)
+function Figure({ ctx }) {
+  // Profiles (radius, height). Boundaries share a radius so segments meet
+  // seamlessly: chest (bust) → stomach (waist) → hips (flare).
+  const chest = useMemo(() => lathePoints([
+    [0.40, 5.75], [0.47, 5.46], [0.53, 5.16], [0.48, 4.88], [0.40, 4.62], [0.38, 4.50],
+  ]), [])
+  const stomach = useMemo(() => lathePoints([
+    [0.38, 4.50], [0.34, 4.30], [0.33, 4.08], [0.40, 3.92],
+  ]), [])
+  const hips = useMemo(() => lathePoints([
+    [0.40, 3.92], [0.55, 3.64], [0.60, 3.46], [0.52, 3.24], [0.44, 3.12],
+  ]), [])
 
   return (
-    <div className="w-full relative select-none" style={{ height: 440, perspective: 900 }}>
-      {/* Toggle sits at the top — keeps the entire figure (including feet) freely clickable */}
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 inline-flex border border-ink/20 z-10">
-        <button
-          onClick={() => flipTo(true)}
-          className={`px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] transition-colors
-            ${isFront ? 'bg-ink text-cream' : 'text-ink-soft hover:text-ink hover:bg-cream-dark'}`}
-        >
+    <group position={[0, -3.0, 0]}>
+      {/* Head + neck (region: face) */}
+      <Part region="face" ctx={ctx} position={[0, 6.55, 0]} scale={[1, 1.16, 1]}>
+        <sphereGeometry args={[0.42, 48, 48]} />
+      </Part>
+      {/* Hair cap — non-interactive accent */}
+      <Part ctx={ctx} position={[0, 6.78, -0.05]} scale={[1.06, 1.0, 1.08]}>
+        <sphereGeometry args={[0.43, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.62]} />
+      </Part>
+      <Part region="neck" ctx={ctx} position={[0, 5.92, 0]}>
+        <cylinderGeometry args={[0.15, 0.18, 0.42, 24]} />
+      </Part>
+
+      {/* Torso segments */}
+      <Part region="chest" ctx={ctx}>
+        <latheGeometry args={[chest, 48]} />
+      </Part>
+      {/* Bust contour — part of chest */}
+      <Part region="chest" ctx={ctx} position={[-0.16, 5.06, 0.34]} scale={[1, 1, 0.85]}>
+        <sphereGeometry args={[0.15, 32, 32]} />
+      </Part>
+      <Part region="chest" ctx={ctx} position={[0.16, 5.06, 0.34]} scale={[1, 1, 0.85]}>
+        <sphereGeometry args={[0.15, 32, 32]} />
+      </Part>
+      <Part region="stomach" ctx={ctx}>
+        <latheGeometry args={[stomach, 48]} />
+      </Part>
+      <Part region="hips" ctx={ctx}>
+        <latheGeometry args={[hips, 48]} />
+      </Part>
+
+      {/* Shoulders */}
+      <Part region="shoulders" ctx={ctx} position={[-0.45, 5.6, 0]}>
+        <sphereGeometry args={[0.19, 32, 32]} />
+      </Part>
+      <Part region="shoulders" ctx={ctx} position={[0.45, 5.6, 0]}>
+        <sphereGeometry args={[0.19, 32, 32]} />
+      </Part>
+
+      {/* Arms (upper + fore) hugging the body, angled slightly outward */}
+      <Part region="arms" ctx={ctx} position={[-0.53, 4.95, 0]} rotation={[0, 0, 0.12]}>
+        <capsuleGeometry args={[0.115, 1.05, 12, 24]} />
+      </Part>
+      <Part region="arms" ctx={ctx} position={[0.53, 4.95, 0]} rotation={[0, 0, -0.12]}>
+        <capsuleGeometry args={[0.115, 1.05, 12, 24]} />
+      </Part>
+      <Part region="arms" ctx={ctx} position={[-0.66, 3.85, 0]} rotation={[0, 0, 0.08]}>
+        <capsuleGeometry args={[0.10, 1.05, 12, 24]} />
+      </Part>
+      <Part region="arms" ctx={ctx} position={[0.66, 3.85, 0]} rotation={[0, 0, -0.08]}>
+        <capsuleGeometry args={[0.10, 1.05, 12, 24]} />
+      </Part>
+      {/* Hands */}
+      <Part region="hands" ctx={ctx} position={[-0.72, 3.18, 0]}>
+        <sphereGeometry args={[0.13, 24, 24]} />
+      </Part>
+      <Part region="hands" ctx={ctx} position={[0.72, 3.18, 0]}>
+        <sphereGeometry args={[0.13, 24, 24]} />
+      </Part>
+
+      {/* Legs: thigh + shin, with knees and feet */}
+      <Part region="legs" ctx={ctx} position={[-0.24, 2.55, 0]}>
+        <capsuleGeometry args={[0.19, 0.95, 12, 24]} />
+      </Part>
+      <Part region="legs" ctx={ctx} position={[0.24, 2.55, 0]}>
+        <capsuleGeometry args={[0.19, 0.95, 12, 24]} />
+      </Part>
+      <Part region="knees" ctx={ctx} position={[-0.24, 1.82, 0]}>
+        <sphereGeometry args={[0.18, 24, 24]} />
+      </Part>
+      <Part region="knees" ctx={ctx} position={[0.24, 1.82, 0]}>
+        <sphereGeometry args={[0.18, 24, 24]} />
+      </Part>
+      <Part region="legs" ctx={ctx} position={[-0.24, 1.05, 0]}>
+        <capsuleGeometry args={[0.155, 1.0, 12, 24]} />
+      </Part>
+      <Part region="legs" ctx={ctx} position={[0.24, 1.05, 0]}>
+        <capsuleGeometry args={[0.155, 1.0, 12, 24]} />
+      </Part>
+      {/* Feet */}
+      <Part region="feet" ctx={ctx} position={[-0.24, 0.14, 0.16]}>
+        <boxGeometry args={[0.26, 0.18, 0.56]} />
+      </Part>
+      <Part region="feet" ctx={ctx} position={[0.24, 0.14, 0.16]}>
+        <boxGeometry args={[0.26, 0.18, 0.56]} />
+      </Part>
+    </group>
+  )
+}
+
+// Eases the orbit controls toward a requested azimuth (Front/Back buttons),
+// and provides the gentle default turn unless the user is dragging or
+// reduced-motion is on.
+function Rig({ controls, targetRef, autoRef }) {
+  useFrame((_, delta) => {
+    const c = controls.current
+    if (!c) return
+    if (targetRef.current != null) {
+      const cur = c.getAzimuthalAngle()
+      let diff = targetRef.current - cur
+      // shortest path
+      while (diff > Math.PI) diff -= Math.PI * 2
+      while (diff < -Math.PI) diff += Math.PI * 2
+      if (Math.abs(diff) < 0.01) {
+        c.setAzimuthalAngle(targetRef.current)
+        targetRef.current = null
+      } else {
+        c.setAzimuthalAngle(cur + diff * Math.min(1, delta * 6))
+      }
+      c.update()
+    } else if (autoRef.current) {
+      c.setAzimuthalAngle(c.getAzimuthalAngle() + delta * 0.25)
+      c.update()
+    }
+  })
+  return null
+}
+
+export default function BodyModel3D({ selectedRegion, onRegionClick, onRegionHover }) {
+  const [hovered, setHovered] = useState(null)
+  const controls = useRef(null)
+  const targetRef = useRef(null)
+  const autoRef = useRef(true)
+  const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (reduce) autoRef.current = false
+
+  const ctx = {
+    selectedRegion,
+    hovered,
+    setHovered: (r) => { setHovered(r); onRegionHover?.(r) },
+    onSelect: (r) => onRegionClick?.(r),
+  }
+
+  function turn(front) {
+    autoRef.current = false
+    targetRef.current = front ? 0 : Math.PI
+  }
+
+  return (
+    <div className="w-full relative select-none" style={{ height: 460 }}>
+      {/* Front / Back quick-turn */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 inline-flex border border-ink/20 z-10 bg-cream/70 backdrop-blur-sm">
+        <button onClick={() => turn(true)}
+          className="px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-ink-soft hover:text-ink hover:bg-cream-dark transition-colors">
           Front
         </button>
-        <button
-          onClick={() => flipTo(false)}
-          className={`px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] transition-colors border-l border-ink/20
-            ${!isFront ? 'bg-ink text-cream' : 'text-ink-soft hover:text-ink hover:bg-cream-dark'}`}
-        >
+        <button onClick={() => turn(false)}
+          className="px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-ink-soft hover:text-ink hover:bg-cream-dark transition-colors border-l border-ink/20">
           Back
         </button>
       </div>
 
-      <motion.svg
-        viewBox="0 0 400 510"
-        className="w-full h-full"
-        style={{ transformOrigin: 'center', transformStyle: 'preserve-3d' }}
-        animate={controls}
-        aria-label="Interactive body diagram"
+      <Canvas
+        shadows
+        dpr={[1, 2]}
+        camera={{ position: [0, 0.7, 6.9], fov: 38 }}
+        gl={{ antialias: true, alpha: true }}
+        aria-label="Interactive 3D body figure"
       >
-        {PARTS.map((part, i) =>
-          visible(part.views)
-            ? <Part
-                key={i}
-                part={part}
-                isFront={isFront}
-                selected={selectedRegion}
-                onSelect={onRegionClick}
-                onHover={onRegionHover ?? (() => {})}
-              />
-            : null
-        )}
-      </motion.svg>
+        {/* Lighting: key + fill + rim + hemisphere for soft, even sculpting */}
+        <hemisphereLight args={['#fff6ec', '#caa', 0.55]} />
+        <ambientLight intensity={0.35} />
+        <directionalLight
+          position={[4, 8, 6]} intensity={1.5} castShadow
+          shadow-mapSize-width={1024} shadow-mapSize-height={1024}
+          shadow-camera-near={1} shadow-camera-far={20}
+          shadow-camera-left={-5} shadow-camera-right={5}
+          shadow-camera-top={6} shadow-camera-bottom={-6}
+        />
+        <directionalLight position={[-5, 3, 2]} intensity={0.5} />
+        <directionalLight position={[0, 4, -6]} intensity={0.7} color="#ffe9d6" />
+
+        <Suspense fallback={null}>
+          <Figure ctx={ctx} />
+          <ContactShadows position={[0, -3.0, 0]} opacity={0.32} scale={9} blur={2.6} far={4} resolution={512} color="#3a2c20" />
+        </Suspense>
+
+        <OrbitControls
+          ref={controls}
+          target={[0, 0.4, 0]}
+          enablePan={false}
+          enableZoom={false}
+          minPolarAngle={Math.PI * 0.30}
+          maxPolarAngle={Math.PI * 0.62}
+          onStart={() => { autoRef.current = false; targetRef.current = null }}
+        />
+        <Rig controls={controls} targetRef={targetRef} autoRef={autoRef} />
+      </Canvas>
     </div>
   )
 }
