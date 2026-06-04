@@ -131,6 +131,12 @@ function AppShell() {
     if (wasSearch) setShowSearch(false)
     const changing = key !== activePageRef.current
     if (changing) applyPage(key)
+    // Privacy-friendly analytics: log each section as a pageview (this is a
+    // single-page app, so the URL doesn't change on tab switches). No-ops
+    // until the GoatCounter snippet in index.html is active.
+    if (changing && window.goatcounter?.count) {
+      window.goatcounter.count({ path: '/' + key, title: 'Quill · ' + key })
+    }
     // If search is open, its history entry is on top, consume it by replacing,
     // so a later Back doesn't re-open search. Otherwise push a normal page entry.
     if (wasSearch && window.history.state?.quillOverlay === 'search') {
