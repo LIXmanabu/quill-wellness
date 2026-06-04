@@ -9,12 +9,12 @@ import MagneticButton from '../components/interactive/MagneticButton.jsx'
 import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 
 const sections = [
-  { num: '01', key: 'body', label: 'Body Map', kicker: 'Atlas', desc: 'Thirteen regions, mapped from the inside out, head to toe, with the wisdom of how they relate.', bg: 'card-bone', accent: 'text-clay' },
-  { num: '02', key: 'sport', label: 'Movement', kicker: 'Practice', desc: 'Beginner-safe routines for legs, core, glutes, arms, no gym, no shame.', bg: 'card-sage', accent: 'text-sage-dark' },
-  { num: '03', key: 'skincare', label: 'Skin Care', kicker: 'Ritual', desc: 'Morning, evening, and skin-type routines. Less is more, consistency beats complication.', bg: 'card-blush', accent: 'text-rust' },
-  { num: '04', key: 'wellness', label: 'Wellness', kicker: 'Rest', desc: 'Stress, sleep, cramps, hydration: gentle, evidence-informed self-care for the whole self.', bg: 'card-sage', accent: 'text-sage-dark' },
-  { num: '05', key: 'diet', label: 'Diet', kicker: 'Fuel', desc: 'Six evidence-based ways to eat, by goal, plus a pH self check-in and the ideal plate.', bg: 'card-clay', accent: 'text-clay-dark' },
-  { num: '06', key: 'tips', label: 'Daily Tips', kicker: 'Almanac', desc: 'Sixty bite-sized habits across hydration, sleep, mood, movement, mindset and more.', bg: 'card-gold', accent: 'text-gold-dark' },
+  { num: '01', key: 'body', label: 'Body Map', kicker: 'Atlas', stat: '13 regions', desc: 'Thirteen regions, mapped from the inside out, head to toe, with the wisdom of how they relate.', bg: 'card-bone', accent: 'text-clay' },
+  { num: '02', key: 'sport', label: 'Movement', kicker: 'Practice', stat: 'No gym needed', desc: 'Beginner-safe routines for legs, core, glutes, arms, no gym, no shame.', bg: 'card-sage', accent: 'text-sage-dark' },
+  { num: '03', key: 'skincare', label: 'Skin Care', kicker: 'Ritual', stat: 'AM + PM', desc: 'Morning, evening, and skin-type routines. Less is more, consistency beats complication.', bg: 'card-blush', accent: 'text-rust' },
+  { num: '04', key: 'wellness', label: 'Wellness', kicker: 'Rest', stat: '7 kinds of rest', desc: 'Stress, sleep, cramps, hydration: gentle, evidence-informed self-care for the whole self.', bg: 'card-sage', accent: 'text-sage-dark' },
+  { num: '05', key: 'diet', label: 'Diet', kicker: 'Fuel', stat: '6 ways to eat', desc: 'Six evidence-based ways to eat, by goal, plus a pH self check-in and the ideal plate.', bg: 'card-clay', accent: 'text-clay-dark' },
+  { num: '06', key: 'tips', label: 'Daily Tips', kicker: 'Almanac', stat: '60 daily tips', desc: 'Sixty bite-sized habits across hydration, sleep, mood, movement, mindset and more.', bg: 'card-gold', accent: 'text-gold-dark' },
 ]
 
 const goalGreeting = {
@@ -256,9 +256,12 @@ export default function Home({ onNavigate }) {
                   }`}>
                     {s.desc}
                   </p>
-                  <div className="mt-6 flex items-center gap-2 text-sm font-medium transition-colors duration-300 text-ink group-hover:text-clay">
-                    <span className="link-underline">Read chapter</span>
-                    <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  <div className="mt-6 flex items-center justify-between gap-3">
+                    <span className="editorial-label text-clay">{s.stat}</span>
+                    <span className="flex items-center gap-2 text-sm font-medium text-ink group-hover:text-clay transition-colors duration-300">
+                      <span className="link-underline">Read chapter</span>
+                      <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </span>
                   </div>
                 </SpotlightCard>
               </Reveal>
