@@ -133,6 +133,17 @@
     --c-cream-light: 251 247 240;
   }
 
+  /* An intentionally dark section that stays dark in BOTH themes (instead of
+     inverting to a bright slab at night). Cream/ink tokens are pinned to their
+     light-mode values inside so content authored for a dark surface, light
+     text, cream buttons, stays readable in dark mode too. */
+  .surface-dark { background-color: #1A1510; }
+  .dark .surface-dark {
+    --c-cream: 247 242 234;
+    --c-cream-light: 251 247 240;
+    --c-ink: 26 20 16;
+  }
+
   /* ─── Buttons ──────────────────────────────────────────────────── */
   .btn-ink {
     @apply inline-flex items-center gap-2 px-6 py-3.5 bg-ink text-cream text-sm font-medium tracking-wide transition-all duration-200 hover:bg-ink-light hover:-translate-y-px;

@@ -554,7 +554,7 @@ export default function Diet({ onNavigate }) {
       </section>
 
       {/* Marquee */}
-      <section className="bg-ink text-cream py-4 border-y border-ink overflow-hidden">
+      <section className="bg-cream-dark text-ink py-4 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={['Whole foods', 'Slow over fast', 'Protein at every meal', 'Plants, mostly', 'Water first', 'Food is not morals']}
           separator="✿"

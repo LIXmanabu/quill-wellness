@@ -165,7 +165,7 @@ export default function Pro({ onNavigate }) {
           </div>
 
           <Reveal direction="right" delay={300} className="lg:col-span-4 lg:pt-4">
-            <div className="border-l border-ink/15 pl-6 space-y-5">
+            <div className="border-t border-ink/15 pt-6 space-y-5">
               <p className="editorial-label">In numbers</p>
               {proValue.map((p) => (
                 <div key={p.label} className="border-b border-ink/10 pb-4 last:border-b-0">
@@ -179,13 +179,13 @@ export default function Pro({ onNavigate }) {
       </section>
 
       {/* ════════════════════════════════════════ MARQUEE ════════════════════════════════════════ */}
-      <section className="bg-ink text-cream py-4 sm:py-5 border-y border-ink overflow-hidden">
+      <section className="bg-cream-dark text-ink py-4 sm:py-5 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={['Free', 'Pro · $5/mo', 'Max · $13/mo', 'Family seats', 'AI assistant', 'PT-written cycles', 'RD-built meal plans']}
           separator="✺"
           speed="slow"
           itemClassName="font-display text-2xl sm:text-3xl"
-          separatorClassName="text-gold text-xl"
+          separatorClassName="text-clay text-xl"
         />
       </section>
 
@@ -298,7 +298,7 @@ export default function Pro({ onNavigate }) {
 
         <div className="border border-ink/15 overflow-x-auto">
           <div className="min-w-[680px]">
-            <div className="grid grid-cols-[60px_minmax(180px,1fr)_80px_120px_140px_180px] gap-3 px-4 sm:px-6 py-3 bg-ink text-cream editorial-label">
+            <div className="grid grid-cols-[60px_minmax(180px,1fr)_80px_120px_140px_180px] gap-3 px-4 sm:px-6 py-3 bg-cream-dark text-ink editorial-label">
               <div>№</div>
               <div>Feature</div>
               <div className="text-center">Status</div>
@@ -394,7 +394,7 @@ export default function Pro({ onNavigate }) {
       </section>
 
       {/* ════════════════════════════════════════ FINAL CTA ════════════════════════════════════════ */}
-      <section className="bg-ink text-cream py-20 sm:py-24">
+      <section className="surface-dark text-cream py-20 sm:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Reveal>
             <p className="editorial-label text-gold mb-6">A closing note</p>
