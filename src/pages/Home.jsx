@@ -41,18 +41,24 @@ export default function Home({ onNavigate }) {
   return (
     <div className="bg-cream">
 
-      {/* ══════════════════════════════════════ HERO — dark ══════════════════════════════════════ */}
-      <section className="bg-ink">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16 sm:pb-20">
+      {/* ══════════════════════════════════════ HERO — warm, editorial ══════════════════════════════════════ */}
+      <section className="relative overflow-hidden bg-cream-light">
+        {/* one soft warm wash — keeps it alive without a flat slab */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(115% 80% at 82% -12%, rgba(200,101,74,0.11), transparent 58%)' }}
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16 sm:pb-20">
 
           {/* Top kicker */}
-          <div className="flex items-center justify-between border-b border-cream/10 pb-3 mb-10 sm:mb-14">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cream/50 font-sans">
+          <div className="flex items-center justify-between border-b border-ink/10 pb-3 mb-10 sm:mb-14">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-soft font-sans">
               {isReturning
                 ? `${getTimeGreeting()}${profile.name ? `, ${profile.name}` : ''}`
                 : 'A wellness companion'}
             </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cream/30 font-sans hidden sm:inline">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-softer font-sans hidden sm:inline">
               Vol. 01 · Spring Edition
             </span>
           </div>
@@ -62,7 +68,7 @@ export default function Home({ onNavigate }) {
 
             {/* Headline column */}
             <div className="lg:col-span-8">
-              <h1 className="font-display text-[clamp(2.6rem,12.5vw,4.75rem)] sm:text-[13vw] lg:text-[10.5vw] xl:text-[9.5vw] text-cream leading-[0.9] sm:leading-[0.88] tracking-tight">
+              <h1 className="font-display text-[clamp(2.6rem,12.5vw,4.75rem)] sm:text-[13vw] lg:text-[10.5vw] xl:text-[9.5vw] text-ink leading-[0.9] sm:leading-[0.88] tracking-tight">
                 <SplitText byChar stagger={28}>Feel good,</SplitText>
                 <br />
                 <span className="display-italic text-clay">
@@ -72,25 +78,25 @@ export default function Home({ onNavigate }) {
                 <SplitText byChar stagger={28} startDelay={900}>out.</SplitText>
               </h1>
               <Reveal delay={1400} className="mt-8 max-w-md">
-                <p className="text-lg text-cream/55 leading-relaxed">
+                <p className="text-lg text-ink-soft leading-relaxed">
                   {isReturning && greeting
                     ? greeting.line
                     : 'A quiet, beginner-safe guide for fitness, skin, body, and the small things that build a whole self.'}
                 </p>
               </Reveal>
               <Reveal delay={1600} className="mt-8 flex flex-wrap items-center gap-3">
-                <MagneticButton onClick={() => onNavigate(greeting?.primary || 'body')} className="btn-cream">
+                <MagneticButton onClick={() => onNavigate(greeting?.primary || 'body')} className="btn-ink">
                   {greeting?.primaryLabel || 'Open the Atlas'} <span className="display-italic">→</span>
                 </MagneticButton>
                 <button
                   onClick={() => onNavigate('today')}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-cream/30 text-cream text-sm font-medium tracking-wide transition-all duration-300 hover:border-cream hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-ink/25 text-ink text-sm font-medium tracking-wide transition-all duration-300 hover:border-ink hover:-translate-y-0.5"
                 >
                   Start with Today <span className="display-italic">→</span>
                 </button>
                 <button
                   onClick={() => onNavigate(isPro ? 'tips' : 'wellness')}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-cream/80 hover:text-cream transition-colors link-underline cta-rainbow"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline"
                 >
                   Or, browse {isPro ? 'today\'s tips' : 'wellness'} <span className="display-italic">→</span>
                 </button>
@@ -99,8 +105,8 @@ export default function Home({ onNavigate }) {
 
             {/* Right column: Index */}
             <Reveal delay={400} direction="right" className="lg:col-span-4 lg:pt-4">
-              <div className="border-l border-cream/10 pl-6">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cream/35 font-sans mb-4">
+              <div className="border-t border-ink/12 pt-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-softer font-sans mb-4">
                   In this issue
                 </p>
                 <ol className="space-y-2.5">
@@ -110,13 +116,13 @@ export default function Home({ onNavigate }) {
                         onClick={() => onNavigate(s.key)}
                         className="group flex items-baseline gap-3 text-left w-full"
                       >
-                        <span className="text-xs num-display text-cream/25 w-6 flex-shrink-0">
+                        <span className="text-xs num-display text-ink-softer w-6 flex-shrink-0">
                           {s.num}
                         </span>
-                        <span className="font-display text-xl text-cream/65 group-hover:text-cream transition-colors duration-200">
+                        <span className="font-display text-xl text-ink-soft group-hover:text-ink transition-colors duration-200">
                           {s.label}
                         </span>
-                        <span className="display-italic text-sm text-cream/25 ml-auto group-hover:text-clay transition-colors duration-200">
+                        <span className="display-italic text-sm text-ink-softer ml-auto group-hover:text-clay transition-colors duration-200">
                           {s.kicker}
                         </span>
                       </button>
@@ -130,7 +136,7 @@ export default function Home({ onNavigate }) {
       </section>
 
       {/* ══════════════════════════════════════ MARQUEE — flows from hero ══════════════════════════════════════ */}
-      <section className="bg-ink text-cream py-4 sm:py-5 border-t border-cream/8 overflow-hidden">
+      <section className="bg-cream-dark text-ink py-4 sm:py-5 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={['Calm', 'Confident', 'Rooted', 'Curious', 'Soft strength', 'Body-positive', 'Slow over fast', 'Evidence over hype', 'No login', 'No tracking', 'No shame']}
           speed="slow"
