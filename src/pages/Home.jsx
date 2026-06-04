@@ -229,45 +229,33 @@ export default function Home({ onNavigate }) {
                   style={{ viewTransitionName: `hero-${s.key}` }}
                   className={`group relative w-full h-full text-left p-6 sm:p-8 border transition-all duration-500 hover:-translate-y-1 ${
                     isFeatured
-                      ? 'bg-ink border-ink min-h-[420px]'
+                      ? 'bg-bone border-ink/15 hover:border-ink/40 min-h-[420px]'
                       : `${s.bg} border-ink/10 hover:border-ink/40 min-h-[200px]`
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3 mb-6">
-                    <span className={`editorial-num text-3xl sm:text-4xl leading-none transition-colors duration-300 ${
-                      isFeatured
-                        ? 'text-cream/25 group-hover:text-clay'
-                        : 'text-ink/30 group-hover:text-clay'
-                    }`}>
+                    <span className="editorial-num text-3xl sm:text-4xl leading-none transition-colors duration-300 text-ink/30 group-hover:text-clay">
                       {s.num}
                     </span>
                     {isRecommended ? (
-                      <span className={`chip text-[9px] flex-shrink-0 ${isFeatured ? 'bg-cream/10 text-cream border-cream/20' : 'chip-ink'}`}>
+                      <span className="chip chip-ink text-[9px] flex-shrink-0">
                         For you
                       </span>
                     ) : (
-                      <span className={`editorial-label ${isFeatured ? 'text-cream/40' : ''}`}>{s.kicker}</span>
+                      <span className="editorial-label">{s.kicker}</span>
                     )}
                   </div>
-                  <h3 className={`font-display leading-none ${
-                    isFeatured
-                      ? 'text-6xl sm:text-7xl text-cream'
-                      : 'text-4xl sm:text-5xl text-ink'
+                  <h3 className={`font-display leading-none text-ink ${
+                    isFeatured ? 'text-6xl sm:text-7xl' : 'text-4xl sm:text-5xl'
                   }`}>
                     {s.label}
                   </h3>
-                  <p className={`mt-4 leading-relaxed break-words ${
-                    isFeatured
-                      ? 'text-lg text-cream/55 max-w-md'
-                      : 'text-sm text-ink-soft line-clamp-3'
+                  <p className={`mt-4 leading-relaxed break-words text-ink-soft ${
+                    isFeatured ? 'text-lg max-w-md' : 'text-sm line-clamp-3'
                   }`}>
                     {s.desc}
                   </p>
-                  <div className={`mt-6 flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
-                    isFeatured
-                      ? 'text-cream/50 group-hover:text-cream'
-                      : 'text-ink group-hover:text-clay'
-                  }`}>
+                  <div className="mt-6 flex items-center gap-2 text-sm font-medium transition-colors duration-300 text-ink group-hover:text-clay">
                     <span className="link-underline">Read chapter</span>
                     <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </div>
@@ -278,23 +266,23 @@ export default function Home({ onNavigate }) {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════ PULL QUOTE — dark band ══════════════════════════════════════ */}
-      <section className="bg-ink py-20 sm:py-32">
+      {/* ══════════════════════════════════════ PULL QUOTE — warm band ══════════════════════════════════════ */}
+      <section className="bg-cream-dark border-y border-ink/10 py-20 sm:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Reveal>
             <div className="relative">
               <span
-                className="absolute -top-8 sm:-top-14 left-1/2 -translate-x-1/2 font-display text-[160px] sm:text-[220px] leading-none text-cream/[0.04] select-none pointer-events-none"
+                className="absolute -top-8 sm:-top-14 left-1/2 -translate-x-1/2 font-display text-[160px] sm:text-[220px] leading-none text-clay/[0.10] select-none pointer-events-none"
                 aria-hidden="true"
               >"</span>
-              <p className="display-italic text-3xl sm:text-5xl lg:text-[3.5rem] text-cream leading-[1.12] text-balance relative z-10">
+              <p className="display-italic text-3xl sm:text-5xl lg:text-[3.5rem] text-ink leading-[1.12] text-balance relative z-10">
                 Self-care isn't a luxury.<br />
                 It's how you stay in the same body<br className="hidden sm:block" /> for eighty years.
               </p>
               <div className="mt-8 flex items-center justify-center gap-4">
-                <span className="w-16 h-px bg-cream/20" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cream/35 font-sans">A Quill principle</span>
-                <span className="w-16 h-px bg-cream/20" />
+                <span className="w-16 h-px bg-ink/20" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-soft font-sans">A Quill principle</span>
+                <span className="w-16 h-px bg-ink/20" />
               </div>
             </div>
           </Reveal>
