@@ -175,8 +175,9 @@ export default function Home({ onNavigate }) {
             </h2>
           </Reveal>
           <Reveal delay={150} className="lg:col-span-5 lg:text-right">
-            <button onClick={() => onNavigate('tips')} className="btn-ghost link-underline cta-rainbow">
-              Browse all 60 tips →
+            <button onClick={() => onNavigate('tips')}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline">
+              Browse all 60 tips <span className="display-italic">→</span>
             </button>
           </Reveal>
         </div>
