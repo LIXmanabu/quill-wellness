@@ -12,9 +12,9 @@ const routines = {
     accent: 'clay',
     quote: 'Skin first, makeup second.',
     morning: {
-      5: ['Splash face with lukewarm water', 'Moisturizer (3 pumps)', 'SPF 30+ — never skip'],
+      5: ['Splash face with lukewarm water', 'Moisturizer (3 pumps)', 'SPF 30+, never skip'],
       15: ['Gentle cleanser', 'Hydrating toner or essence', 'Vitamin C serum', 'Moisturizer', 'SPF 30+'],
-      30: ['Gentle cleanser', 'Hydrating toner', 'Vitamin C serum', 'Eye cream', 'Moisturizer', 'SPF 50+', 'Gua sha — 2 min upward strokes'],
+      30: ['Gentle cleanser', 'Hydrating toner', 'Vitamin C serum', 'Eye cream', 'Moisturizer', 'SPF 50+', 'Gua sha, 2 min upward strokes'],
     },
     evening: {
       5: ['Cleanse (double if you wear makeup)', 'Night moisturizer'],
@@ -43,7 +43,7 @@ const routines = {
     quote: 'You cannot pour from an empty cup.',
     morning: {
       5: ['4-7-8 breathing × 4 rounds', '10 min outside in natural light'],
-      15: ['Box breathing × 4 rounds', '10 min sunlight (no phone)', '3 things you\'re grateful for — on paper'],
+      15: ['Box breathing × 4 rounds', '10 min sunlight (no phone)', '3 things you\'re grateful for, on paper'],
       30: ['Box breathing × 6 rounds', '10 min outside walk (no podcast)', 'Journal: 3 wins, 1 worry, 1 intention', '5 min gentle stretch'],
     },
     evening: {
@@ -89,8 +89,8 @@ const skinAddons = {
   oily: ['Look for: niacinamide, salicylic acid (BHA), gel cleansers', 'Avoid: heavy oils, occlusive butters'],
   combo: ['Multi-zone: BHA on T-zone, richer moisturizer on cheeks', 'Niacinamide works across both zones'],
   sensitive: ['Fragrance-free, short ingredient lists, no essential oils', 'Patch test everything for 48 h before face'],
-  normal: ['You can experiment — introduce one active at a time', 'SPF is still the single best habit'],
-  unsure: ['Start minimal: cleanser, moisturizer, SPF for 2 weeks', 'Note how your skin feels — then add one product'],
+  normal: ['You can experiment, introduce one active at a time', 'SPF is still the single best habit'],
+  unsure: ['Start minimal: cleanser, moisturizer, SPF for 2 weeks', 'Note how your skin feels, then add one product'],
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -101,18 +101,18 @@ const adviceByGoal = {
   glow: [
     { title: 'SPF is non-negotiable', body: 'UVA is the single biggest cause of premature ageing. 30+ daily, cloudy or not, year-round. The difference at 40 will be obvious.' },
     { title: 'Less, but daily', body: 'A 3-step routine (cleanse, moisturize, SPF) done every day beats a 10-step routine done once a week. Build the habit first; layer later.' },
-    { title: 'Sleep is skincare', body: 'Growth hormone — which repairs skin — peaks in deep sleep. Under 6 hours and no serum will outwork the damage.' },
+    { title: 'Sleep is skincare', body: 'Growth hormone, which repairs skin, peaks in deep sleep. Under 6 hours and no serum will outwork the damage.' },
     { title: 'Hydration shows', body: 'Skin reflects internal hydration within ~24 hours. Aim for pale-straw urine; your face will thank you.' },
   ],
   fitness: [
-    { title: 'Progressive overload', body: 'Add 2.5kg or one rep every week. Linear progression is the most reliable engine for getting stronger — for years, not weeks.' },
+    { title: 'Progressive overload', body: 'Add 2.5kg or one rep every week. Linear progression is the most reliable engine for getting stronger, for years, not weeks.' },
     { title: 'Protein at every meal', body: '1.6–2.2 g per kg of bodyweight, spread over 4–5 meals. This is the threshold where muscle stops being limited by protein.' },
     { title: 'Recovery is training', body: 'Sleep 7-9h, eat enough, take rest days. Most plateaus are recovery problems, not training problems.' },
     { title: 'Walk every day', body: '8-10k daily steps under-rated for body composition. NEAT burns more weekly calories than most workouts.' },
   ],
   calm: [
     { title: 'Morning light wins', body: '10 min of outdoor light within 1h of waking sets your circadian rhythm. The single best lever for better sleep tonight.' },
-    { title: 'Box breathing — anywhere', body: '4 in, 4 hold, 4 out, 4 hold. Repeat 4 times. Calms your nervous system inside 90 seconds, no app required.' },
+    { title: 'Box breathing, anywhere', body: '4 in, 4 hold, 4 out, 4 hold. Repeat 4 times. Calms your nervous system inside 90 seconds, no app required.' },
     { title: 'Caffeine curfew', body: 'Half-life is 6 hours. No caffeine after 2pm if you want deep sleep. This is the easiest sleep upgrade most people skip.' },
     { title: 'Worry on paper', body: 'When the mind loops, dump it on a page for 5 minutes. Almost always reduces the felt load by half.' },
   ],
@@ -123,7 +123,7 @@ const adviceByGoal = {
     { title: 'Movement is information', body: 'Mobility limits and pain are signals, not problems. 5 min of daily mobility is more diagnostic than any imaging.' },
   ],
   eat: [
-    { title: 'Protein anchors meals', body: '20-30g per meal — eggs, yogurt, tofu, chicken, fish, legumes. Stops cravings, supports muscle, blunts blood-sugar spikes.' },
+    { title: 'Protein anchors meals', body: '20-30g per meal, eggs, yogurt, tofu, chicken, fish, legumes. Stops cravings, supports muscle, blunts blood-sugar spikes.' },
     { title: 'Eat the rainbow', body: 'Aim for 30+ different plants per week. Fibre + polyphenol diversity drives gut health more than any single supplement.' },
     { title: 'Slow and seated', body: 'Sit down. Chew. No screens. The same calories digest differently when you actually taste them.' },
     { title: 'Water before coffee', body: 'You wake up dehydrated. Water first cuts headaches, false hunger, and the afternoon crash.' },
@@ -131,7 +131,7 @@ const adviceByGoal = {
 }
 
 /* ─────────────────────────────────────────────────────────────────
- * COMPLEMENT — every goal has one practice that supports it most.
+ * COMPLEMENT, every goal has one practice that supports it most.
  * The complement routine is just the other goal's routine at the same
  * time bucket, framed as "what protects the work you're already doing".
  * ────────────────────────────────────────────────────────────── */
@@ -145,7 +145,7 @@ const complementMap = {
 }
 
 /* ─────────────────────────────────────────────────────────────────
- * PROBLEM-FOCUSED TIPS — one routine-block per onboarding answer.
+ * PROBLEM-FOCUSED TIPS, one routine-block per onboarding answer.
  * Used by MyQuill's "For each thing you told us" section.
  * ────────────────────────────────────────────────────────────── */
 
@@ -155,10 +155,10 @@ const skinTypeTips = {
     kicker: 'For your skin type',
     why: 'Tight, sometimes flaky. Lipids and water both run low.',
     steps: [
-      'Cream or oil-based cleanser — never foaming or alcohol',
+      'Cream or oil-based cleanser, never foaming or alcohol',
       'Apply hyaluronic acid serum to damp skin within 60 seconds',
       'Lock in moisture with a ceramide-rich cream',
-      'Mineral SPF over chemical — gentler on a compromised barrier',
+      'Mineral SPF over chemical, gentler on a compromised barrier',
       'Run a humidifier at night, especially in winter',
     ],
   },
@@ -167,11 +167,11 @@ const skinTypeTips = {
     kicker: 'For your skin type',
     why: 'Shiny T-zone, larger pores. Overactive sebum needs balance, not stripping.',
     steps: [
-      'Gentle gel cleanser, morning and night — no harsh foam',
-      'Niacinamide 5% serum — controls oil without irritation',
+      'Gentle gel cleanser, morning and night, no harsh foam',
+      'Niacinamide 5% serum, controls oil without irritation',
       'Lightweight, oil-free moisturizer (yes, you still need it)',
       'BHA (salicylic acid) toner 2-3× per week',
-      'Blotting papers beat re-washing — don\'t strip more',
+      'Blotting papers beat re-washing, don\'t strip more',
     ],
   },
   combo: {
@@ -180,21 +180,21 @@ const skinTypeTips = {
     why: 'Oily T-zone, drier cheeks. Multi-zone routine wins.',
     steps: [
       'Mild gel cleanser, morning and night',
-      'Niacinamide everywhere — works for both zones',
+      'Niacinamide everywhere, works for both zones',
       'BHA only on T-zone (forehead, nose, chin)',
       'Richer moisturizer on cheeks, lighter on T-zone',
-      'SPF 30+ — non-greasy, ideally fluid texture',
+      'SPF 30+, non-greasy, ideally fluid texture',
     ],
   },
   sensitive: {
     label: 'Sensitive skin',
     kicker: 'For your skin type',
-    why: 'Reacts easily, prone to redness. Less is more — always.',
+    why: 'Reacts easily, prone to redness. Less is more, always.',
     steps: [
-      'Cool water rinse in the morning — no cleanser if your skin behaves',
-      'Fragrance-free, short ingredient lists — no essential oils',
+      'Cool water rinse in the morning, no cleanser if your skin behaves',
+      'Fragrance-free, short ingredient lists, no essential oils',
       'Patch test new products behind the ear for 48 hours',
-      'Mineral SPF (zinc oxide) — chemical filters can sting',
+      'Mineral SPF (zinc oxide), chemical filters can sting',
       'Skip retinol and acids unless prescribed; centella + panthenol calm flare-ups',
     ],
   },
@@ -204,7 +204,7 @@ const skinTypeTips = {
     why: 'Balanced, rarely fussy. Keep the basics solid before experimenting.',
     steps: [
       'Gentle cleanser, morning and night',
-      'A simple moisturizer — keep your barrier happy',
+      'A simple moisturizer, keep your barrier happy',
       'SPF 30+ every morning, year-round',
       'Add one active at a time (vitamin C is the safest start)',
       'Don\'t over-exfoliate just because you can',
@@ -218,7 +218,7 @@ const skinTypeTips = {
       'Use only: gentle cleanser, plain moisturizer, SPF for 2 weeks',
       'Note: tight after washing? Dry. Shiny by noon? Oily.',
       'Redness or stinging from new products? Sensitive.',
-      'Track for 14 days — then choose a routine from there',
+      'Track for 14 days, then choose a routine from there',
       'Add nothing else until you have an answer',
     ],
   },
@@ -230,23 +230,23 @@ const goalTips = {
     kicker: 'For your goal',
     why: 'Skin reflects sleep, hydration, and consistency more than any product.',
     steps: [
-      'SPF every single morning — the highest-ROI skincare habit',
+      'SPF every single morning, the highest-ROI skincare habit',
       'Vitamin C serum in the AM for brightness',
       'Hydrate first thing: a glass of water before coffee',
-      'Sleep 7-9 hours — growth hormone repairs skin overnight',
+      'Sleep 7-9 hours, growth hormone repairs skin overnight',
       'Eat omega-3 fish twice a week for skin lipids',
     ],
   },
   fitness: {
     label: 'Move & feel strong',
     kicker: 'For your goal',
-    why: 'Consistency, progressive overload, and recovery — in that order.',
+    why: 'Consistency, progressive overload, and recovery, in that order.',
     steps: [
       '20 squats + 10 push-ups before your shower',
       'Protein-rich breakfast: 20-30g (eggs, yogurt, tofu)',
-      'Walk between meetings — aim for 8-10k steps daily',
+      'Walk between meetings, aim for 8-10k steps daily',
       'Strength train 3× a week, full-body, compound moves',
-      'Sleep 7-9h — most plateaus are recovery problems',
+      'Sleep 7-9h, most plateaus are recovery problems',
     ],
   },
   calm: {
@@ -254,10 +254,10 @@ const goalTips = {
     kicker: 'For your goal',
     why: 'Nervous-system regulation, not just less to-do. Mornings set the tone.',
     steps: [
-      '10 minutes of morning sunlight (no phone) — anchors circadian rhythm',
+      '10 minutes of morning sunlight (no phone), anchors circadian rhythm',
       'Box breathing × 4 rounds: 4 in, 4 hold, 4 out, 4 hold',
-      'No caffeine after 2 pm — half-life is 6 hours',
-      'One thing on paper for the day — beats a 10-item list',
+      'No caffeine after 2 pm, half-life is 6 hours',
+      'One thing on paper for the day, beats a 10-item list',
       'Dim lights at 9 pm; phone out of the bedroom',
     ],
   },
@@ -267,9 +267,9 @@ const goalTips = {
     why: 'Your body is talking. Pay attention to the small signals daily.',
     steps: [
       'Morning body scan: where am I tight, hungry, tired?',
-      'Check urine colour — pale straw = hydrated',
+      'Check urine colour, pale straw = hydrated',
       'Posture reset every hour: chin tucked, shoulders down',
-      '5 min mobility before screens — knees, hips, spine',
+      '5 min mobility before screens, knees, hips, spine',
       'Track sleep + energy 1-10 for two weeks',
     ],
   },
@@ -278,10 +278,10 @@ const goalTips = {
     kicker: 'For your goal',
     why: 'Protein anchors meals. Plants supply almost everything else.',
     steps: [
-      'Water before coffee — you wake up dehydrated',
+      'Water before coffee, you wake up dehydrated',
       'Protein + fibre breakfast (oats + berries + nuts, or eggs + greens)',
       'Aim for 30+ different plants per week',
-      '2-minute walk after every meal — flattens blood sugar by 30%',
+      '2-minute walk after every meal, flattens blood sugar by 30%',
       'Stop eating 2 hours before bed for better sleep',
     ],
   },
@@ -291,11 +291,11 @@ const timeTips = {
   5: {
     label: '5 minutes a day',
     kicker: 'For your time',
-    why: 'Tiny is better than nothing — and tiny, done daily, compounds.',
+    why: 'Tiny is better than nothing, and tiny, done daily, compounds.',
     steps: [
       'Pick one habit and chain it to brushing your teeth',
-      'Done is better than done well — speed > perfection',
-      'Track on a paper calendar — visible streaks motivate',
+      'Done is better than done well, speed > perfection',
+      'Track on a paper calendar, visible streaks motivate',
       'Skip a day? Restart the next. Two days is a pattern',
       'Add one more minute every two weeks',
     ],
@@ -305,10 +305,10 @@ const timeTips = {
     kicker: 'For your time',
     why: 'The sweet spot. Long enough to matter, short enough to keep doing.',
     steps: [
-      'Block the same 15 min daily — same time, same place',
+      'Block the same 15 min daily, same time, same place',
       'Split: 5 min movement + 5 min mindset + 5 min skin or food',
       'Phone in another room while you ritual',
-      'Track wins weekly — what stuck, what dropped',
+      'Track wins weekly, what stuck, what dropped',
       'Protect this slot like a meeting with yourself',
     ],
   },
@@ -319,9 +319,9 @@ const timeTips = {
     steps: [
       'Morning block (15 min) + evening block (15 min) beats one long session',
       'Rotate focus: skin Mon, movement Tue, mindset Wed, repeat',
-      'Build in one full rest day a week — recovery is the work',
+      'Build in one full rest day a week, recovery is the work',
       'Journal weekly: what got easier, what got harder',
-      'Variety > novelty — depth beats trying new things constantly',
+      'Variety > novelty, depth beats trying new things constantly',
     ],
   },
 }
@@ -377,7 +377,7 @@ export function getRecommendations(profile) {
 }
 
 export function getProblemTips(profile) {
-  // Returns one block per answered question — so the user sees how each
+  // Returns one block per answered question, so the user sees how each
   // onboarding choice translates into specific morning-routine steps.
   const blocks = []
   if (profile.skinType && skinTypeTips[profile.skinType]) {

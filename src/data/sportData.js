@@ -48,7 +48,7 @@ export const sportData = [
       {
         name: 'Sumo Squat',
         reps: '3 sets × 12 reps',
-        tip: 'Wide stance, toes turned out. Lower down slowly — focus on the inner thigh and glute.',
+        tip: 'Wide stance, toes turned out. Lower down slowly, focus on the inner thigh and glute.',
       },
     ],
     warmup: '10 hip circles each direction + 10 slow standing hip hinges',
@@ -59,7 +59,7 @@ export const sportData = [
     id: 'abs',
     title: 'Abs & Core',
     icon: '💫',
-    description: 'Build a strong, functional core that supports your spine and improves posture — not just aesthetics.',
+    description: 'Build a strong, functional core that supports your spine and improves posture, not just aesthetics.',
     difficulty: 'Beginner',
     duration: '15 min',
     exercises: [
@@ -71,7 +71,7 @@ export const sportData = [
       {
         name: 'Forearm Plank',
         reps: '3 sets × 20–30 seconds',
-        tip: 'Straight line from head to heels. Breathe steadily. Drop to knees if needed — that\'s perfectly fine.',
+        tip: 'Straight line from head to heels. Breathe steadily. Drop to knees if needed, that\'s perfectly fine.',
       },
       {
         name: 'Bicycle Crunch',
@@ -87,7 +87,7 @@ export const sportData = [
     id: 'fullbody',
     title: 'Full Body',
     icon: '⚡',
-    description: 'A balanced full-body routine that builds strength and gets your heart pumping — no equipment needed.',
+    description: 'A balanced full-body routine that builds strength and gets your heart pumping, no equipment needed.',
     difficulty: 'Beginner',
     duration: '25 min',
     exercises: [
@@ -108,8 +108,8 @@ export const sportData = [
       },
     ],
     warmup: '5 min light marching, arm circles, hip rolls',
-    cooldown: 'Full-body stretch: neck, shoulders, chest, hips, legs — 20s each',
-    safetyNote: 'Rest fully between sets. This workout touches many muscle groups — recovery is essential.',
+    cooldown: 'Full-body stretch: neck, shoulders, chest, hips, legs, 20s each',
+    safetyNote: 'Rest fully between sets. This workout touches many muscle groups, recovery is essential.',
   },
   {
     id: 'stretching',
@@ -135,9 +135,9 @@ export const sportData = [
         tip: 'Inhale as you arch (cow), exhale as you round (cat). Move with your breath.',
       },
     ],
-    warmup: 'Not needed — start gently and warm up with the first exercise',
+    warmup: 'Not needed, start gently and warm up with the first exercise',
     cooldown: 'Rest in Child\'s Pose for 60 seconds',
-    safetyNote: 'Never stretch into sharp pain. A gentle pulling feeling is fine — pain is not. Hold, don\'t bounce.',
+    safetyNote: 'Never stretch into sharp pain. A gentle pulling feeling is fine, pain is not. Hold, don\'t bounce.',
   },
   {
     id: 'posture',
@@ -150,7 +150,7 @@ export const sportData = [
       {
         name: 'Chin Tuck',
         reps: '3 sets × 10 reps, hold 5s each',
-        tip: 'Gently draw your chin straight back (not up or down). Feels like making a double chin — that\'s correct!',
+        tip: 'Gently draw your chin straight back (not up or down). Feels like making a double chin, that\'s correct!',
       },
       {
         name: 'Wall Angel',
@@ -165,6 +165,6 @@ export const sportData = [
     ],
     warmup: '10 shoulder rolls each direction + 5 neck tilts each side',
     cooldown: 'Doorway chest stretch 30s × 2 + seated spine twist 20s each side',
-    safetyNote: 'Posture work is gentle — no sharp pain should occur. Consult a physiotherapist for persistent pain.',
+    safetyNote: 'Posture work is gentle, no sharp pain should occur. Consult a physiotherapist for persistent pain.',
   },
 ]

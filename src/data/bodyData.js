@@ -8,18 +8,18 @@ export const bodyData = {
         title: 'Breakouts & Acne',
         suggestions: [
           'Cleanse gently twice a day with a mild, non-stripping face wash',
-          'Avoid touching your face — hands carry bacteria',
+          'Avoid touching your face, hands carry bacteria',
           'Try a gentle salicylic acid or benzoyl peroxide spot treatment',
           'Change your pillowcase at least once a week',
           'Remove makeup before sleep every night',
-          'Avoid popping or picking — it can cause scarring',
+          'Avoid popping or picking, it can cause scarring',
         ],
         safetyNote: 'If acne is severe, painful, or affecting your confidence, consider speaking with a dermatologist.',
       },
       {
         title: 'Dry Skin',
         suggestions: [
-          'Use a gentle hydrating cleanser — not foaming or soap-based',
+          'Use a gentle hydrating cleanser, not foaming or soap-based',
           'Apply a fragrance-free moisturiser while skin is still slightly damp',
           'Look for ingredients like hyaluronic acid, ceramides, or glycerin',
           'Drink enough water throughout the day',
@@ -30,8 +30,8 @@ export const bodyData = {
       {
         title: 'Oily Skin',
         suggestions: [
-          'Use a gentle gel or foam cleanser — twice daily',
-          'Do not skip moisturiser — dehydrated skin overproduces oil',
+          'Use a gentle gel or foam cleanser, twice daily',
+          'Do not skip moisturiser, dehydrated skin overproduces oil',
           'Use a lightweight, oil-free moisturiser or gel formula',
           'Blotting papers are a great on-the-go helper',
           'Clay masks once a week can help manage oiliness',
@@ -42,7 +42,7 @@ export const bodyData = {
         title: 'Dark Circles',
         suggestions: [
           'Prioritise 7–9 hours of quality sleep',
-          'Stay hydrated — dehydration makes circles more visible',
+          'Stay hydrated, dehydration makes circles more visible',
           'Cool compresses or chilled eye patches may reduce puffiness',
           'Elevate your head slightly when sleeping',
           'Reduce excessive screen time before bed',
@@ -54,11 +54,11 @@ export const bodyData = {
         suggestions: [
           'Switch to fragrance-free, dye-free skincare products',
           'Avoid harsh scrubs or physical exfoliants',
-          'Use SPF 30+ sunscreen daily — UV triggers redness',
+          'Use SPF 30+ sunscreen daily, UV triggers redness',
           'Lukewarm (not hot) water when cleansing',
           'Test new products on a small patch of skin first',
         ],
-        safetyNote: 'Persistent facial redness may be rosacea or another condition — a dermatologist can help.',
+        safetyNote: 'Persistent facial redness may be rosacea or another condition, a dermatologist can help.',
       },
     ],
     generalDisclaimer: 'These are general self-care suggestions, not medical advice. For persistent or worsening skin concerns, speak with a dermatologist.',
@@ -72,7 +72,7 @@ export const bodyData = {
       {
         title: 'Headaches',
         suggestions: [
-          'Drink a full glass of water — dehydration is a very common trigger',
+          'Drink a full glass of water, dehydration is a very common trigger',
           'Step away from screens and rest your eyes for 20 minutes',
           'Gentle temples massage in small circular motions',
           'A cool or warm cloth on your forehead or the back of your neck',
@@ -84,7 +84,7 @@ export const bodyData = {
       {
         title: 'Stress & Tension',
         suggestions: [
-          'Try box breathing: inhale 4s, hold 4s, exhale 4s — repeat 5 times',
+          'Try box breathing: inhale 4s, hold 4s, exhale 4s, repeat 5 times',
           'A short walk outside can help reset your nervous system',
           'Journaling thoughts can help release mental clutter',
           'Stretching your neck and shoulders releases held tension',
@@ -95,7 +95,7 @@ export const bodyData = {
       {
         title: 'Fatigue & Low Energy',
         suggestions: [
-          'Check your sleep schedule — aim for 8–10 hours as a teen',
+          'Check your sleep schedule, aim for 8–10 hours as a teen',
           'Eat regular meals with protein, complex carbs, and vegetables',
           'Drink water consistently throughout the day',
           'Short 10-minute outdoor walks boost energy naturally',
@@ -115,9 +115,9 @@ export const bodyData = {
       {
         title: 'Tension & Stiffness',
         suggestions: [
-          'Gently tilt your head side to side — hold each stretch 20–30 seconds',
+          'Gently tilt your head side to side, hold each stretch 20–30 seconds',
           'Slowly roll your shoulders back and down, then repeat',
-          'Check your phone and screen posture — avoid "tech neck"',
+          'Check your phone and screen posture, avoid "tech neck"',
           'A warm compress or warm shower on the neck area can ease tension',
           'Take breaks every 30 minutes when sitting or studying',
         ],
@@ -150,7 +150,7 @@ export const bodyData = {
           'Shoulder circles: 10 slow rotations each direction',
           'Door frame chest stretch to open tight front shoulders',
           'A warm heat pack for 10–15 minutes can ease muscle tension',
-          'Regular movement breaks — shoulders absorb a lot of desk stress',
+          'Regular movement breaks, shoulders absorb a lot of desk stress',
         ],
         safetyNote: 'If shoulder pain is sharp, limits movement, or followed an injury, seek medical advice.',
       },
@@ -178,7 +178,7 @@ export const bodyData = {
         suggestions: [
           'Soreness 24–48 hours after exercise is normal (DOMS)',
           'Light movement and gentle stretching help blood flow and recovery',
-          'Stay well hydrated — muscles recover better with good hydration',
+          'Stay well hydrated, muscles recover better with good hydration',
           'A cool compress or gentle ice pack (wrapped in cloth) for 10–15 min',
           'Rest the area if soreness is intense',
         ],
@@ -189,10 +189,10 @@ export const bodyData = {
         suggestions: [
           'Moisturise daily after showering while skin is still slightly damp',
           'Use a fragrance-free, gentle body lotion or cream',
-          'Avoid very hot showers — they strip natural skin oils',
+          'Avoid very hot showers, they strip natural skin oils',
           'Look for products with shea butter, ceramides, or urea for dry skin',
         ],
-        safetyNote: 'Persistent very dry, itchy, or inflamed skin may be eczema — a doctor can advise.',
+        safetyNote: 'Persistent very dry, itchy, or inflamed skin may be eczema, a doctor can advise.',
       },
     ],
     generalDisclaimer: 'General self-care suggestions. Seek medical advice for injury, swelling, or unusual symptoms.',
@@ -206,20 +206,20 @@ export const bodyData = {
       {
         title: 'Dry & Cracked Hands',
         suggestions: [
-          'Apply hand cream after washing hands — especially in winter',
+          'Apply hand cream after washing hands, especially in winter',
           'Look for creams with glycerin, shea butter, or lanolin',
           'Overnight hand mask: apply thick cream and wear cotton gloves to sleep',
-          'Avoid harsh soaps — use gentle, moisturising hand wash',
+          'Avoid harsh soaps, use gentle, moisturising hand wash',
           'Wear gloves when doing housework or gardening',
         ],
-        safetyNote: 'Very cracked or bleeding skin may need a prescription treatment — speak with a pharmacist or doctor.',
+        safetyNote: 'Very cracked or bleeding skin may need a prescription treatment, speak with a pharmacist or doctor.',
       },
       {
         title: 'Nail Care',
         suggestions: [
           'Keep nails clean and trim them regularly to avoid breaks',
           'Moisturise your cuticles with oil or a gentle cream',
-          'Avoid biting nails — this introduces bacteria and damages nail beds',
+          'Avoid biting nails, this introduces bacteria and damages nail beds',
           'Biotin-rich foods (eggs, nuts, salmon) support nail health',
           'Give nails regular breaks from nail polish',
         ],
@@ -247,9 +247,9 @@ export const bodyData = {
       {
         title: 'Chest Skin Care',
         suggestions: [
-          'The décolletage is often overlooked — apply sunscreen here daily',
+          'The décolletage is often overlooked, apply sunscreen here daily',
           'Moisturise the chest area as you would your face',
-          'Breakouts on the chest are common — use a gentle body wash with salicylic acid',
+          'Breakouts on the chest are common, use a gentle body wash with salicylic acid',
           'Wear breathable fabrics to reduce friction and sweat-related breakouts',
         ],
         safetyNote: 'Any unusual lumps, skin changes, or ongoing pain in the chest area should be discussed with a doctor.',
@@ -270,7 +270,7 @@ export const bodyData = {
           'Gentle movement like slow walking can help ease cramping',
           'Peppermint tea or warm water with ginger may soothe discomfort',
           'Avoid heavy, greasy, or very spicy foods when crampy',
-          'Rest and give your body time — cramps often pass with time',
+          'Rest and give your body time, cramps often pass with time',
         ],
         safetyNote: 'Severe, sudden, or persistent stomach pain should always be assessed by a doctor.',
       },
@@ -281,19 +281,19 @@ export const bodyData = {
           'Identify common bloating triggers: fizzy drinks, beans, dairy, onions',
           'Gentle walking after meals supports digestion',
           'Peppermint or fennel tea can help relieve gas discomfort',
-          'Stay hydrated — constipation and dehydration worsen bloating',
+          'Stay hydrated, constipation and dehydration worsen bloating',
         ],
         safetyNote: 'Frequent, severe bloating with pain or changes in digestion should be discussed with a doctor.',
       },
       {
         title: 'Period Cramps',
         suggestions: [
-          'Heat therapy is very effective — use a heat pad on low heat',
+          'Heat therapy is very effective, use a heat pad on low heat',
           'Gentle yoga poses like Child\'s Pose or reclining twists bring relief',
           'Light exercise like slow walking or swimming can help',
-          'Stay warm and rest when you need to — your body deserves it',
+          'Stay warm and rest when you need to, your body deserves it',
           'Staying hydrated and eating light, nourishing foods helps',
-          'Over-the-counter pain relief (like ibuprofen) can be helpful — check with a parent or pharmacist',
+          'Over-the-counter pain relief (like ibuprofen) can be helpful, check with a parent or pharmacist',
         ],
         safetyNote: 'Period pain that is debilitating, very severe, or getting worse over time is worth discussing with a gynaecologist or doctor.',
       },
@@ -310,8 +310,8 @@ export const bodyData = {
         title: 'Lower Back Pain',
         suggestions: [
           'Gentle cat-cow stretch: on hands and knees, alternate arching and rounding your back',
-          'Child\'s Pose: sit back on your heels and stretch arms forward — hold 30–60 seconds',
-          'Avoid sitting or standing in one position for too long — move every 30 minutes',
+          'Child\'s Pose: sit back on your heels and stretch arms forward, hold 30–60 seconds',
+          'Avoid sitting or standing in one position for too long, move every 30 minutes',
           'When lifting, bend your knees and keep the object close to your body',
           'Sleeping on your side with a pillow between knees can reduce strain',
         ],
@@ -322,7 +322,7 @@ export const bodyData = {
         suggestions: [
           'Sit back fully in your chair so your lower back is supported',
           'Screen at eye level to prevent neck-forward posture',
-          'Strengthen your core — it supports your spine naturally',
+          'Strengthen your core, it supports your spine naturally',
           'Take standing or walking breaks every hour',
           'Backpacks should sit high on your back and be worn on both shoulders',
         ],
@@ -334,7 +334,7 @@ export const bodyData = {
           'Foam rolling the upper and lower back can release muscle knots',
           'A warm shower or heat pack loosens tight back muscles',
           'Seated forward fold: sit on the floor, legs straight, reach toward toes slowly',
-          'Gentle side stretches standing up — reach one arm overhead, lean softly to the side',
+          'Gentle side stretches standing up, reach one arm overhead, lean softly to the side',
         ],
         safetyNote: 'If tightness is accompanied by fever or does not improve with rest, seek medical advice.',
       },
@@ -381,11 +381,11 @@ export const bodyData = {
         suggestions: [
           'Light walking is one of the best ways to ease sore legs',
           'Gentle quad and hamstring stretches held for 30 seconds',
-          'Stay hydrated — muscles need water to recover efficiently',
+          'Stay hydrated, muscles need water to recover efficiently',
           'Elevating your legs for 15–20 minutes reduces swelling and fatigue',
           'Massage the legs gently with a foam roller or your hands',
         ],
-        safetyNote: 'Normal exercise soreness improves within 2–3 days. Sudden sharp pain during exercise is different — stop and rest.',
+        safetyNote: 'Normal exercise soreness improves within 2–3 days. Sudden sharp pain during exercise is different, stop and rest.',
       },
       {
         title: 'Tired & Heavy Legs',
@@ -414,7 +414,7 @@ export const bodyData = {
           'Ice it: wrap ice in a cloth and apply for 10–15 minutes, a few times a day',
           'After 48 hours, a warm compress can ease stiffness',
           'Gentle quad stretches and straight-leg raises support the knee without impact',
-          'Ensure your footwear has proper support — worn-out shoes cause knee stress',
+          'Ensure your footwear has proper support, worn-out shoes cause knee stress',
           'Avoid sitting with knees bent for very long periods',
         ],
         safetyNote: 'If knee pain is sudden, severe, caused by a fall/impact, or if the knee is swollen and warm, seek medical advice promptly.',
@@ -422,7 +422,7 @@ export const bodyData = {
       {
         title: 'Growing Pain / Achiness',
         suggestions: [
-          'Growing pains are common in teenage years — gentle movement and warmth help',
+          'Growing pains are common in teenage years, gentle movement and warmth help',
           'A warm bath or heat pad on the knees before sleep often gives relief',
           'Light stretching of the quad and calf muscles reduces strain on the knees',
           'Calcium and Vitamin D (from food or sunlight) support bone health',

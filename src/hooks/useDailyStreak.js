@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 
 // ─────────────────────────────────────────────────────────────────────────
-//  Today streak — consecutive days the user completed their Today task.
+//  Today streak, consecutive days the user completed their Today task.
 //  Deliberately gentle (no shame): the streak stays "alive" if today isn't
 //  done yet, and missing a day simply starts a new one. Stored as a plain
 //  list of completed day-keys under `quill.streak`, separate from the
@@ -28,7 +28,7 @@ function save(arr) {
 
 function compute(dates) {
   const set = new Set(dates)
-  // Current streak — anchor at today if done, otherwise yesterday, so an
+  // Current streak, anchor at today if done, otherwise yesterday, so an
   // un-ticked "today" doesn't read as a broken streak before the day's over.
   let current = 0
   const cursor = new Date(); cursor.setHours(0, 0, 0, 0)

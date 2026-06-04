@@ -29,13 +29,13 @@ function timeGreeting() {
 }
 const isEvening = () => new Date().getHours() >= 17
 
-// ── Cycle phase — replicates CycleTracker's pure logic so this page stays
+// ── Cycle phase, replicates CycleTracker's pure logic so this page stays
 //    decoupled (reads the same localStorage key it writes). ──
 const phaseData = {
   menstrual:  { label: 'Menstrual',  range: 'Days 1–5',   color: '#C8654A', advice: 'Energy is naturally lowest. Honour rest, magnesium-rich foods, and gentle movement over intensity.' },
-  follicular: { label: 'Follicular', range: 'Days 6–13',  color: '#D4A744', advice: 'Estrogen rising — energy and mood climb. A good window for strength, new habits, and learning.' },
+  follicular: { label: 'Follicular', range: 'Days 6–13',  color: '#D4A744', advice: 'Estrogen rising, energy and mood climb. A good window for strength, new habits, and learning.' },
   ovulatory:  { label: 'Ovulatory',  range: 'Days 14–16', color: '#5A6B5D', advice: 'Peak energy. Schedule your hardest workouts and the things that need confidence. Drink extra water.' },
-  luteal:     { label: 'Luteal',     range: 'Days 17–28', color: '#9B4423', advice: 'Progesterone dominant — slower recovery, real carb cravings. Cut afternoon caffeine, protect your sleep.' },
+  luteal:     { label: 'Luteal',     range: 'Days 17–28', color: '#9B4423', advice: 'Progesterone dominant, slower recovery, real carb cravings. Cut afternoon caffeine, protect your sleep.' },
 }
 function getPhase(d) {
   if (d <= 5) return 'menstrual'
@@ -105,7 +105,7 @@ export default function Today({ onNavigate }) {
     [checkin, doy],
   )
 
-  // Wind-down section is optional — preference persists across days.
+  // Wind-down section is optional, preference persists across days.
   const [windDownHidden, setWindDownHidden] = useState(() => {
     try { return localStorage.getItem(WINDDOWN_KEY) === '1' } catch { return false }
   })
@@ -174,10 +174,10 @@ export default function Today({ onNavigate }) {
           <Reveal>
             <div className="card-bone border border-ink/10 p-7 sm:p-10">
               <h3 className="font-display text-4xl sm:text-5xl text-ink leading-tight">
-                Before anything — <span className="display-italic text-clay">how are you, really?</span>
+                Before anything, <span className="display-italic text-clay">how are you, really?</span>
               </h3>
               <p className="text-sm text-ink-soft mt-3 max-w-md leading-relaxed">
-                Two taps. We'll suggest one kind thing that fits where you actually are today — not where you think you should be.
+                Two taps. We'll suggest one kind thing that fits where you actually are today, not where you think you should be.
               </p>
 
               {/* Energy */}
@@ -295,7 +295,7 @@ export default function Today({ onNavigate }) {
         )}
       </section>
 
-      {/* ═══════════════ 03 · YOUR RHYTHM (cycle — Pro & Max) ═══════════════ */}
+      {/* ═══════════════ 03 · YOUR RHYTHM (cycle, Pro & Max) ═══════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <Reveal>
           <div className="flex items-baseline gap-3 mb-4">
@@ -313,7 +313,7 @@ export default function Today({ onNavigate }) {
                     Track your <span className="display-italic text-clay">cycle</span>
                   </h3>
                   <p className="text-sm text-ink-soft mt-4 max-w-lg leading-relaxed">
-                    Log your last period once, and Today shows your phase each day — with what tends to feel
+                    Log your last period once, and Today shows your phase each day, with what tends to feel
                     good in it: energy, movement, food, rest. Cycle tracking is part of Pro &amp; Max.
                   </p>
                 </div>
@@ -353,7 +353,7 @@ export default function Today({ onNavigate }) {
               <div className="card-blush -m-7 sm:-m-9 p-7 sm:p-9 border-0">
                 <h3 className="font-display text-4xl sm:text-5xl text-ink leading-none">Track your <span className="display-italic text-clay">cycle</span></h3>
                 <p className="text-sm text-ink-soft mt-4 leading-relaxed max-w-md">
-                  Set your last period once, and Today will show your phase and what tends to feel good in it — energy, training, food, rest.
+                  Set your last period once, and Today will show your phase and what tends to feel good in it, energy, training, food, rest.
                 </p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink group-hover:text-clay transition-colors">
                   <span className="link-underline">Set it up</span>

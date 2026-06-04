@@ -164,7 +164,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        {/* LEFT — Dashboard + suggestion */}
+        {/* LEFT, Dashboard + suggestion */}
         <div className="lg:col-span-7 space-y-6">
 
           {/* Goal selector + macros */}
@@ -275,7 +275,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                                     {m.serving} · {Math.round(m.kcal * m.servings)} kcal · {Math.round(m.p * m.servings)}p / {Math.round(m.c * m.servings)}c / {Math.round(m.f * m.servings)}f
                                   </p>
                                 </div>
-                                {/* Servings stepper — always visible, touch-friendly */}
+                                {/* Servings stepper, always visible, touch-friendly */}
                                 <div className="flex items-center gap-1 flex-shrink-0">
                                   <button
                                     onClick={() => setServings(m.uid, m.servings - 1)}
@@ -314,7 +314,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
           </Reveal>
         </div>
 
-        {/* RIGHT — Food picker */}
+        {/* RIGHT, Food picker */}
         <div className="lg:col-span-5">
           <Reveal>
             <div className="border border-ink/15 bg-cream-light sticky top-28">

@@ -1,4 +1,4 @@
-/* Interactive SVG body map — clean human drawing with natural proportions.
+/* Interactive SVG body map, clean human drawing with natural proportions.
    ViewBox: 0 0 200 466 (portrait). Front and back views. */
 
 const FRONT_REGIONS = [
@@ -97,7 +97,7 @@ function RegionShape({ region, isSelected }) {
 }
 
 function BodySilhouette({ view }) {
-  // Clean drawing — flat skin tone + crisp dark outline (no gradient shading)
+  // Clean drawing, flat skin tone + crisp dark outline (no gradient shading)
   const skin    = '#f7d3b6'
   const outline = '#7a4a2c'
   const hair    = '#5a3a22'
@@ -294,7 +294,7 @@ export default function BodyMap({ view, selectedRegion, onRegionClick }) {
         onClick={handleClick}
         style={{ cursor: 'default' }}
         role="img"
-        aria-label="Interactive body map — tap a body area to learn more"
+        aria-label="Interactive body map, tap a body area to learn more"
       >
         <BodySilhouette view={view} />
 

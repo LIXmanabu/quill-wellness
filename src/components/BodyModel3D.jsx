@@ -43,18 +43,18 @@ const PARTS = [
 
   // ── Both views ─────────────────────────────────────────────────
 
-  // Head — tall oval (feminine)
+  // Head, tall oval (feminine)
   { r: '_head',     views: 'both',  el: 'ellipse', props: { cx: 200, cy: 50,  rx: 30, ry: 38 } },
   // Neck
   { r: 'neck',      views: 'both',  el: 'rect',    props: { x: 186,  y: 85,   width: 28,  height: 30, rx: 5 } },
   // Lower torso (stomach / back)
   { r: '_torso_l',  views: 'both',  el: 'rect',    props: { x: 178,  y: 235,  width: 44,  height: 45, rx: 5 } },
-  // Hips — wide pelvis flare with bezier curves
+  // Hips, wide pelvis flare with bezier curves
   { r: 'hips',      views: 'both',  el: 'path',    props: { d: 'M178,280 L222,280 C232,292 246,306 246,318 L154,318 C154,306 168,292 178,280 Z' } },
   // Shoulder joints
   { r: 'shoulders', views: 'both',  el: 'ellipse', props: { cx: 150, cy: 122, rx: 13, ry: 12 } },
   { r: 'shoulders', views: 'both',  el: 'ellipse', props: { cx: 250, cy: 122, rx: 13, ry: 12 } },
-  // Upper arms — centred on shoulder cx
+  // Upper arms, centred on shoulder cx
   { r: 'arms',      views: 'both',  el: 'rect',    props: { x: 139,  y: 130,  width: 22,  height: 78, rx: 11 } },
   { r: 'arms',      views: 'both',  el: 'rect',    props: { x: 239,  y: 130,  width: 22,  height: 78, rx: 11 } },
   // Elbow joints
@@ -66,7 +66,7 @@ const PARTS = [
   // Hands
   { r: 'hands',     views: 'both',  el: 'ellipse', props: { cx: 150, cy: 290, rx: 10, ry: 12 } },
   { r: 'hands',     views: 'both',  el: 'ellipse', props: { cx: 250, cy: 290, rx: 10, ry: 12 } },
-  // Thighs — wider spacing for feminine hips
+  // Thighs, wider spacing for feminine hips
   { r: 'legs',      views: 'both',  el: 'rect',    props: { x: 160,  y: 318,  width: 30,  height: 74, rx: 15 } },
   { r: 'legs',      views: 'both',  el: 'rect',    props: { x: 210,  y: 318,  width: 30,  height: 74, rx: 15 } },
   // Knee joints
@@ -84,9 +84,9 @@ const PARTS = [
 
   // ── Front only ─────────────────────────────────────────────────
 
-  // Upper torso FRONT — bezier bows outward at chest, creating breast silhouette
+  // Upper torso FRONT, bezier bows outward at chest, creating breast silhouette
   { r: '_torso_u',  views: 'front', el: 'path',    props: { d: 'M150,117 L250,117 C272,140 242,205 222,235 L178,235 C158,205 128,140 150,117 Z' } },
-  // Breast contour arc — gentle underside curve (decorative)
+  // Breast contour arc, gentle underside curve (decorative)
   { r: null,        views: 'front', el: 'path',    props: { d: 'M175,186 C179,199 190,205 200,205 C210,205 221,199 225,186', fill: 'none', stroke: C_STROKE, strokeWidth: 1.2, strokeLinecap: 'round' } },
   // Eyes
   { r: null,        views: 'front', el: 'circle',  props: { cx: 191, cy: 46, r: 2.5, fill: C_STROKE, stroke: 'none' } },
@@ -96,9 +96,9 @@ const PARTS = [
 
   // ── Back only ──────────────────────────────────────────────────
 
-  // Upper torso BACK — bezier curves straight inward (no breast bulge)
+  // Upper torso BACK, bezier curves straight inward (no breast bulge)
   { r: '_torso_u',  views: 'back',  el: 'path',    props: { d: 'M150,117 L250,117 C246,148 226,196 222,235 L178,235 C174,196 154,148 150,117 Z' } },
-  // Spine — dashed centre line
+  // Spine, dashed centre line
   { r: null,        views: 'back',  el: 'line',    props: { x1: 200, y1: 117, x2: 200, y2: 316, stroke: C_STROKE, strokeWidth: 1, strokeDasharray: '3 3' } },
   // Shoulder blades
   { r: null,        views: 'back',  el: 'ellipse', props: { cx: 178, cy: 158, rx: 14, ry: 20, fill: 'none', stroke: C_STROKE, strokeWidth: 1, opacity: 0.55 } },
@@ -174,7 +174,7 @@ export default function BodyModel3D({ selectedRegion, onRegionClick, onRegionHov
 
   return (
     <div className="w-full relative select-none" style={{ height: 440, perspective: 900 }}>
-      {/* Toggle sits at the top — keeps the entire figure (including feet) freely clickable */}
+      {/* Toggle sits at the top, keeps the entire figure (including feet) freely clickable */}
       <div className="absolute top-2 left-1/2 -translate-x-1/2 inline-flex border border-ink/20 z-10">
         <button
           onClick={() => flipTo(true)}

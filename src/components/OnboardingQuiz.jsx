@@ -34,7 +34,7 @@ export default function OnboardingQuiz({ onClose }) {
     timePerDay: profile.timePerDay || '',
   })
 
-  // Allow dismissing the modal via Escape key — without this, the modal
+  // Allow dismissing the modal via Escape key, without this, the modal
   // (z-100, full-screen blur) blocks navbar clicks and traps the user.
   useEffect(() => {
     function onKey(e) {
@@ -48,7 +48,7 @@ export default function OnboardingQuiz({ onClose }) {
     {
       kicker: '01 · Hello',
       title: 'Welcome to Quill.',
-      sub: "Let's set you up in thirty seconds. First — what should we call you?",
+      sub: "Let's set you up in thirty seconds. First, what should we call you?",
       content: (
         <div className="space-y-3 mt-8">
           <input
@@ -65,7 +65,7 @@ export default function OnboardingQuiz({ onClose }) {
             onClick={() => setStep(1)}
             className="text-xs text-ink-softer hover:text-ink underline transition-colors"
           >
-            Skip — keep it anonymous
+            Skip, keep it anonymous
           </button>
         </div>
       ),
@@ -100,7 +100,7 @@ export default function OnboardingQuiz({ onClose }) {
     {
       kicker: '03 · Goal',
       title: 'What matters most?',
-      sub: "We'll tailor your home to this. Pick one — change it anytime.",
+      sub: "We'll tailor your home to this. Pick one, change it anytime.",
       content: (
         <div className="space-y-px bg-ink/15 border border-ink/15 mt-8">
           {goals.map((g, i) => (
@@ -177,7 +177,7 @@ export default function OnboardingQuiz({ onClose }) {
       />
 
       <div className="relative w-full max-w-lg bg-cream-light border border-ink/15 p-6 sm:p-8 animate-pop-in shadow-soft-lg">
-        {/* Big X close button — top-right */}
+        {/* Big X close button, top-right */}
         <button
           onClick={onClose}
           aria-label="Close onboarding"

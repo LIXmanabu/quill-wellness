@@ -17,11 +17,11 @@ const ProContext = createContext({
 
 export function ProProvider({ children }) {
   // Tier is intentionally NOT persisted across reloads. Every page load
-  // starts at Free — users have to "upgrade" through the checkout flow
+  // starts at Free, users have to "upgrade" through the checkout flow
   // again, which is the desired behaviour for this prototype.
   const [tier, setTierState] = useState('free')
 
-  // Dev-mode unlock IS persisted — once you've entered the code, you
+  // Dev-mode unlock IS persisted, once you've entered the code, you
   // stay unlocked until you explicitly lock again.
   const [devUnlocked, setDevUnlockedState] = useState(() => {
     try { return localStorage.getItem(DEV_STORAGE_KEY) === 'true' } catch { return false }

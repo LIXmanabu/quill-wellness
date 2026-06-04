@@ -13,7 +13,7 @@ const devices = [
   { id: 'garmin', name: 'Garmin', tagline: 'Forerunner / Venu', img: U('1617043786394-f977fa12eddf') },
 ]
 
-// Stable pseudo-random per date — gives realistic-looking mock data
+// Stable pseudo-random per date, gives realistic-looking mock data
 // when the user hasn't manually logged a day.
 function seededValue(dateStr, salt, min, max) {
   let h = 0
@@ -77,7 +77,7 @@ export default function WearableSync() {
   }
 
   function disconnect() {
-    // No confirm — manually logged values stay in localStorage either way.
+    // No confirm, manually logged values stay in localStorage either way.
     setState((s) => ({ ...s, connectedDevice: null }))
   }
 
@@ -128,12 +128,12 @@ export default function WearableSync() {
             Your body, <span className="display-italic text-clay">in numbers.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
-            Connect a wearable or log manually. Quill reads your HRV, resting heart rate, sleep, and steps — and weighs them as one signal of readiness.
+            Connect a wearable or log manually. Quill reads your HRV, resting heart rate, sleep, and steps, and weighs them as one signal of readiness.
           </p>
         </div>
       </Reveal>
 
-      {/* Back-to-devices bar — always visible when a device is connected */}
+      {/* Back-to-devices bar, always visible when a device is connected */}
       {device && (
         <Reveal>
           <button
@@ -283,7 +283,7 @@ function readinessText(m) {
 }
 
 function readinessAdvice(m) {
-  if (m.hrv < 45 && m.rhr > 62) return 'HRV down + resting HR up — classic under-recovery. Skip the hard session, walk instead, and prioritise sleep tonight.'
+  if (m.hrv < 45 && m.rhr > 62) return 'HRV down + resting HR up, classic under-recovery. Skip the hard session, walk instead, and prioritise sleep tonight.'
   if (m.sleep < 6.5) return `Only ${m.sleep}h last night. Cut caffeine after midday, dim lights at 9pm, and aim to be in bed an hour earlier.`
   if (m.steps < 6000) return 'You\'re tracking light on movement. A 15-minute walk after lunch closes most of the gap without changing your day.'
   return 'Numbers look balanced. Train your planned session, eat enough protein, and keep the bedtime you\'ve been holding.'

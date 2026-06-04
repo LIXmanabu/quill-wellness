@@ -4,9 +4,9 @@ import SpotlightCard from './interactive/SpotlightCard.jsx'
 import ConfirmButton from './ConfirmButton.jsx'
 
 /**
- * Skin Journal — a private, on-device skin log. Take a photo (or upload),
+ * Skin Journal, a private, on-device skin log. Take a photo (or upload),
  * tag what you notice on each face zone, add a sleep rating + notes, save.
- * Over time you see your own patterns — not a comparison to anyone else.
+ * Over time you see your own patterns, not a comparison to anyone else.
  *
  * Storage: localStorage. Photos are scaled to 240×240 JPEG q=0.55 (≈30 KB
  * each) before saving, so 12 entries fit comfortably under the 5 MB quota.
@@ -188,7 +188,7 @@ export default function SkinJournal() {
               Your skin, <span className="display-italic text-clay">your own data.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
-              Take a photo, tap the zones, log what you notice. Quill remembers — so over weeks you see how <em>your</em> skin actually changes. No comparisons, no scoring, no sharing. Everything stays on this device.
+              Take a photo, tap the zones, log what you notice. Quill remembers, so over weeks you see how <em>your</em> skin actually changes. No comparisons, no scoring, no sharing. Everything stays on this device.
             </p>
           </div>
           {store.entries.length > 0 && (
@@ -200,7 +200,7 @@ export default function SkinJournal() {
       </Reveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT — capture + face map */}
+        {/* LEFT, capture + face map */}
         <Reveal className="lg:col-span-7">
           <div className="border border-ink/15 bg-cream-light p-6 sm:p-8">
             <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-6">
@@ -361,7 +361,7 @@ export default function SkinJournal() {
           </div>
         </Reveal>
 
-        {/* RIGHT — insights + history */}
+        {/* RIGHT, insights + history */}
         <div className="lg:col-span-5 space-y-6">
           {/* Insights */}
           {insights && (
@@ -391,7 +391,7 @@ export default function SkinJournal() {
                   )}
                 </div>
                 <p className="display-italic text-sm text-cream/80 mt-5 leading-relaxed">
-                  Patterns mean more than single readings. Keep going — the more days you log, the clearer your skin's story gets.
+                  Patterns mean more than single readings. Keep going, the more days you log, the clearer your skin's story gets.
                 </p>
               </SpotlightCard>
             </Reveal>

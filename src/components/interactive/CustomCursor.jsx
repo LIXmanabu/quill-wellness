@@ -38,7 +38,7 @@ export default function CustomCursor() {
     }
 
     function animate() {
-      // Lead dot — fast follow
+      // Lead dot, fast follow
       dotPos.current.x += (target.current.x - dotPos.current.x) * 0.4
       dotPos.current.y += (target.current.y - dotPos.current.y) * 0.4
 
@@ -49,7 +49,7 @@ export default function CustomCursor() {
         labelRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(18px, 16px)`
       }
 
-      // Each trail particle eases toward the previous one — chain follows the head
+      // Each trail particle eases toward the previous one, chain follows the head
       const prev = { x: dotPos.current.x, y: dotPos.current.y }
       for (let i = 0; i < history.current.length; i++) {
         const node = history.current[i]
@@ -82,7 +82,7 @@ export default function CustomCursor() {
   return (
     <>
       {Array.from({ length: TRAIL_LENGTH }).map((_, i) => {
-        // Uniform small dots — a thin line of points following the cursor
+        // Uniform small dots, a thin line of points following the cursor
         const opacity = (1 - i / TRAIL_LENGTH) * 0.7
         return (
           <div

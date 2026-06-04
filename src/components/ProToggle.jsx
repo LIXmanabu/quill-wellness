@@ -5,7 +5,7 @@ const tiers = ['free', 'pro', 'max']
 const labels = { free: 'Free', pro: 'Pro', max: 'Max' }
 
 /**
- * Dev-mode tier switcher — only rendered when devUnlocked is true.
+ * Dev-mode tier switcher, only rendered when devUnlocked is true.
  * Includes a DEV badge so it's obvious this is the developer view,
  * and a tiny "lock" link to disable dev mode again.
  */

@@ -5,13 +5,13 @@ export const skincareData = [
     icon: '☀️',
     tag: 'Daily',
     tagColor: 'bg-yellow-100 text-yellow-800',
-    description: 'A fresh start for your skin every morning — cleanse, protect, and hydrate.',
+    description: 'A fresh start for your skin every morning, cleanse, protect, and hydrate.',
     steps: [
       {
         step: 1,
         name: 'Gentle Cleanser',
-        description: 'Use a mild face wash with lukewarm water. Avoid hot water — it strips natural oils. Pat dry with a clean towel.',
-        productType: 'Gel or foam cleanser — fragrance-free',
+        description: 'Use a mild face wash with lukewarm water. Avoid hot water, it strips natural oils. Pat dry with a clean towel.',
+        productType: 'Gel or foam cleanser, fragrance-free',
       },
       {
         step: 2,
@@ -22,14 +22,14 @@ export const skincareData = [
       {
         step: 3,
         name: 'Moisturiser',
-        description: 'Even oily skin needs hydration — just use a lightweight gel or lotion. Apply to damp skin for better absorption.',
-        productType: 'Lightweight gel or lotion — suitable for your skin type',
+        description: 'Even oily skin needs hydration, just use a lightweight gel or lotion. Apply to damp skin for better absorption.',
+        productType: 'Lightweight gel or lotion, suitable for your skin type',
       },
       {
         step: 4,
         name: 'SPF Sunscreen',
         description: 'This is the most important step for skin health and preventing early ageing. Use every single day, even indoors near windows.',
-        productType: 'SPF 30–50 — mineral or chemical, non-comedogenic',
+        productType: 'SPF 30–50, mineral or chemical, non-comedogenic',
       },
     ],
     disclaimer: 'Introduce new products one at a time. Patch test on your inner arm before applying to your face.',
@@ -58,13 +58,13 @@ export const skincareData = [
         step: 3,
         name: 'Treatment (Optional)',
         description: 'If you use any treatment products (like retinol or vitamin C), apply a small amount here. Start with 1–2 nights a week if new to these.',
-        productType: 'Retinol / vitamin C / niacinamide serum — start slowly',
+        productType: 'Retinol / vitamin C / niacinamide serum, start slowly',
       },
       {
         step: 4,
         name: 'Night Moisturiser',
-        description: 'Evening moisturisers can be richer than morning ones. Apply generously — night is when skin regenerates.',
-        productType: 'Cream or richer gel-cream — fragrance-free',
+        description: 'Evening moisturisers can be richer than morning ones. Apply generously, night is when skin regenerates.',
+        productType: 'Cream or richer gel-cream, fragrance-free',
       },
     ],
     disclaimer: 'Never sleep in makeup. Clean pillowcases weekly. Retinol and strong actives should be introduced slowly.',
@@ -80,7 +80,7 @@ export const skincareData = [
       {
         step: 1,
         name: 'Gentle Foaming Cleanser',
-        description: 'Cleanse twice a day — no more. Over-cleansing triggers more oil production. Look for ingredients like salicylic acid (0.5–2%) or benzoyl peroxide (2.5%).',
+        description: 'Cleanse twice a day, no more. Over-cleansing triggers more oil production. Look for ingredients like salicylic acid (0.5–2%) or benzoyl peroxide (2.5%).',
         productType: 'Salicylic acid cleanser or benzoyl peroxide wash',
       },
       {
@@ -102,7 +102,7 @@ export const skincareData = [
         productType: 'Oil-free SPF 30+, non-comedogenic',
       },
     ],
-    disclaimer: 'Do not pick or pop spots — it causes scarring and spreads bacteria. Persistent or cystic acne benefits from a dermatologist visit.',
+    disclaimer: 'Do not pick or pop spots, it causes scarring and spreads bacteria. Persistent or cystic acne benefits from a dermatologist visit.',
   },
   {
     id: 'dry',
@@ -115,8 +115,8 @@ export const skincareData = [
       {
         step: 1,
         name: 'Creamy / Milky Cleanser',
-        description: 'Avoid foaming cleansers — they remove too much natural oil from dry skin. Use a cream or milk cleanser instead.',
-        productType: 'Cream, oil, or milk cleanser — no sulphates',
+        description: 'Avoid foaming cleansers, they remove too much natural oil from dry skin. Use a cream or milk cleanser instead.',
+        productType: 'Cream, oil, or milk cleanser, no sulphates',
       },
       {
         step: 2,
@@ -137,7 +137,7 @@ export const skincareData = [
         productType: 'Rich cream with ceramides or shea butter',
       },
     ],
-    disclaimer: 'Look for fragrance-free products — fragrance can irritate very dry, sensitive skin further.',
+    disclaimer: 'Look for fragrance-free products, fragrance can irritate very dry, sensitive skin further.',
   },
   {
     id: 'oily',
@@ -150,7 +150,7 @@ export const skincareData = [
       {
         step: 1,
         name: 'Gel or Foaming Cleanser',
-        description: 'A foaming cleanser works well for oily skin — but keep it gentle. Over-stripping causes more oil production.',
+        description: 'A foaming cleanser works well for oily skin, but keep it gentle. Over-stripping causes more oil production.',
         productType: 'Gel cleanser with salicylic acid or zinc',
       },
       {
@@ -168,7 +168,7 @@ export const skincareData = [
       {
         step: 4,
         name: 'Mattifying SPF',
-        description: 'Use a mattifying SPF in the morning — it controls shine and protects skin.',
+        description: 'Use a mattifying SPF in the morning, it controls shine and protects skin.',
         productType: 'Mattifying or dry-touch SPF 30+',
       },
     ],
@@ -180,12 +180,12 @@ export const skincareData = [
     icon: '🌸',
     tag: 'Skin Type',
     tagColor: 'bg-purple-100 text-purple-800',
-    description: 'Minimal, gentle, and calming — a simplified routine that avoids common triggers.',
+    description: 'Minimal, gentle, and calming, a simplified routine that avoids common triggers.',
     steps: [
       {
         step: 1,
         name: 'Ultra-Gentle Cleanser',
-        description: 'Use the mildest cleanser possible — no fragrance, no alcohol, no harsh surfactants.',
+        description: 'Use the mildest cleanser possible, no fragrance, no alcohol, no harsh surfactants.',
         productType: 'Fragrance-free micellar water or gentle milk cleanser',
       },
       {
@@ -198,7 +198,7 @@ export const skincareData = [
         step: 3,
         name: 'Barrier Repair Moisturiser',
         description: 'Focus on strengthening your skin barrier with ceramides. Avoid heavy fragrances.',
-        productType: 'Ceramide-rich cream — fragrance free',
+        productType: 'Ceramide-rich cream, fragrance free',
       },
       {
         step: 4,
@@ -207,6 +207,6 @@ export const skincareData = [
         productType: 'Mineral SPF 30+ with zinc oxide',
       },
     ],
-    disclaimer: 'Always patch test new products. Introduce one product at a time — wait a week before adding the next.',
+    disclaimer: 'Always patch test new products. Introduce one product at a time, wait a week before adding the next.',
   },
 ]

@@ -6,7 +6,7 @@ import MagneticButton from './interactive/MagneticButton.jsx'
 /**
  * One-line previews of every Max-only tool. Shown to Free and Pro users
  * in the slot where the actual tools would render for Max members.
- * Same pattern as the Audio Library's locked-sound grid — show what
+ * Same pattern as the Audio Library's locked-sound grid, show what
  * you'd get, lock it, single CTA.
  */
 
@@ -43,7 +43,7 @@ const tools = [
     id: 'family',
     name: 'Family seats',
     icon: '✿',
-    one: 'Share one subscription across four household members — each with their own goal, profile and routine.',
+    one: 'Share one subscription across four household members, each with their own goal, profile and routine.',
     visual: 'avatars',
   },
 ]
@@ -132,7 +132,7 @@ export default function MaxToolsPreview({ onNavigate }) {
             Five tools, <span className="display-italic text-clay">already built.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
-            Locked behind Max — but you can see exactly what you'd get. Every one of these is a working tool, not a roadmap promise.
+            Locked behind Max, but you can see exactly what you'd get. Every one of these is a working tool, not a roadmap promise.
           </p>
         </div>
       </Reveal>
@@ -162,7 +162,7 @@ export default function MaxToolsPreview({ onNavigate }) {
             <p className="font-display text-2xl text-ink mt-1 leading-tight">
               All Max tools for <span className="display-italic text-clay">$13 / month.</span>
             </p>
-            <p className="text-xs text-ink-soft mt-1">{isPro ? 'You\'re on Pro — upgrade for the toolkit + rainbow theme.' : 'Includes the full Pro library plus everything here.'}</p>
+            <p className="text-xs text-ink-soft mt-1">{isPro ? 'You\'re on Pro, upgrade for the toolkit + rainbow theme.' : 'Includes the full Pro library plus everything here.'}</p>
           </div>
           <MagneticButton
             onClick={() => onNavigate?.('pro')}

@@ -117,7 +117,7 @@ export default function MyQuill({ onNavigate }) {
         <Reveal delay={400} className="mt-8 max-w-md">
           <p className="text-lg text-ink-soft leading-relaxed">
             {personalized
-              ? `Tailored to your goal — ${goalLabels[profile.goal] || 'understand your body'} — and the time you have for it.`
+              ? `Tailored to your goal, ${goalLabels[profile.goal] || 'understand your body'}, and the time you have for it.`
               : 'Take the quick quiz to get a routine made for you.'}
           </p>
         </Reveal>
@@ -153,7 +153,7 @@ export default function MyQuill({ onNavigate }) {
         </Reveal>
       </section>
 
-      {/* DAILY STREAK — driven by the Today task */}
+      {/* DAILY STREAK, driven by the Today task */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Reveal>
           <div className="card-bone border border-ink/10 p-8 sm:p-10">
@@ -248,7 +248,7 @@ export default function MyQuill({ onNavigate }) {
         </section>
       )}
 
-      {/* MORE OF YOUR PLAN — folded away by default so the page stays calm */}
+      {/* MORE OF YOUR PLAN, folded away by default so the page stays calm */}
       {hasMorePlan && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
           <Reveal>
@@ -260,7 +260,7 @@ export default function MyQuill({ onNavigate }) {
       )}
       {showMorePlan && (
         <>
-      {/* COMPLEMENTARY ROUTINE — the thing that supports your main thing */}
+      {/* COMPLEMENTARY ROUTINE, the thing that supports your main thing */}
       {complement && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Reveal>
@@ -293,7 +293,7 @@ export default function MyQuill({ onNavigate }) {
         </section>
       )}
 
-      {/* PROBLEM-FOCUSED TIPS — Pro-exclusive */}
+      {/* PROBLEM-FOCUSED TIPS, Pro-exclusive */}
       {problemTips.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Reveal>
@@ -362,7 +362,7 @@ export default function MyQuill({ onNavigate }) {
                       Tailored routines for <span className="display-italic text-clay">each of your answers.</span>
                     </h3>
                     <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
-                      Five concrete morning-routine steps for your skin type, five for your goal, and five for the time you have — all explained, all editable.
+                      Five concrete morning-routine steps for your skin type, five for your goal, and five for the time you have, all explained, all editable.
                     </p>
                   </div>
                   <div className="lg:col-span-3 lg:text-right">
@@ -387,7 +387,7 @@ export default function MyQuill({ onNavigate }) {
                 The four <span className="display-italic text-clay">that matter most.</span>
               </h2>
               <p className="text-sm text-ink-soft mt-3 max-w-xl">
-                If you only took four things from Quill — based on what you're working toward — these would be them.
+                If you only took four things from Quill, based on what you're working toward, these would be them.
               </p>
             </div>
           </Reveal>
@@ -411,7 +411,7 @@ export default function MyQuill({ onNavigate }) {
         </>
       )}
 
-      {/* YOUR INSTRUMENTS — progressive disclosure; one open at a time */}
+      {/* YOUR INSTRUMENTS, progressive disclosure; one open at a time */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Reveal>
           <div className="mb-8 pb-4 border-b border-ink/15">
@@ -540,7 +540,7 @@ export default function MyQuill({ onNavigate }) {
         )}
       </section>
 
-      {/* Letters from readers — Free sees Pro+Max, Pro sees Max-only, Max sees nothing */}
+      {/* Letters from readers, Free sees Pro+Max, Pro sees Max-only, Max sees nothing */}
       <TierReviews onNavigate={onNavigate} />
     </div>
   )

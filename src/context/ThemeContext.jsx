@@ -1,7 +1,7 @@
 import { createContext, useContext, useLayoutEffect, useState, useCallback } from 'react'
 
 // ─── Theme (light / optional dark) ────────────────────────────────────
-// Default is LIGHT — the app only goes dark if the visitor chooses it, and
+// Default is LIGHT, the app only goes dark if the visitor chooses it, and
 // that choice is remembered per browser. Dark mode works app-wide via the
 // `dark` class on <html>, which flips the CSS colour variables (index.css).
 
@@ -20,7 +20,7 @@ export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(getInitial)
 
   // useLayoutEffect (not useEffect) so the class is applied synchronously when
-  // toggled inside flushSync — the circular-reveal transition needs the new
+  // toggled inside flushSync, the circular-reveal transition needs the new
   // theme in the DOM before it snapshots the page.
   useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')

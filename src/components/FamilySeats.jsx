@@ -17,7 +17,7 @@ const goalLabels = {
 
 const relationships = ['Partner', 'Parent', 'Sibling', 'Child', 'Housemate', 'Friend']
 
-// Seat colour palette — each member gets a distinct brand colour
+// Seat colour palette, each member gets a distinct brand colour
 const seatColors = ['#C8654A', '#5A6B5D', '#D4A744', '#9B4423']
 
 function initials(name) {
@@ -91,7 +91,7 @@ export default function FamilySeats() {
               Practice <span className="display-italic text-clay">together.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
-              Quill Max includes four seats — one per household member, each with their own goal and routine. They get the full Pro experience under your plan.
+              Quill Max includes four seats, one per household member, each with their own goal and routine. They get the full Pro experience under your plan.
             </p>
           </div>
           <div className="text-right">
@@ -228,7 +228,7 @@ export default function FamilySeats() {
               Send invite <span className="display-italic">→</span>
             </button>
             <p className="text-[10px] text-ink-softer text-center italic leading-relaxed">
-              Prototype mockup — no email is actually sent. Member is added immediately.
+              Prototype mockup, no email is actually sent. Member is added immediately.
             </p>
           </form>
         </div>

@@ -3,7 +3,7 @@ import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 
 /*
-  App-style bottom navigation — shown on phones/tablets only (lg:hidden).
+  App-style bottom navigation, shown on phones/tablets only (lg:hidden).
   Five thumb-reachable destinations; everything else lives behind "More",
   which opens a full-screen sheet. Replaces the web hamburger menu.
   Honors the safe-area inset so it clears the home indicator on notched phones.
@@ -92,7 +92,7 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
               <span className="editorial-label text-ink-softer">{tierLabel}</span>
             </div>
 
-            {/* Search — jump to any section or tip */}
+            {/* Search, jump to any section or tip */}
             <div className="px-3 pt-1 pb-2">
               <button
                 onClick={openSearch}

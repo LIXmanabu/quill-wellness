@@ -16,13 +16,13 @@ const diets = [
     targets: ['~500 kcal/day deficit', '1.6–2.2 g protein / kg', '25–35 g fibre/day'],
     eat: [
       'Lean protein at every meal: chicken, fish, tofu, Greek yogurt, eggs, legumes',
-      'High-volume veg (leafy greens, peppers, cucumber, tomatoes) — fills you up cheaply',
+      'High-volume veg (leafy greens, peppers, cucumber, tomatoes), fills you up cheaply',
       'Whole grains: oats, quinoa, brown rice, wholemeal pasta',
       'Fruit (especially berries) for fibre + micronutrients',
       'Healthy fats in moderation: olive oil, avocado, nuts (portion-controlled)',
     ],
     limit: [
-      'Liquid calories — soda, juice, sugary coffees',
+      'Liquid calories, soda, juice, sugary coffees',
       'Ultra-processed snacks engineered for overeating',
       'Alcohol (empty calories + disrupts sleep + muscle recovery)',
     ],
@@ -36,87 +36,87 @@ const diets = [
       'Protein spread over 4–5 meals (~0.4 g/kg per meal optimal)',
       'Complex carbs around training: rice, potatoes, pasta, oats',
       'Creatine monohydrate 3–5 g/day (strongest evidence of any legal supplement)',
-      'Whole milk, eggs, fatty fish — calorie-dense without ultra-processing',
+      'Whole milk, eggs, fatty fish, calorie-dense without ultra-processing',
       'Pre-bed casein-rich food (cottage cheese, Greek yogurt) for overnight protein',
     ],
     limit: [
-      'Excessive surplus — fat gain outpaces muscle past ~+500 kcal',
-      'Skipping vegetables — micronutrients drive recovery',
-      'Chronic under-sleep (< 7h) — directly cuts muscle protein synthesis',
+      'Excessive surplus, fat gain outpaces muscle past ~+500 kcal',
+      'Skipping vegetables, micronutrients drive recovery',
+      'Chronic under-sleep (< 7h), directly cuts muscle protein synthesis',
     ],
     evidence: 'Schoenfeld & Aragon (ISSN 2018): 1.6 g/kg protein is the threshold where benefits plateau; combined with progressive overload, this is the most reliable hypertrophy formula.',
   },
   {
     id: 'longevity', icon: '03', title: 'Longevity',
-    summary: 'Mediterranean — the most studied diet on Earth. Lowest all-cause mortality.',
+    summary: 'Mediterranean, the most studied diet on Earth. Lowest all-cause mortality.',
     targets: ['Mostly plants', 'Fish 2×/week', 'Extra-virgin olive oil as main fat'],
     eat: [
-      'Vegetables, fruits, legumes, nuts, seeds, whole grains — daily',
+      'Vegetables, fruits, legumes, nuts, seeds, whole grains, daily',
       'Extra-virgin olive oil as primary cooking + dressing fat',
       'Fatty fish (salmon, sardines, mackerel) 2× weekly for omega-3',
       'Moderate dairy (yogurt, cheese), poultry, eggs',
       'Herbs and spices instead of salt; fermented foods occasionally',
     ],
     limit: [
-      'Red and processed meat — keep occasional, not daily',
+      'Red and processed meat, keep occasional, not daily',
       'Added sugar, refined grains, ultra-processed foods',
-      'Excess alcohol — recent evidence: no amount is "healthy"',
+      'Excess alcohol, recent evidence: no amount is "healthy"',
     ],
     evidence: 'PREDIMED trial (NEJM 2013/2018): ~30% reduction in cardiovascular events vs. low-fat diet. Multiple cohorts link Mediterranean adherence to longer lifespan.',
   },
   {
     id: 'performance', icon: '04', title: 'Performance',
-    summary: 'Endurance training — carbs fuel hard sessions. Periodise around them.',
+    summary: 'Endurance training, carbs fuel hard sessions. Periodise around them.',
     targets: ['5–10 g carbs / kg on heavy days', '1.2–1.6 g protein / kg', 'Sodium + fluids matched to sweat loss'],
     eat: [
       'Carb-rich meals 2–4 h before training: oats, rice, pasta, banana, dates',
       'During long sessions (>60 min): 30–90 g carbs/hour (sports drink, gels, fruit)',
       'Post-workout: ~20–40 g protein + carbs within 1–2 h',
-      'Beetroot juice — small but real ~1–2% endurance boost (nitrate)',
+      'Beetroot juice, small but real ~1–2% endurance boost (nitrate)',
       'Caffeine 3–6 mg/kg ~45 min pre-event for proven performance lift',
     ],
     limit: [
       'High-fat meals immediately pre-training (slow gastric emptying)',
-      'Trying new foods on race day — practice fueling in training',
-      'Under-eating overall — RED-S is common in endurance athletes',
+      'Trying new foods on race day, practice fueling in training',
+      'Under-eating overall, RED-S is common in endurance athletes',
     ],
     evidence: 'IOC and ACSM position stands consistently support carb periodisation; Cochrane reviews confirm carb intake during exercise improves endurance.',
   },
   {
     id: 'heart', icon: '05', title: 'Heart health',
-    summary: 'Lower LDL, blood pressure, and inflammation — extend healthspan.',
+    summary: 'Lower LDL, blood pressure, and inflammation, extend healthspan.',
     targets: ['< 5–6 g salt/day', '> 25 g soluble fibre/day', 'Sat fat < 10% of calories'],
     eat: [
-      'Soluble fibre: oats, beans, lentils, barley, apples — lowers LDL directly',
+      'Soluble fibre: oats, beans, lentils, barley, apples, lowers LDL directly',
       'Fatty fish 2×/week (or 1–2 g EPA+DHA via algae oil if vegan)',
       'Nuts: ~30 g/day of mixed nuts (PREDIMED arm)',
-      'Plant sterols (some fortified spreads/yogurts) — modest LDL drop',
+      'Plant sterols (some fortified spreads/yogurts), modest LDL drop',
       'Potassium-rich foods: bananas, potatoes, beans, leafy greens',
     ],
     limit: [
-      'Salt — especially from bread, processed meat, ready meals',
-      'Trans fats — read labels for "partially hydrogenated"',
+      'Salt, especially from bread, processed meat, ready meals',
+      'Trans fats, read labels for "partially hydrogenated"',
       'Processed meats (WHO Group 1 carcinogen for colorectal cancer)',
     ],
     evidence: 'DASH and Mediterranean diets both reduce blood pressure and cardiovascular events in randomised trials. Estruch et al. NEJM 2018 confirmed long-term benefit.',
   },
   {
     id: 'brain', icon: '06', title: 'Brain & focus',
-    summary: 'Steady blood sugar, omega-3s, polyphenols — sharper, calmer mind.',
+    summary: 'Steady blood sugar, omega-3s, polyphenols, sharper, calmer mind.',
     targets: ['Stable glucose meals', 'Omega-3 EPA+DHA 250–500 mg/day', 'Hydration: ~30–35 ml/kg/day'],
     eat: [
       'Eggs (choline), fatty fish (DHA), walnuts (ALA omega-3)',
-      'Berries — flavonoids linked to slower cognitive decline',
-      'Dark leafy greens (folate, vitamin K) — MIND diet staple',
-      'Extra-virgin olive oil — polyphenols cross blood-brain barrier',
-      'Protein + fibre at breakfast — prevents mid-morning crash',
+      'Berries, flavonoids linked to slower cognitive decline',
+      'Dark leafy greens (folate, vitamin K), MIND diet staple',
+      'Extra-virgin olive oil, polyphenols cross blood-brain barrier',
+      'Protein + fibre at breakfast, prevents mid-morning crash',
     ],
     limit: [
       'High-glycaemic breakfasts alone (white toast, juice, sugary cereal)',
-      'Chronic alcohol — clearly neurotoxic at high doses',
-      'Sleep deprivation — no food fixes < 6 h of sleep',
+      'Chronic alcohol, clearly neurotoxic at high doses',
+      'Sleep deprivation, no food fixes < 6 h of sleep',
     ],
-    evidence: 'MIND diet (Morris 2015) — slower cognitive decline equivalent to ~7.5 fewer years of brain ageing in adherers. Omega-3 RCTs show modest mood and cognition benefits.',
+    evidence: 'MIND diet (Morris 2015), slower cognitive decline equivalent to ~7.5 fewer years of brain ageing in adherers. Omega-3 RCTs show modest mood and cognition benefits.',
   },
 ]
 
@@ -161,7 +161,7 @@ function IdealPlate() {
             Your ideal <span className="display-italic text-clay">plate.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-2xl">
-            A rule of thumb based on the Harvard Healthy Eating Plate — half veg and fruit, a quarter whole grains, a quarter healthy protein. Works for almost any goal.
+            A rule of thumb based on the Harvard Healthy Eating Plate, half veg and fruit, a quarter whole grains, a quarter healthy protein. Works for almost any goal.
           </p>
         </div>
       </Reveal>
@@ -232,27 +232,27 @@ const pHRanges = [
   { range: '0–4', midpoint: 2, label: 'Very acidic', color: 'bg-clay-dark', text: 'text-clay-dark',
     feel: ['Persistent tiredness, low energy in the afternoon', 'Frequent heartburn or acid reflux', 'Headaches or brain fog after meals', 'Joint or muscle stiffness'],
     see: ['Dull, breakout-prone skin; oily T-zone', 'White-coated tongue, bad breath in the morning', 'Cracked lips or mouth ulcers', 'Dark yellow urine consistently'],
-    missing: ['Leafy greens (spinach, kale, rocket) — magnesium, potassium', 'Hydration — most people undershoot by 0.5–1 L/day', 'Sleep regularity — chronic stress shifts you here', 'Cut back: soda, alcohol, ultra-processed meat, excess coffee'],
+    missing: ['Leafy greens (spinach, kale, rocket), magnesium, potassium', 'Hydration, most people undershoot by 0.5–1 L/day', 'Sleep regularity, chronic stress shifts you here', 'Cut back: soda, alcohol, ultra-processed meat, excess coffee'],
   },
   { range: '4–6', midpoint: 5, label: 'Acidic', color: 'bg-clay', text: 'text-clay',
     feel: ['Energy dips between meals', 'Cravings for sugar or salty snacks', 'Mild bloating after big meals', 'Sleep less restorative than you want'],
     see: ['Skin slightly congested, occasional spots', 'Slightly puffy under-eyes in the morning', 'Urine pale-to-medium yellow most of the day'],
-    missing: ['More vegetables — aim for half your plate', 'Magnesium-rich foods: pumpkin seeds, almonds, dark chocolate', 'Slower meals — chew more, eat away from screens', 'Swap one coffee for water or herbal tea'],
+    missing: ['More vegetables, aim for half your plate', 'Magnesium-rich foods: pumpkin seeds, almonds, dark chocolate', 'Slower meals, chew more, eat away from screens', 'Swap one coffee for water or herbal tea'],
   },
   { range: '6–8', midpoint: 7, label: 'Balanced', color: 'bg-sage', text: 'text-sage-dark',
     feel: ['Steady energy from morning to evening', 'Falling asleep easily, waking up rested', 'Even mood, clear thinking', 'Workouts feel strong; recovery is quick'],
     see: ['Clear, even-toned skin', 'Pink, healthy gums and lips', 'Pale-yellow urine through the day', 'Tongue pink without coating'],
-    missing: ['Nothing major — keep what you are doing', 'Maintain protein at every meal', 'Keep variety: 30+ different plants per week', 'Stay hydrated as the weather changes'],
+    missing: ['Nothing major, keep what you are doing', 'Maintain protein at every meal', 'Keep variety: 30+ different plants per week', 'Stay hydrated as the weather changes'],
   },
   { range: '8–10', midpoint: 9, label: 'Slightly alkaline', color: 'bg-gold', text: 'text-gold-dark',
-    feel: ['Light, energised — but occasionally lightheaded', 'Possibly under-eating protein or salt', 'Cold hands and feet more than usual'],
-    see: ['Very clear urine all day — could be over-hydrated', 'Slightly pale skin or gums', 'Hair feels drier than normal'],
-    missing: ['Adequate protein — aim 1.2–1.6 g/kg minimum', 'A pinch of sea salt if you sweat a lot or exercise hard', 'Healthy fats: olive oil, avocado, nuts', 'Whole grains for steady carbs'],
+    feel: ['Light, energised, but occasionally lightheaded', 'Possibly under-eating protein or salt', 'Cold hands and feet more than usual'],
+    see: ['Very clear urine all day, could be over-hydrated', 'Slightly pale skin or gums', 'Hair feels drier than normal'],
+    missing: ['Adequate protein, aim 1.2–1.6 g/kg minimum', 'A pinch of sea salt if you sweat a lot or exercise hard', 'Healthy fats: olive oil, avocado, nuts', 'Whole grains for steady carbs'],
   },
   { range: '10–14', midpoint: 12, label: 'Very alkaline', color: 'bg-ink', text: 'text-ink',
     feel: ['Lightheaded standing up, weak grip', 'Tingling in hands, feet, or around lips', 'Muscle twitches or cramps', 'Anxious or jittery without obvious cause'],
     see: ['Very pale skin and gums', 'Eyes look sunken or tired', 'Urine almost colourless'],
-    missing: ['Calories overall — extreme cleanses or juice fasts cause this', 'Electrolytes: sodium, potassium, magnesium', 'Protein — meat, fish, eggs, legumes, dairy', 'If symptoms persist > 24 h, speak to a doctor'],
+    missing: ['Calories overall, extreme cleanses or juice fasts cause this', 'Electrolytes: sodium, potassium, magnesium', 'Protein, meat, fish, eggs, legumes, dairy', 'If symptoms persist > 24 h, speak to a doctor'],
   },
 ]
 
@@ -329,7 +329,7 @@ function PHScale() {
       <Reveal>
         <div className="mt-6 border border-ink/15 bg-bone p-4">
           <p className="text-xs text-ink-soft leading-relaxed">
-            <span className="editorial-label">Reality check ·</span> "Alkaline diet" claims that food changes blood pH are overstated — your body buffers blood pH very tightly. But eating more plants, drinking enough water, and sleeping well genuinely change how you feel and look.
+            <span className="editorial-label">Reality check ·</span> "Alkaline diet" claims that food changes blood pH are overstated, your body buffers blood pH very tightly. But eating more plants, drinking enough water, and sleeping well genuinely change how you feel and look.
           </p>
         </div>
       </Reveal>
@@ -357,7 +357,7 @@ const mealPlans = {
       { time: 'Lunch', item: 'Chicken thighs / tempeh + 150g rice + mixed veg + olive oil' },
       { time: 'Pre-workout (1h)', item: 'Rice cakes + jam + small Greek yogurt' },
       { time: 'Dinner', item: 'Salmon or lean steak / lentil bolognese + pasta + side salad' },
-      { time: 'Pre-bed', item: 'Cottage cheese or casein shake — slow-digesting protein overnight' },
+      { time: 'Pre-bed', item: 'Cottage cheese or casein shake, slow-digesting protein overnight' },
     ],
   },
   longevity: {
@@ -546,7 +546,7 @@ export default function Diet({ onNavigate }) {
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
-                Six evidence-based ways to eat — pick the one that matches your goal. Each card shows targets, what to put on your plate, what to ease off, and the research behind it.
+                Six evidence-based ways to eat, pick the one that matches your goal. Each card shows targets, what to put on your plate, what to ease off, and the research behind it.
               </p>
             </Reveal>
           </div>
@@ -600,7 +600,7 @@ export default function Diet({ onNavigate }) {
                   Track your day. Get the <span className="display-italic text-clay">next bite.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
-                  A live diet tracker that learns from what you ate today and suggests your next snack or meal — closing protein, fibre and calorie gaps against your goal. Plus seven-day meal templates for every goal.
+                  A live diet tracker that learns from what you ate today and suggests your next snack or meal, closing protein, fibre and calorie gaps against your goal. Plus seven-day meal templates for every goal.
                 </p>
                 <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-y-1 text-xs text-ink-soft">
                   <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Log meals + snacks in one click</li>
@@ -630,7 +630,7 @@ export default function Diet({ onNavigate }) {
             <div>
               <p className="font-display text-2xl text-ink mb-2">Food is fuel, not morals.</p>
               <p className="text-sm text-ink-soft leading-relaxed">
-                These are general nutrition principles, not medical or dietetic advice. If you have a health condition, take medication, or are pregnant, speak to a doctor or registered dietitian before making big changes. Eating disorders deserve professional care — please reach out if you are struggling.
+                These are general nutrition principles, not medical or dietetic advice. If you have a health condition, take medication, or are pregnant, speak to a doctor or registered dietitian before making big changes. Eating disorders deserve professional care, please reach out if you are struggling.
               </p>
             </div>
           </div>

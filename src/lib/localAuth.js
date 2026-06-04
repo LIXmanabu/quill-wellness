@@ -4,7 +4,7 @@
 // Clearing browser data permanently erases all accounts.
 //
 // Passwords are hashed with SHA-256 + a per-account random salt so the
-// raw password is never stored — even though it never leaves the device.
+// raw password is never stored, even though it never leaves the device.
 
 const ACCOUNTS_KEY = 'quill.accounts'   // array of account records
 const SESSION_KEY  = 'quill.session'    // id of the signed-in account
@@ -33,7 +33,7 @@ async function hashPassword(password, salt) {
   return toHex(new Uint8Array(buf))
 }
 
-// Strip the secret fields — never expose the hash/salt to the app
+// Strip the secret fields, never expose the hash/salt to the app
 function publicUser(acc) {
   return { id: acc.id, name: acc.name, email: acc.email }
 }

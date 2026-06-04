@@ -81,7 +81,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
       {/* Editorial top strip */}
       <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="masthead">
-          <span>Quill — Wellness Quarterly</span>
+          <span>Quill · Wellness Quarterly</span>
           <span>Issue 01 · {date}</span>
           <span>{tierLabel}</span>
         </div>
@@ -89,11 +89,11 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 md:h-16 gap-3">
-          {/* Logo — Magazine masthead style */}
+          {/* Logo, Magazine masthead style */}
           <button
             onClick={() => handleNav('home')}
             className="group"
-            aria-label="Quill — go to home"
+            aria-label="Quill, go to home"
           >
             <img
               src={`${import.meta.env.BASE_URL}quill-logo.png`}
@@ -108,7 +108,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
             className="hidden lg:flex relative items-center gap-5 xl:gap-7"
             onMouseLeave={() => setHoverKey(null)}
           >
-            {/* Sliding active/hover indicator — a single bar tracking the focused tab */}
+            {/* Sliding active/hover indicator, a single bar tracking the focused tab */}
             <span
               className="absolute -bottom-1 h-px bg-ink pointer-events-none"
               style={{
@@ -161,13 +161,13 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
               )
             })}
 
-            {/* Dark-mode toggle — sits right after the About tab on desktop */}
+            {/* Dark-mode toggle, sits right after the About tab on desktop */}
             <ThemeToggle className="ml-1 pl-3 border-l border-ink/15 h-5" />
           </nav>
 
           {/* Right side: search + account indicator + Pro toggle */}
           <div className="flex items-center gap-1 sm:gap-3">
-            {/* Search — available on every screen size */}
+            {/* Search, available on every screen size */}
             <button
               onClick={onOpenSearch}
               aria-label="Search Quill"
@@ -178,7 +178,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
               </svg>
             </button>
 
-            {/* Light / dark theme toggle — only on mobile/tablet here; on desktop
+            {/* Light / dark theme toggle, only on mobile/tablet here; on desktop
                 it lives next to the About tab in the nav above. */}
             <ThemeToggle className="lg:hidden min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
 

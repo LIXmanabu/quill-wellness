@@ -102,7 +102,7 @@ export default function AuthModal({ onGuest }) {
               <span className="display-italic text-clay">remembered.</span>
             </h2>
             <p className="text-sm text-ink-soft mb-8 leading-relaxed max-w-xs">
-              Make a free account and Quill will remember you — your routine, favorites, and progress are here every time you return.
+              Make a free account and Quill will remember you, your routine, favorites, and progress are here every time you return.
             </p>
 
             <div className="space-y-3">
@@ -150,19 +150,19 @@ export default function AuthModal({ onGuest }) {
 
             <button type="submit" disabled={busy || lockLeft > 0}
               className="btn-ink w-full disabled:opacity-50 disabled:cursor-not-allowed">
-              {lockLeft > 0 ? `Locked — ${formatWait(lockLeft)}` : busy ? 'Signing in…' : 'Sign in'}
+              {lockLeft > 0 ? `Locked, ${formatWait(lockLeft)}` : busy ? 'Signing in…' : 'Sign in'}
             </button>
 
             {/* ── Passwordless option (only when the database is connected) ── */}
             {SUPABASE_ENABLED && (
               linkSent ? (
                 <p className="text-xs text-ink-soft mt-4 text-center bg-cream-dark px-3 py-2 border border-ink/10">
-                  Check your inbox — we sent a one-click sign-in link to <span className="font-semibold">{email}</span>.
+                  Check your inbox, we sent a one-click sign-in link to <span className="font-semibold">{email}</span>.
                 </p>
               ) : (
                 <button type="button" onClick={handleMagicLink} disabled={busy}
                   className="w-full mt-3 text-xs text-ink-soft hover:text-ink transition-colors py-2 underline underline-offset-4 decoration-ink/20 disabled:opacity-50">
-                  Or email me a sign-in link — no password needed
+                  Or email me a sign-in link, no password needed
                 </button>
               )
             )}
@@ -241,12 +241,12 @@ export default function AuthModal({ onGuest }) {
               <>
                 <span className="font-semibold text-ink-soft">Your account syncs securely.</span>{' '}
                 Quill saves your account so you can sign in from any device. Your password is
-                encrypted and never visible to anyone — if you forget it, you can reset it by email.
+                encrypted and never visible to anyone, if you forget it, you can reset it by email.
               </>
             ) : (
               <>
                 <span className="font-semibold text-ink-soft">This stays on your device.</span>{' '}
-                Quill saves your account and progress only in this browser — nothing is sent to a
+                Quill saves your account and progress only in this browser, nothing is sent to a
                 server, nothing is collected, and no one else can see it. Clearing your browser
                 data will erase your account.
               </>

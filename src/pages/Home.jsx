@@ -9,11 +9,11 @@ import MagneticButton from '../components/interactive/MagneticButton.jsx'
 import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 
 const sections = [
-  { num: '01', key: 'body', label: 'Body Map', kicker: 'Atlas', desc: 'Thirteen regions, mapped from the inside out — head to toe, with the wisdom of how they relate.', bg: 'card-bone', accent: 'text-clay' },
-  { num: '02', key: 'sport', label: 'Movement', kicker: 'Practice', desc: 'Beginner-safe routines for legs, core, glutes, arms — no gym, no shame.', bg: 'card-sage', accent: 'text-sage-dark' },
-  { num: '03', key: 'skincare', label: 'Skin Care', kicker: 'Ritual', desc: 'Morning, evening, and skin-type routines. Less is more — consistency beats complication.', bg: 'card-blush', accent: 'text-rust' },
-  { num: '04', key: 'wellness', label: 'Wellness', kicker: 'Rest', desc: 'Stress, sleep, cramps, hydration — gentle, evidence-informed self-care for the whole self.', bg: 'card-sage', accent: 'text-sage-dark' },
-  { num: '05', key: 'diet', label: 'Diet', kicker: 'Fuel', desc: 'Six evidence-based ways to eat, by goal — plus a pH self check-in and the ideal plate.', bg: 'card-clay', accent: 'text-clay-dark' },
+  { num: '01', key: 'body', label: 'Body Map', kicker: 'Atlas', desc: 'Thirteen regions, mapped from the inside out, head to toe, with the wisdom of how they relate.', bg: 'card-bone', accent: 'text-clay' },
+  { num: '02', key: 'sport', label: 'Movement', kicker: 'Practice', desc: 'Beginner-safe routines for legs, core, glutes, arms, no gym, no shame.', bg: 'card-sage', accent: 'text-sage-dark' },
+  { num: '03', key: 'skincare', label: 'Skin Care', kicker: 'Ritual', desc: 'Morning, evening, and skin-type routines. Less is more, consistency beats complication.', bg: 'card-blush', accent: 'text-rust' },
+  { num: '04', key: 'wellness', label: 'Wellness', kicker: 'Rest', desc: 'Stress, sleep, cramps, hydration: gentle, evidence-informed self-care for the whole self.', bg: 'card-sage', accent: 'text-sage-dark' },
+  { num: '05', key: 'diet', label: 'Diet', kicker: 'Fuel', desc: 'Six evidence-based ways to eat, by goal, plus a pH self check-in and the ideal plate.', bg: 'card-clay', accent: 'text-clay-dark' },
   { num: '06', key: 'tips', label: 'Daily Tips', kicker: 'Almanac', desc: 'Sixty bite-sized habits across hydration, sleep, mood, movement, mindset and more.', bg: 'card-gold', accent: 'text-gold-dark' },
 ]
 
@@ -41,9 +41,9 @@ export default function Home({ onNavigate }) {
   return (
     <div className="bg-cream">
 
-      {/* ══════════════════════════════════════ HERO — warm, editorial ══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════ HERO, warm, editorial ══════════════════════════════════════ */}
       <section className="relative overflow-hidden bg-cream-light">
-        {/* one soft warm wash — keeps it alive without a flat slab */}
+        {/* one soft warm wash, keeps it alive without a flat slab */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
@@ -135,7 +135,7 @@ export default function Home({ onNavigate }) {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════ MARQUEE — flows from hero ══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════ MARQUEE, flows from hero ══════════════════════════════════════ */}
       <section className="bg-cream-dark text-ink py-4 sm:py-5 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={['Calm', 'Confident', 'Rooted', 'Curious', 'Soft strength', 'Body-positive', 'Slow over fast', 'Evidence over hype', 'No login', 'No tracking', 'No shame']}
@@ -146,7 +146,7 @@ export default function Home({ onNavigate }) {
         />
       </section>
 
-      {/* ══════════════════════════════════════ IN THIS VOLUME — editorial count line ══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════ IN THIS VOLUME, editorial count line ══════════════════════════════════════ */}
       <section className="border-b border-ink/12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 lg:items-baseline">
@@ -185,7 +185,7 @@ export default function Home({ onNavigate }) {
         </Reveal>
       </section>
 
-      {/* ══════════════════════════════════════ INDEX — bento grid ══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════ INDEX, bento grid ══════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <Reveal>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 pb-4 border-b border-ink/15">
@@ -197,7 +197,7 @@ export default function Home({ onNavigate }) {
               </h2>
             </div>
             <p className="text-sm text-ink-soft max-w-xs sm:text-right">
-              Each chapter is self-contained. Read them in any order — Quill follows you, not the other way around.
+              Each chapter is self-contained. Read them in any order, Quill follows you, not the other way around.
             </p>
           </div>
         </Reveal>
@@ -266,7 +266,7 @@ export default function Home({ onNavigate }) {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════ PULL QUOTE — warm band ══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════ PULL QUOTE, warm band ══════════════════════════════════════ */}
       <section className="bg-cream-dark border-y border-ink/10 py-20 sm:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Reveal>
@@ -305,7 +305,7 @@ export default function Home({ onNavigate }) {
               </div>
               <div className="lg:col-span-4 lg:text-right">
                 <MagneticButton onClick={() => onNavigate('pro')} className="btn-ink">
-                  See Pro — free preview <span className="display-italic">→</span>
+                  See Pro, free preview <span className="display-italic">→</span>
                 </MagneticButton>
               </div>
             </SpotlightCard>
@@ -319,9 +319,9 @@ export default function Home({ onNavigate }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             <div>
               <p className="editorial-label mb-3">Colophon</p>
-              <p className="font-display text-2xl text-ink leading-tight">Quill — Wellness, <span className="display-italic">quietly.</span></p>
+              <p className="font-display text-2xl text-ink leading-tight">Quill, Wellness, <span className="display-italic">quietly.</span></p>
               <p className="text-sm text-ink-soft mt-3 leading-relaxed">
-                A wellness companion for the practice of being human. Built with care. Hand-set in Fraunces & Instrument Serif. Your account and progress live only in this browser — no server, no tracking.
+                A wellness companion for the practice of being human. Built with care. Hand-set in Fraunces & Instrument Serif. Your account and progress live only in this browser, no server, no tracking.
               </p>
             </div>
             <div>

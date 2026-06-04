@@ -9,8 +9,8 @@ import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 
 const techniques = [
   { id: 'box', name: 'Box', desc: 'Even and calming. Used by pilots and athletes.', phases: [['Inhale', 4], ['Hold', 4], ['Exhale', 4], ['Hold', 4]] },
-  { id: '478', name: '4-7-8', desc: 'Activates the parasympathetic system — for falling asleep.', phases: [['Inhale', 4], ['Hold', 7], ['Exhale', 8]] },
-  { id: 'coherent', name: 'Coherent', desc: 'Slow six breaths a minute — balances heart rhythm.', phases: [['Inhale', 5], ['Exhale', 5]] },
+  { id: '478', name: '4-7-8', desc: 'Activates the parasympathetic system, for falling asleep.', phases: [['Inhale', 4], ['Hold', 7], ['Exhale', 8]] },
+  { id: 'coherent', name: 'Coherent', desc: 'Slow six breaths a minute, balances heart rhythm.', phases: [['Inhale', 5], ['Exhale', 5]] },
 ]
 
 function BreathingExercise() {
@@ -142,7 +142,7 @@ export default function Wellness({ onNavigate }) {
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
-                Gentle, evidence-informed self-care for the things that affect everyday life — stress, sleep, energy, pain, and more.
+                Gentle, evidence-informed self-care for the things that affect everyday life, stress, sleep, energy, pain, and more.
               </p>
             </Reveal>
           </div>
@@ -203,7 +203,7 @@ export default function Wellness({ onNavigate }) {
                   Guided <span className="display-italic text-clay">breathing.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
-                  Box, 4-7-8, and coherent breathing — with a visual circle that paces you. Calms anxiety in under two minutes.
+                  Box, 4-7-8, and coherent breathing, with a visual circle that paces you. Calms anxiety in under two minutes.
                 </p>
               </div>
               <div className="lg:col-span-3 lg:text-right">
@@ -227,7 +227,7 @@ export default function Wellness({ onNavigate }) {
             <div>
               <p className="font-display text-2xl text-ink mb-2">A kind reminder.</p>
               <p className="text-sm text-ink-soft leading-relaxed">
-                These suggestions are general self-care — not medical advice. If you are struggling with your mental or physical health, please reach out to a trusted adult, doctor, or counsellor. You deserve support.
+                These suggestions are general self-care, not medical advice. If you are struggling with your mental or physical health, please reach out to a trusted adult, doctor, or counsellor. You deserve support.
               </p>
             </div>
           </div>

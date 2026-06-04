@@ -2,9 +2,9 @@ import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 
 const principles = [
-  { num: '01', title: 'Body-positive & inclusive', text: 'Quill uses only positive, supportive language. No body shaming, no unrealistic ideals — just genuine care.' },
+  { num: '01', title: 'Body-positive & inclusive', text: 'Quill uses only positive, supportive language. No body shaming, no unrealistic ideals, just genuine care.' },
   { num: '02', title: 'Privacy-first', text: 'No accounts, no tracking, no data collection. Everything stays on your device.' },
-  { num: '03', title: 'Evidence-informed', text: 'Content is built on general wellness knowledge and beginner-safe guidance — not trends or harmful myths.' },
+  { num: '03', title: 'Evidence-informed', text: 'Content is built on general wellness knowledge and beginner-safe guidance, not trends or harmful myths.' },
   { num: '04', title: 'Medically responsible', text: 'We never diagnose, never promise cures, and always encourage speaking with a professional for real concerns.' },
 ]
 
@@ -24,7 +24,7 @@ export default function About() {
         </h1>
         <Reveal delay={1000} className="mt-8 max-w-lg">
           <p className="display-italic text-2xl text-ink-soft leading-relaxed">
-            "A simple, beautiful, trustworthy wellness companion — built for the people who deserve better self-care tools."
+            "A simple, beautiful, trustworthy wellness companion, built for the people who deserve better self-care tools."
           </p>
         </Reveal>
       </section>
@@ -58,10 +58,10 @@ export default function About() {
               </p>
               <ul className="space-y-3">
                 {[
-                  'A medical diagnosis tool — Quill cannot diagnose any condition',
+                  'A medical diagnosis tool, Quill cannot diagnose any condition',
                   'A replacement for professional medical, dermatological, or mental health advice',
-                  'A guarantee of results — wellness is personal and individual',
-                  'A fitness or diet prescription platform — there are no weight-loss goals here',
+                  'A guarantee of results, wellness is personal and individual',
+                  'A fitness or diet prescription platform, there are no weight-loss goals here',
                 ].map((item, i) => (
                   <li key={item} className="flex items-baseline gap-3 text-ink-soft">
                     <span className="num-display text-sm text-clay w-6">{String(i + 1).padStart(2, '0')}</span>
@@ -110,7 +110,7 @@ export default function About() {
                 This app provides <strong className="text-cream">general wellness and self-care information</strong> and does not replace medical advice. The content within Quill is intended for general informational and educational purposes only.
               </p>
               <p>
-                For severe symptoms, ongoing concerns, sudden changes in your health, or any situation that worries you — please talk to a <strong className="text-cream">doctor, dermatologist, parent, guardian, or trusted adult</strong>.
+                For severe symptoms, ongoing concerns, sudden changes in your health, or any situation that worries you, please talk to a <strong className="text-cream">doctor, dermatologist, parent, guardian, or trusted adult</strong>.
               </p>
               <p>
                 If you are ever in distress or need urgent support, please reach out for help. You are not alone, and you deserve proper care.
@@ -121,7 +121,7 @@ export default function About() {
 
         <Reveal>
           <p className="text-center mt-8 editorial-label text-ink-softer">
-            Quill v0.2 — Editorial prototype · Built with React & Tailwind CSS · Set in Fraunces & Instrument Serif
+            Quill v0.2, Editorial prototype · Built with React & Tailwind CSS · Set in Fraunces & Instrument Serif
           </p>
         </Reveal>
       </section>

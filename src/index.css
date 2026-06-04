@@ -22,11 +22,11 @@
     --c-scroll-thumb-hover: 139 126 110;
   }
   .dark {
-    --c-cream: 26 21 16;        /* main background — warm near-black */
+    --c-cream: 26 21 16;        /* main background, warm near-black */
     --c-cream-light: 36 32 25;  /* cards / raised surfaces */
     --c-cream-dark: 48 43 33;   /* hover surfaces */
     --c-cream-deeper: 60 54 42;
-    --c-ink: 242 236 225;       /* primary text — warm off-white */
+    --c-ink: 242 236 225;       /* primary text, warm off-white */
     --c-ink-light: 221 211 197;
     --c-ink-soft: 178 166 150;
     --c-ink-softer: 138 126 110;
@@ -213,7 +213,7 @@
   .badge-warning { background: oklch(93% 0.07 75);  color: oklch(42% 0.15 75);  }
   .badge-info    { background: oklch(91% 0.05 245); color: oklch(40% 0.14 245); }
 
-  /* ─── Max mode — colourful accents only when isMax ─────────────── */
+  /* ─── Max mode, colourful accents only when isMax ─────────────── */
   .max-rainbow-bar {
     position: fixed;
     left: 0;
@@ -306,9 +306,9 @@
     }
   }
   .max-mode .cursor-trail:not(.is-hover) {
-    background: #BCC25F; /* static yellow-green — the blend between the two pulse ends */
+    background: #BCC25F; /* static yellow-green, the blend between the two pulse ends */
   }
-  /* Purple on hover — overrides the pulse animation cleanly because
+  /* Purple on hover, overrides the pulse animation cleanly because
      :not(.is-hover) above means the keyframes don't apply here. */
   .max-mode .cursor-dot.is-hover {
     background: radial-gradient(circle at 40% 40%, #D9C7E8 0%, #A582D7 65%, #8B6BB8 100%);
@@ -345,7 +345,7 @@
 
   /* ── More rainbow accents in Max mode ── */
 
-  /* Big editorial numbers (.editorial-num) get the gradient — parent animates only */
+  /* Big editorial numbers (.editorial-num) get the gradient, parent animates only */
   .max-mode .editorial-num {
     background: linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #3F7CB0, #9173C0, #C8654A);
     background-size: 300% 300%;
@@ -366,10 +366,10 @@
   /* Marquee separators (the ✺ ✿ stars between phrases) rotate hues */
   .max-mode .text-clay,
   .max-mode .text-gold {
-    /* Only colour-shift text — not backgrounds */
+    /* Only colour-shift text, not backgrounds */
   }
 
-  /* Card borders pick up a faint static gradient (no animation — was
+  /* Card borders pick up a faint static gradient (no animation, was
      running gradient-shift on every card simultaneously, killing scroll
      perf on pages with 20+ cards). */
   .max-mode .card-paper {
@@ -390,7 +390,7 @@
     animation: gradient-shift 6s ease infinite;
   }
 
-  /* Section title accent — the italic word — already covered above.
+  /* Section title accent, the italic word, already covered above.
      Add the underline-grow link colour to flow too. */
   .max-mode .link-underline::after {
     background: linear-gradient(90deg, #C8654A, #A67C1A, #5A6B5D, #9173C0, #C8654A);
@@ -398,7 +398,7 @@
     animation: rainbow-flow 6s linear infinite;
   }
 
-  /* Quill logo wordmark — parent animates, descendants inherit */
+  /* Quill logo wordmark, parent animates, descendants inherit */
   .max-mode .font-display.text-3xl.text-ink,
   .max-mode .font-display.md\:text-4xl.text-ink {
     background: linear-gradient(120deg, #1A1410, #C8654A, #A67C1A, #5A6B5D, #9173C0, #1A1410);
@@ -418,7 +418,7 @@
     color: transparent;
   }
 
-  /* Big oversized SplitText headlines on hero — parent animates only */
+  /* Big oversized SplitText headlines on hero, parent animates only */
   .max-mode h1 .display-italic,
   .max-mode h2 .display-italic,
   .max-mode h3 .display-italic {
@@ -448,7 +448,7 @@
   }
 
   /* Very subtle rainbow tint on the whole cream background.
-     Note: background-attachment:fixed was removed — it caused major scroll
+     Note: background-attachment:fixed was removed, it caused major scroll
      lag because every pixel of scroll forced a viewport-wide recomposite.
      Without fixed, the gradient scrolls naturally with the page (still
      visible enough at the top + repeating slightly via the body class). */
@@ -472,7 +472,7 @@
   }
 
   /* Chips get a faint rainbow border in Max mode. The padding-box fill is
-     light cream, so force dark text — otherwise cream-text chips (e.g. the
+     light cream, so force dark text, otherwise cream-text chips (e.g. the
      "For you" badge) vanish against it. */
   .max-mode .chip {
     border: 1.5px solid transparent;
@@ -499,15 +499,15 @@
   }
 
   /* Spotlight cards get a slightly brighter gold glow on hover (still
-     uses the same radial — no multi-stop perf cost) */
+     uses the same radial, no multi-stop perf cost) */
   .max-mode .spotlight-card::before {
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
       rgba(212, 167, 68, 0.28), transparent 45%);
   }
 
-  /* Number prefix (e.g., editorial-num "01") and clay text-only — already covered */
+  /* Number prefix (e.g., editorial-num "01") and clay text-only, already covered */
 
-  /* (Removed per-section reveal flash — it ran a box-shadow animation
+  /* (Removed per-section reveal flash, it ran a box-shadow animation
      on every Reveal element entering view, which added paint cost on
      scroll-heavy pages.) */
 
@@ -520,7 +520,7 @@
     font-weight: 700;
   }
 
-  /* Utility: rainbow gradient text — applied to user name etc.
+  /* Utility: rainbow gradient text, applied to user name etc.
      Parent runs the animation; descendants inherit a static gradient so
      they're visible without each one running its own keyframe loop. */
   .tier-gradient-text,
@@ -688,7 +688,7 @@
     @apply flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.25em] text-ink-soft border-b border-ink/15 py-2;
   }
 
-  /* ─── Custom cursor — warm amber default, purple on interactive ──
+  /* ─── Custom cursor, warm amber default, purple on interactive ──
      Default: gradient blend of warm yellow + peach, with a small glow.
      Trail: tiny uniform dots in a thin line behind the lead.
      Hover (on links/buttons/inputs): switches to rich purple. */
@@ -774,7 +774,7 @@
 
   /* ─── View Transitions ─────────────────────────────────────────── */
   @supports (view-transition-name: none) {
-    /* Suppress fallback page-in animation — VT owns the entry */
+    /* Suppress fallback page-in animation, VT owns the entry */
     .animate-page-in { animation: none !important; }
 
     /* Root swap: clean opacity-only fade with slight timing asymmetry */

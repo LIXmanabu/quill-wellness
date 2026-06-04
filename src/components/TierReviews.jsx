@@ -17,7 +17,7 @@ const reviews = [
   { name: 'Naomi', age: 24, role: 'Lab analyst',    tier: 'pro', stars: 4, quote: 'Ingredient deep-dives saved me from buying three expensive serums I would have hated. Pays for itself in a month.',                  highlight: 'Ingredient deep-dives' },
   // ─── Max testimonials ─────────────────────────────────────────
   { name: 'Anya', age: 21, role: 'Marathon runner', tier: 'max', stars: 5, quote: 'Cycle-aware protocols finally explain why my training felt off two weeks every month. Genuinely a game changer.',                     highlight: 'Cycle tracking' },
-  { name: 'Lila', age: 19, role: 'Triathlete',      tier: 'max', stars: 5, quote: 'My PT loves the Quill report. We adjusted my whole programme around the sleep + wearable data — eight weeks later I PR\'d.',         highlight: 'Sleep + wearable' },
+  { name: 'Lila', age: 19, role: 'Triathlete',      tier: 'max', stars: 5, quote: 'My PT loves the Quill report. We adjusted my whole programme around the sleep + wearable data, eight weeks later I PR\'d.',         highlight: 'Sleep + wearable' },
   { name: 'Camille', age: 24, role: 'Founder',      tier: 'max', stars: 5, quote: 'The audio library + breathwork timer replaced three apps for me. Cleanest wellness tool in my phone, and the only one I pay for.',  highlight: 'Audio + breath' },
   { name: 'Jules', age: 28, role: 'Software lead',  tier: 'max', stars: 5, quote: 'The habit streak grid kept me honest for 40 days running. I built the morning routine the per-answer block recommended.',           highlight: 'Habit streaks' },
 ]
@@ -60,7 +60,7 @@ export default function TierReviews({ onNavigate }) {
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               {isPro
-                ? 'Quotes from Quill Max members — the readers using the full set of biometric, cycle and audio tools.'
+                ? 'Quotes from Quill Max members, the readers using the full set of biometric, cycle and audio tools.'
                 : 'Real quotes from Quill Pro and Max members. The features they keep coming back for.'}
             </p>
           </div>
@@ -110,10 +110,10 @@ export default function TierReviews({ onNavigate }) {
               Join {stat.count.split(' ')[0]} readers on {ctaTier}
             </span>
             <h3 className={`font-display text-3xl sm:text-4xl mt-2 leading-tight ${ctaTier === 'Max' ? 'text-ink' : ''}`}>
-              Try Quill {ctaTier} — <span className="display-italic text-clay">free first month.</span>
+              Try Quill {ctaTier}, <span className="display-italic text-clay">free first month.</span>
             </h3>
             <p className={`mt-3 leading-relaxed text-sm max-w-lg ${ctaTier === 'Max' ? 'text-ink-soft' : 'text-cream/70'}`}>
-              {ctaSub} Cancel any time from My Quill — no questions, no friction.
+              {ctaSub} Cancel any time from My Quill, no questions, no friction.
             </p>
           </div>
           <div className="lg:col-span-3 lg:text-right">
@@ -133,7 +133,7 @@ export default function TierReviews({ onNavigate }) {
 
       <Reveal>
         <p className="text-[10px] text-ink-softer italic mt-3 text-center">
-          Reviews shown are illustrative — Quill is a prototype with no real subscribers (yet).
+          Reviews shown are illustrative, Quill is a prototype with no real subscribers (yet).
         </p>
       </Reveal>
     </section>

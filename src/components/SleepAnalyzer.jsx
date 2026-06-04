@@ -136,20 +136,20 @@ export default function SleepAnalyzer() {
 
     const tips = []
     if (stats.avgHours < 7) {
-      tips.push(`You're averaging ${stats.avgHours}h — under the 7-9h adult target. Aim to add 30 minutes by going to bed earlier, not waking later.`)
+      tips.push(`You're averaging ${stats.avgHours}h, under the 7-9h adult target. Aim to add 30 minutes by going to bed earlier, not waking later.`)
     } else if (stats.avgHours > 9.5) {
-      tips.push(`You're averaging ${stats.avgHours}h. Oversleep can mean poor sleep quality — check your bedroom temperature (~18°C) and light exposure in the morning.`)
+      tips.push(`You're averaging ${stats.avgHours}h. Oversleep can mean poor sleep quality, check your bedroom temperature (~18°C) and light exposure in the morning.`)
     } else {
-      tips.push(`You're averaging ${stats.avgHours}h — right in the healthy 7-9h range. Hold this rhythm.`)
+      tips.push(`You're averaging ${stats.avgHours}h, right in the healthy 7-9h range. Hold this rhythm.`)
     }
     if (stats.consistency != null && stats.consistency < 70) {
-      tips.push(`Your bedtime varies a lot (consistency ${stats.consistency}/100). Pick one bedtime and protect it for two weeks — it's the highest-leverage sleep change.`)
+      tips.push(`Your bedtime varies a lot (consistency ${stats.consistency}/100). Pick one bedtime and protect it for two weeks, it's the highest-leverage sleep change.`)
     }
     if (stats.socialJetlag != null && Math.abs(stats.socialJetlag) > 1) {
-      tips.push(`Your weekend wake-up is ${stats.socialJetlag > 0 ? `${stats.socialJetlag}h later` : `${Math.abs(stats.socialJetlag)}h earlier`} than weekdays. This is "social jetlag" — it disrupts your circadian rhythm. Try staying within an hour.`)
+      tips.push(`Your weekend wake-up is ${stats.socialJetlag > 0 ? `${stats.socialJetlag}h later` : `${Math.abs(stats.socialJetlag)}h earlier`} than weekdays. This is "social jetlag", it disrupts your circadian rhythm. Try staying within an hour.`)
     }
     if (stats.debt > 5) {
-      tips.push(`Your weekly sleep debt is ${stats.debt}h. You can't fully repay it on weekends — chip away with 30-minute earlier bedtimes.`)
+      tips.push(`Your weekly sleep debt is ${stats.debt}h. You can't fully repay it on weekends, chip away with 30-minute earlier bedtimes.`)
     }
 
     const lead = stats.avgHours < 7
@@ -176,7 +176,7 @@ export default function SleepAnalyzer() {
               Seven nights, <span className="display-italic text-clay">honest data.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
-              Log your bedtime and wake time for the last seven nights. Quill calculates duration, consistency, sleep debt, and weekend jetlag — and tells you the one thing to change first.
+              Log your bedtime and wake time for the last seven nights. Quill calculates duration, consistency, sleep debt, and weekend jetlag, and tells you the one thing to change first.
             </p>
           </div>
           {Object.keys(log).length > 0 && (
@@ -188,7 +188,7 @@ export default function SleepAnalyzer() {
       </Reveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT — log form */}
+        {/* LEFT, log form */}
         <Reveal className="lg:col-span-5">
           <div className="border border-ink/15 bg-cream-light">
             <div className="px-6 py-4 border-b border-ink/10">
@@ -233,7 +233,7 @@ export default function SleepAnalyzer() {
           </div>
         </Reveal>
 
-        {/* RIGHT — analysis */}
+        {/* RIGHT, analysis */}
         <div className="lg:col-span-7 space-y-6">
           {/* Bar chart */}
           <Reveal>
@@ -267,7 +267,7 @@ export default function SleepAnalyzer() {
                     <div className="text-[10px] text-ink-softer mt-1">{dayLabel(n.date).slice(0, 1)}</div>
                   </div>
                 ))}
-                {/* Target line — 8h */}
+                {/* Target line, 8h */}
               </div>
               <div className="mt-4 flex items-center gap-4 text-[10px] text-ink-soft editorial-label">
                 <span className="flex items-center gap-1"><span className="w-2 h-2 bg-clay inline-block" /> under 7h</span>

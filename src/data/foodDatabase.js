@@ -223,7 +223,7 @@ export const categoryStyles = {
   treat: { label: 'Treat', dot: '#A04E37', bg: '#FBEFE9' },
 }
 
-// Daily targets per goal — used to score progress and surface gaps.
+// Daily targets per goal, used to score progress and surface gaps.
 export const goalTargets = {
   'fat-loss': { kcal: 1800, p: 130, c: 180, f: 60, fib: 30, label: 'Fat loss' },
   muscle: { kcal: 2800, p: 160, c: 350, f: 80, fib: 30, label: 'Muscle gain' },
@@ -324,11 +324,11 @@ export function suggestNext({ logged, target, now = new Date() }) {
   // Reason text
   let reason
   if (totals.kcal === 0) {
-    reason = `It's ${slot} time — start your day strong.`
+    reason = `It's ${slot} time, start your day strong.`
   } else if (topGap.pct > 0.4) {
     reason = `You're behind on ${topGap.label} today. This will help close the gap.`
   } else if (totals.kcal > target.kcal) {
-    reason = `You're over your calorie target — a lighter ${slot} keeps the day balanced.`
+    reason = `You're over your calorie target, a lighter ${slot} keeps the day balanced.`
   } else {
     reason = `A solid choice for ${slot}, fitting your remaining day.`
   }

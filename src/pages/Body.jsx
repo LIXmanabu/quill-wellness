@@ -31,7 +31,7 @@ const relatedPairs = [
   { areas: 'Stomach · Mood · Sleep', tip: 'The gut-brain axis is real. Bloating + low mood + bad sleep often share a root: stress + diet.' },
   { areas: 'Feet · Calves · Lower back', tip: 'Tight calves shorten stride and tilt the pelvis. Daily 30s calf stretch can help low-back pain.' },
   { areas: 'Face · Hydration · Sleep', tip: 'Dull skin + dark circles correlate more with sleep + water than with any product. Fix those first.' },
-  { areas: 'Chest · Posture · Breathing', tip: 'Slouched posture compresses the diaphragm. Sit tall to breathe deeper — and feel calmer.' },
+  { areas: 'Chest · Posture · Breathing', tip: 'Slouched posture compresses the diaphragm. Sit tall to breathe deeper, and feel calmer.' },
 ]
 
 export default function Body({ onNavigate }) {
@@ -188,7 +188,7 @@ export default function Body({ onNavigate }) {
                   When one part <span className="display-italic text-clay">complains.</span>
                 </h2>
                 <p className="text-sm text-ink-soft mt-3 max-w-xl">
-                  Bodies are systems. Cross-references for the most common pairings — fix causes, not symptoms.
+                  Bodies are systems. Cross-references for the most common pairings, fix causes, not symptoms.
                 </p>
               </div>
             </Reveal>

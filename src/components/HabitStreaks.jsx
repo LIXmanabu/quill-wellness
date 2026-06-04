@@ -94,7 +94,7 @@ export default function HabitStreaks() {
             Small things, <span className="display-italic text-clay">stacked daily.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
-            Pick the habits that matter. Tap the dot for today's check-in. Watch the streak — and the 14-day pattern — build.
+            Pick the habits that matter. Tap the dot for today's check-in. Watch the streak, and the 14-day pattern, build.
           </p>
         </div>
       </Reveal>

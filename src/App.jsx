@@ -131,7 +131,7 @@ function AppShell() {
     if (wasSearch) setShowSearch(false)
     const changing = key !== activePageRef.current
     if (changing) applyPage(key)
-    // If search is open, its history entry is on top — consume it by replacing,
+    // If search is open, its history entry is on top, consume it by replacing,
     // so a later Back doesn't re-open search. Otherwise push a normal page entry.
     if (wasSearch && window.history.state?.quillOverlay === 'search') {
       window.history.replaceState({ quillPage: key }, '')
@@ -200,7 +200,7 @@ function AppShell() {
         </div>
       </main>
 
-      {/* Footer — local-only data notice (Home has its own colophon footer) */}
+      {/* Footer, local-only data notice (Home has its own colophon footer) */}
       {activePage !== 'home' && (
         <footer className="border-t border-ink/10 mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -220,7 +220,7 @@ function AppShell() {
       {showAuth       && <AuthModal onGuest={handleContinueAsGuest} />}
       {showOnboarding && <OnboardingQuiz onClose={closeOnboarding} />}
 
-      {/* Always-visible "exit upgraded tier" button — bottom-right, every page. */}
+      {/* Always-visible "exit upgraded tier" button, bottom-right, every page. */}
       {tier !== 'free' && (
         <button
           onClick={() => setTier('free')}

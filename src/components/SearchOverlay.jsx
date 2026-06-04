@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { dailyTips } from '../data/dailyTips.js'
 
 /*
-  Full-screen search — the app's jump-to-anything affordance.
+  Full-screen search, the app's jump-to-anything affordance.
   Indexes every destination (with synonyms) plus the 60 daily tips, so content
   that lives under "More" (Skin, Diet, Wellness…) is discoverable by typing.
   Keyboard: ↑/↓ to move, Enter to open, Esc to close. Touch: tap a result.

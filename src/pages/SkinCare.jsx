@@ -13,7 +13,7 @@ const ingredients = [
   { name: 'Hyaluronic acid', good: 'Hydration, plumping', strength: 'Any %', notes: 'Apply to damp skin, seal with moisturizer.' },
   { name: 'Retinoids', good: 'Acne, fine lines, texture', strength: 'Start 0.025%', notes: 'PM only. Build up slowly. Always SPF the next day.' },
   { name: 'Vitamin C', good: 'Brightness, dullness, sun damage', strength: '10–20% L-ascorbic', notes: 'AM only, before SPF. Store dark and cool.' },
-  { name: 'Salicylic acid', good: 'Blackheads, congested pores', strength: '0.5–2%', notes: 'Oil-soluble — gets into pores. Two or three times a week for beginners.' },
+  { name: 'Salicylic acid', good: 'Blackheads, congested pores', strength: '0.5–2%', notes: 'Oil-soluble, gets into pores. Two or three times a week for beginners.' },
   { name: 'Ceramides', good: 'Barrier repair, sensitive skin', strength: 'Any', notes: 'Pair with retinoids or acids to rebuild the barrier.' },
 ]
 
@@ -50,7 +50,7 @@ export default function SkinCare({ onNavigate }) {
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
-                Beginner-safe skincare for every skin type. Less is more — a consistent gentle routine beats a complicated one you cannot keep up with.
+                Beginner-safe skincare for every skin type. Less is more, a consistent gentle routine beats a complicated one you cannot keep up with.
               </p>
             </Reveal>
           </div>
@@ -193,7 +193,7 @@ export default function SkinCare({ onNavigate }) {
                   Ingredients & a <span className="display-italic text-clay">weekly plan.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
-                  Niacinamide, retinoids, vitamin C, BHA — what they target, when to use them, how to layer them. Plus a 7-day rotation tuned to your skin type.
+                  Niacinamide, retinoids, vitamin C, BHA, what they target, when to use them, how to layer them. Plus a 7-day rotation tuned to your skin type.
                 </p>
               </div>
               <div className="lg:col-span-3 lg:text-right">

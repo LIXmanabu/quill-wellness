@@ -27,11 +27,11 @@ const planData = {
     bullets: [
       'Everything in Pro',
       'Sleep schedule analyzer',
-      'Cycle tracking — 4-phase calendar',
+      'Cycle tracking, 4-phase calendar',
       'Wearable sync (Apple · Oura · Whoop · Garmin)',
-      'Audio library — 6 sounds + breathwork timer',
-      'Habit streak tracker — 14-day grid',
-      'Family seats — 4 members',
+      'Audio library, 6 sounds + breathwork timer',
+      'Habit streak tracker, 14-day grid',
+      'Family seats, 4 members',
       'Rainbow Max theme + early access',
     ],
   },
@@ -110,7 +110,7 @@ export default function CheckoutModal({ plan, onClose }) {
       <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" />
 
       <div className="relative w-full max-w-md sm:max-w-3xl bg-cream-light shadow-soft-lg border border-ink/15 animate-fade-up grid grid-cols-1 sm:grid-cols-[1fr_1.2fr] max-h-[92vh] overflow-y-auto panel-scroll">
-        {/* LEFT — plan summary */}
+        {/* LEFT, plan summary */}
         <aside className="bg-bone p-6 sm:p-8 border-b sm:border-b-0 sm:border-r border-ink/10 relative">
           <button
             onClick={onClose}
@@ -152,11 +152,11 @@ export default function CheckoutModal({ plan, onClose }) {
           </div>
 
           <p className="text-[10px] text-ink-softer mt-6 leading-relaxed italic">
-            Prototype mockup — no payment is taken, no card details are sent anywhere. Card stays in your browser.
+            Prototype mockup, no payment is taken, no card details are sent anywhere. Card stays in your browser.
           </p>
         </aside>
 
-        {/* RIGHT — payment form */}
+        {/* RIGHT, payment form */}
         <form onSubmit={handleSubmit} className="p-6 sm:p-8 flex flex-col">
           {done ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
@@ -248,7 +248,7 @@ export default function CheckoutModal({ plan, onClose }) {
                     <span className="num-display animate-pulse">●</span> Processing…
                   </span>
                 ) : (
-                  <>Subscribe — ${p.price}/{p.period} <span className="display-italic">→</span></>
+                  <>Subscribe, ${p.price}/{p.period} <span className="display-italic">→</span></>
                 )}
               </button>
 

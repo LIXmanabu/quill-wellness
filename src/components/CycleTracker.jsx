@@ -18,21 +18,21 @@ const phaseData = {
     range: 'Days 6–13',
     color: '#D4A744',
     bg: '#F5EBD0',
-    advice: 'Estrogen rising — energy, mood and recovery all improve. Best window for strength PRs, new habits, learning. Lean into harder training.',
+    advice: 'Estrogen rising, energy, mood and recovery all improve. Best window for strength PRs, new habits, learning. Lean into harder training.',
   },
   ovulatory: {
     label: 'Ovulatory',
     range: 'Days 14–16',
     color: '#5A6B5D',
     bg: '#D5DDD6',
-    advice: 'Peak energy, peak performance. Schedule social plans, important presentations, your hardest workouts. Drink extra water — body temp rises ~0.3°C.',
+    advice: 'Peak energy, peak performance. Schedule social plans, important presentations, your hardest workouts. Drink extra water, body temp rises ~0.3°C.',
   },
   luteal: {
     label: 'Luteal',
     range: 'Days 17–28',
     color: '#9B4423',
     bg: '#FBEFE9',
-    advice: 'Progesterone dominant — slightly slower recovery, more carb cravings (real, not weakness). Cut caffeine after midday, add 100-200 kcal, prioritise sleep.',
+    advice: 'Progesterone dominant, slightly slower recovery, more carb cravings (real, not weakness). Cut caffeine after midday, add 100-200 kcal, prioritise sleep.',
   },
 }
 
@@ -120,13 +120,13 @@ export default function CycleTracker() {
             Your cycle, <span className="display-italic text-clay">your map.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
-            Log your last period; Quill predicts your phases and tells you what to do in each. Energy, training, food — all flex with your hormones.
+            Log your last period; Quill predicts your phases and tells you what to do in each. Energy, training, food, all flex with your hormones.
           </p>
         </div>
       </Reveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT — inputs */}
+        {/* LEFT, inputs */}
         <Reveal className="lg:col-span-4">
           <div className="border border-ink/15 bg-cream-light p-6 space-y-5">
             <div>
@@ -173,7 +173,7 @@ export default function CycleTracker() {
           </div>
         </Reveal>
 
-        {/* RIGHT — phase + calendar */}
+        {/* RIGHT, phase + calendar */}
         <div className="lg:col-span-8 space-y-6">
           {stats && phase ? (
             <>

@@ -24,7 +24,7 @@ const features = [
   { num: '11', icon: '◯', title: 'Cycle tracking', free: '—', pro: '—', max: '4-phase calendar · phase-aware advice', status: 'live' },
   { num: '12', icon: '◈', title: 'Wearable sync', free: '—', pro: '—', max: 'Apple · Oura · Whoop · Garmin · manual', status: 'live' },
   { num: '13', icon: '◐', title: 'Audio library', free: '4 ambient sounds', pro: '6 sounds', max: '8 sounds · breathwork timer', status: 'live' },
-  { num: '14', icon: '✿', title: 'Family seats', free: '1', pro: '1', max: '4 — share with household', status: 'live' },
+  { num: '14', icon: '✿', title: 'Family seats', free: '1', pro: '1', max: '4, share with household', status: 'live' },
 ]
 
 const testimonials = [
@@ -49,7 +49,7 @@ const tiers = [
     period: 'forever',
     accent: 'cream',
     bullets: [
-      'Body map — all thirteen regions',
+      'Body map, all thirteen regions',
       'Core sport routines',
       'Daily skincare basics',
       'Three saved favorites',
@@ -85,12 +85,12 @@ const tiers = [
     accent: 'gold',
     bullets: [
       'Everything in Pro',
-      'Sleep schedule analyzer — 7-night log, consistency + jetlag stats',
-      'Cycle tracking — 4-phase calendar with phase-aware advice',
-      'Wearable sync — Apple Health, Oura, Whoop, Garmin (or manual)',
-      'Audio library — 8 ambient sounds + 3 breathwork timers',
-      'Habit streak tracker — 9 presets with a 14-day visual grid',
-      'Family seats — 4 members on one plan',
+      'Sleep schedule analyzer, 7-night log, consistency + jetlag stats',
+      'Cycle tracking, 4-phase calendar with phase-aware advice',
+      'Wearable sync, Apple Health, Oura, Whoop, Garmin (or manual)',
+      'Audio library, 8 ambient sounds + 3 breathwork timers',
+      'Habit streak tracker, 9 presets with a 14-day visual grid',
+      'Family seats, 4 members on one plan',
       'Rainbow Max theme + 30-day early access to new tools',
     ],
   },
@@ -125,7 +125,7 @@ export default function Pro({ onNavigate }) {
             </h1>
             <Reveal delay={600} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
-                The depth, the personalization, the patience to follow you through seasons — for the practice of being well, on your terms.
+                The depth, the personalization, the patience to follow you through seasons, for the practice of being well, on your terms.
               </p>
             </Reveal>
             <Reveal delay={700} className="mt-8 flex flex-wrap items-center gap-3">
@@ -148,10 +148,10 @@ export default function Pro({ onNavigate }) {
               ) : (
                 <>
                   <MagneticButton onClick={() => openCheckout('pro')} className="btn-ink">
-                    Start Pro — $5/mo <span className="display-italic">→</span>
+                    Start Pro, $5/mo <span className="display-italic">→</span>
                   </MagneticButton>
                   <MagneticButton onClick={() => openCheckout('max')} className="inline-flex items-center gap-2 px-6 py-3.5 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
-                    Or go Max — $13/mo <span className="display-italic">→</span>
+                    Or go Max, $13/mo <span className="display-italic">→</span>
                   </MagneticButton>
                   <button onClick={() => onNavigate?.('home')} className="btn-ghost link-underline">
                     Or, stay on Free
@@ -160,7 +160,7 @@ export default function Pro({ onNavigate }) {
               )}
             </Reveal>
             <p className="text-xs text-ink-softer mt-3">
-              Prototype mockup. Cancel anytime from My Quill — no real charge is taken.
+              Prototype mockup. Cancel anytime from My Quill, no real charge is taken.
             </p>
           </div>
 
@@ -196,7 +196,7 @@ export default function Pro({ onNavigate }) {
             <h2 className="font-display text-5xl sm:text-6xl text-ink leading-none">
               The three <span className="display-italic text-clay">editions.</span>
             </h2>
-            <p className="editorial-label">Cancel anytime — no commitment.</p>
+            <p className="editorial-label">Cancel anytime, no commitment.</p>
           </div>
         </Reveal>
 
@@ -212,7 +212,7 @@ export default function Pro({ onNavigate }) {
                 }`}>
                   <div className="flex items-baseline justify-between mb-6">
                     <p className={`editorial-label ${isInk ? 'text-gold' : isGold ? 'text-gold-dark' : ''}`}>
-                      Edition {String(i + 1).padStart(2, '0')} — {t.label}
+                      Edition {String(i + 1).padStart(2, '0')}, {t.label}
                     </p>
                     <span className={`editorial-num text-2xl ${isInk ? 'text-cream/40' : 'text-ink-softer'}`}>
                       0{i + 1}
@@ -372,10 +372,10 @@ export default function Pro({ onNavigate }) {
         </Reveal>
         <div className="border-b border-ink/15">
           {[
-            { q: 'Is this a real subscription?', a: 'No — Quill is a prototype. The checkout looks real but no payment is taken; your card details stay in your browser.' },
-            { q: 'What\'s the difference between Pro and Max?', a: 'Pro gives you the full software — all 60 tips, per-answer routine, live diet tracker, ingredient deep-dives, 7-day meal templates. Max adds six dedicated tools that live on MyQuill: sleep schedule analyzer, cycle tracking, wearable sync (with sample data + manual logging), audio library with browser-generated sounds + breathwork timer, habit streak tracker, and four family seats. Plus the rainbow theme and 30-day early access to new tools.' },
-            { q: 'Can I cancel anytime?', a: 'Yes — monthly with no commitment. In this prototype, cancel from My Quill or the hero CTA above.' },
-            { q: 'Do you store my data?', a: 'Everything stays in your browser via localStorage. No account, no servers, no tracking — even on Max.' },
+            { q: 'Is this a real subscription?', a: 'No, Quill is a prototype. The checkout looks real but no payment is taken; your card details stay in your browser.' },
+            { q: 'What\'s the difference between Pro and Max?', a: 'Pro gives you the full software, all 60 tips, per-answer routine, live diet tracker, ingredient deep-dives, 7-day meal templates. Max adds six dedicated tools that live on MyQuill: sleep schedule analyzer, cycle tracking, wearable sync (with sample data + manual logging), audio library with browser-generated sounds + breathwork timer, habit streak tracker, and four family seats. Plus the rainbow theme and 30-day early access to new tools.' },
+            { q: 'Can I cancel anytime?', a: 'Yes, monthly with no commitment. In this prototype, cancel from My Quill or the hero CTA above.' },
+            { q: 'Do you store my data?', a: 'Everything stays in your browser via localStorage. No account, no servers, no tracking, even on Max.' },
             { q: 'Is content medically reviewed?', a: 'All in-app content is general wellness guidance, evidence-informed but not medical advice. Max-tier custom plans are built by registered professionals.' },
           ].map((item, i) => (
             <Reveal key={item.q} delay={i * 50}>
@@ -407,16 +407,16 @@ export default function Pro({ onNavigate }) {
             {!isPro && !isMax && (
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <MagneticButton onClick={() => openCheckout('pro')} className="inline-flex items-center gap-2 px-8 py-4 bg-cream text-ink text-sm font-medium hover:bg-cream-light transition-colors">
-                  Start Pro — $5/mo
+                  Start Pro, $5/mo
                 </MagneticButton>
                 <MagneticButton onClick={() => openCheckout('max')} className="inline-flex items-center gap-2 px-8 py-4 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
-                  ✦ Go Max — $13/mo
+                  ✦ Go Max, $13/mo
                 </MagneticButton>
               </div>
             )}
             {isPro && !isMax && (
               <MagneticButton onClick={() => openCheckout('max')} className="inline-flex items-center gap-2 px-8 py-4 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
-                ✦ Upgrade to Max — $13/mo
+                ✦ Upgrade to Max, $13/mo
               </MagneticButton>
             )}
             {isMax && (

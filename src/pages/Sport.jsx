@@ -8,7 +8,7 @@ import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 import TierBadge from '../components/TierBadge.jsx'
 
 const proPlans = [
-  { week: 'Week One', focus: 'Form & rhythm', notes: 'Master technique at lower volume — three sessions, twenty minutes each. Rest days are non-negotiable.' },
+  { week: 'Week One', focus: 'Form & rhythm', notes: 'Master technique at lower volume, three sessions, twenty minutes each. Rest days are non-negotiable.' },
   { week: 'Week Two', focus: 'Progressive overload', notes: 'Add two reps per set or five seconds to holds. Sleep eight hours plus. Track perceived effort one to ten.' },
   { week: 'Week Three', focus: 'Peak & deload', notes: 'Push harder days one to four, then ease off day five to seven. Recovery is when you adapt.' },
 ]
@@ -33,7 +33,7 @@ export default function Sport({ onNavigate }) {
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
-                Beginner-safe routines built around common fitness goals. No gym needed — just you, your body, and a little space.
+                Beginner-safe routines built around common fitness goals. No gym needed, just you, your body, and a little space.
               </p>
             </Reveal>
           </div>
@@ -121,7 +121,7 @@ export default function Sport({ onNavigate }) {
                   Want a <span className="display-italic text-clay">three-week plan?</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed max-w-lg text-sm">
-                  Structured cycles that build strength week by week — instead of guessing what to do next session.
+                  Structured cycles that build strength week by week, instead of guessing what to do next session.
                 </p>
               </div>
               <div className="lg:col-span-3 lg:text-right">
@@ -145,7 +145,7 @@ export default function Sport({ onNavigate }) {
             <div>
               <p className="font-display text-2xl text-ink mb-2">A fitness reminder.</p>
               <p className="text-sm text-ink-soft leading-relaxed">
-                Always warm up before and cool down after. Listen to your body — rest when you need to. Avoid overtraining: muscle soreness is normal, but sharp pain is not. Rest days are part of your progress, not a break from it. If you are new to exercise or have any health concerns, check with a doctor before starting a new routine.
+                Always warm up before and cool down after. Listen to your body, rest when you need to. Avoid overtraining: muscle soreness is normal, but sharp pain is not. Rest days are part of your progress, not a break from it. If you are new to exercise or have any health concerns, check with a doctor before starting a new routine.
               </p>
             </div>
           </div>

@@ -2,7 +2,7 @@
 // Slows down password guessing in the browser: after a few wrong tries it
 // locks the sign-in form for a cooldown that grows the more it's abused.
 //
-// This is a SECOND layer of defence and good UX — it is intentionally not
+// This is a SECOND layer of defence and good UX, it is intentionally not
 // the main protection, because anyone could bypass the browser and call the
 // API directly. The real brute-force limit is Supabase's server-side rate
 // limiting (configured in the Supabase dashboard). Use both together.

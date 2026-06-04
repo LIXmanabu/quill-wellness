@@ -5,7 +5,7 @@ const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_ANON_KEY  || null
 
 // True only when real project keys are provided. When false, the app runs
 // in local-only mode (localStorage); when true, auth + profiles use the
-// real Supabase database. The anon key is public by design — Row-Level
+// real Supabase database. The anon key is public by design, Row-Level
 // Security on the database is what keeps each user's data private.
 export const SUPABASE_ENABLED = Boolean(SUPABASE_URL && SUPABASE_ANON)
 

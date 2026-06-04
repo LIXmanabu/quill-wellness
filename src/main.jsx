@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')).render(
 )
 
 // Register the offline app-shell service worker.
-// Only in production builds — in dev it would cache Vite's HMR assets and
+// Only in production builds, in dev it would cache Vite's HMR assets and
 // fight hot reload. (Run `npm run build && npm run preview` to test installs.)
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {

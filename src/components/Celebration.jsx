@@ -24,7 +24,7 @@ export default function Celebration({ tier, onDone }) {
       return () => clearTimeout(t)
     }
 
-    // Big Max blast — sustained over ~3s with multiple bursts
+    // Big Max blast, sustained over ~3s with multiple bursts
     const duration = 3000
     const end = Date.now() + duration
 
@@ -51,7 +51,7 @@ export default function Celebration({ tier, onDone }) {
       })
     }
 
-    // Center burst — big single shot
+    // Center burst, big single shot
     confetti({
       particleCount: 180,
       spread: 100,
