@@ -566,7 +566,9 @@
   /* ─── Pro mode treatment ───────────────────────────────────────── */
   .pro-card {
     @apply relative;
-    background: linear-gradient(#FBF7F0, #FBF7F0) padding-box,
+    /* Fill follows the theme (light in light mode, dark at night) so the
+       ink text inside stays readable in both. Gradient border unchanged. */
+    background: linear-gradient(rgb(var(--c-cream-light)), rgb(var(--c-cream-light))) padding-box,
       linear-gradient(120deg, #A67C1A, #C8654A, #5A6B5D, #A67C1A) border-box;
     border: 1.5px solid transparent;
     background-size: 200% 200%;
