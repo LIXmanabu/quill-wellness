@@ -11,7 +11,7 @@ import { checkLock, recordFailure, recordSuccess, formatWait } from '../lib/logi
 export default function AuthModal({ onGuest }) {
   const { signIn, signUp, signInWithMagicLink } = useAuth()
 
-  const [view,     setView]     = useState('welcome')   // 'welcome' | 'signin' | 'signup'
+  const [view,     setView]     = useState('signup')    // 'welcome' | 'signin' | 'signup'
   const [name,     setName]     = useState('')
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
@@ -190,8 +190,8 @@ export default function AuthModal({ onGuest }) {
             )}
 
             <div className="space-y-3 mb-6">
-              <input type="text" placeholder="Your name (optional)" value={name}
-                onChange={(e) => setName(e.target.value)}
+              <input type="text" placeholder="Nickname (optional)" value={name}
+                onChange={(e) => setName(e.target.value)} autoComplete="nickname"
                 className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
               <input type="email" placeholder="Email address" value={email}
                 onChange={(e) => setEmail(e.target.value)} required
@@ -227,6 +227,10 @@ export default function AuthModal({ onGuest }) {
               <button type="button" onClick={() => go('signin')}
                 className="underline underline-offset-2 hover:text-ink transition-colors">Sign in</button>
             </p>
+            <button type="button" onClick={onGuest}
+              className="mt-3 w-full text-xs text-ink-softer hover:text-ink-soft transition-colors py-2 underline underline-offset-4 decoration-ink/20">
+              Continue as guest
+            </button>
           </form>
         )}
 

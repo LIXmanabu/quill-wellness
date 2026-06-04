@@ -60,9 +60,9 @@ function AppShell() {
   const [showSearch,     setShowSearch]     = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showAuth,       setShowAuth]       = useState(false)
-  const [guestMode,      setGuestMode]      = useState(() =>
-    Boolean(localStorage.getItem('quill.guestMode'))
-  )
+  // Guest is session-only (not remembered across reloads), so the sign-up
+  // screen reappears on each fresh load until the visitor makes a real account.
+  const [guestMode,      setGuestMode]      = useState(false)
   const { profile, updateProfile } = useUser()
   const { tier, isMax, setTier } = usePro()
   const { user, loading: authLoading } = useAuth()
@@ -96,8 +96,7 @@ function AppShell() {
   }, [user, authLoading, guestMode])
 
   function handleContinueAsGuest() {
-    localStorage.setItem('quill.guestMode', '1')
-    setGuestMode(true)
+    setGuestMode(true)   // session-only; the sign-up screen returns next load
     setShowAuth(false)
     // Show the onboarding (name) screen for guests too
     setShowOnboarding(true)
