@@ -64,7 +64,21 @@ const QUOTES = [
   { t: 'A little progress each day adds up to big change.', a: '' },
 ]
 
+// Gentle, validating lines for the "I need a lift" moment. Not dismissive,
+// not toxic-positive, just kind.
+const KIND_LINES = [
+  'This is a hard moment, not a hard life.',
+  'You’ve made it through every day so far. That’s not nothing.',
+  'Be as kind to yourself as you’d be to a good friend.',
+  'Feelings pass. You don’t have to fix anything right now.',
+  'You’re allowed to rest. You’re allowed to start small.',
+  'Even now, something small is still good.',
+  'Breathe in for four, out for six. Just once, with me.',
+  'You don’t have to carry all of it today.',
+]
+
 const todayIndex = Math.floor(Date.now() / 86400000)
+function pick(arr) { return arr.length ? arr[Math.floor(Math.random() * arr.length)] : null }
 function dayBucket(ts) {
   const d = new Date(ts)
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
@@ -113,8 +127,23 @@ export default function Joy() {
   const [memoryIdx, setMemoryIdx] = useState(0)
   const [quoteIdx, setQuoteIdx] = useState(todayIndex)
   const [justSaved, setJustSaved] = useState(false)
+  const [lift, setLift] = useState(null)   // null = closed; {kind, quote, joy} when open
   const quote = QUOTES[Math.abs(quoteIdx) % QUOTES.length]
   const nudge = NUDGES[todayIndex % NUDGES.length]
+
+  function openLift() {
+    setLift({ kind: pick(KIND_LINES), quote: pick(QUOTES), joy: pick(items) })
+  }
+  function nextLift() {
+    setLift({ kind: pick(KIND_LINES), quote: pick(QUOTES), joy: items.length ? pick(items) : null })
+  }
+  // Escape closes the lift overlay.
+  useEffect(() => {
+    if (!lift) return
+    const onKey = (e) => { if (e.key === 'Escape') setLift(null) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lift])
 
   // Switch the store when the signed-in account changes.
   useEffect(() => { setItems(loadJoys(storageKey(user))); setMemoryIdx(0) }, [user?.id])
@@ -175,6 +204,9 @@ export default function Joy() {
               {streak >= 2 ? ` · ${streak} days noticing the good` : ''}
             </p>
           )}
+          <button onClick={openLift} className="btn-clay mt-7">
+            <span className="display-italic">✦</span> I need a lift
+          </button>
         </div>
       </section>
 
@@ -325,6 +357,43 @@ export default function Joy() {
           </p>
         </div>
       </section>
+
+      {/* ── "I need a lift" overlay ── */}
+      {lift && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-cream/95 backdrop-blur-md animate-fade-in"
+          role="dialog" aria-modal="true" aria-label="A moment for you"
+          onClick={(e) => { if (e.target === e.currentTarget) setLift(null) }}
+        >
+          <div className="w-full max-w-lg bg-cream-light border border-ink/15 p-8 sm:p-10 text-center relative overflow-hidden">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0"
+              style={{ background: 'radial-gradient(90% 80% at 50% 0%, rgba(232,180,184,0.18), transparent 60%)' }} />
+            <div className="relative">
+              <p className="editorial-label text-clay">A moment for you</p>
+              <p className="font-display text-3xl sm:text-4xl text-ink leading-tight mt-4 text-balance">
+                {lift.kind}
+              </p>
+
+              {lift.joy && (
+                <div className="mt-7 pt-6 border-t border-ink/10">
+                  <p className="editorial-label text-ink-softer">Something you loved · {whenLabel(lift.joy.createdAt)}</p>
+                  <p className="display-italic text-xl sm:text-2xl text-ink mt-2 leading-snug">“{lift.joy.text}”</p>
+                </div>
+              )}
+
+              <div className="mt-7">
+                <p className="text-ink-soft leading-relaxed">“{lift.quote.t}”</p>
+                {lift.quote.a && <p className="display-italic text-ink-softer text-sm mt-2">{lift.quote.a}</p>}
+              </div>
+
+              <div className="mt-8 flex items-center justify-center gap-3">
+                <button onClick={nextLift} className="btn-cream">Another</button>
+                <button onClick={() => setLift(null)} className="btn-ink">I’m okay for now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
