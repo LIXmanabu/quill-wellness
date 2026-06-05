@@ -8,10 +8,14 @@
 */
 // Relative paths resolve against the SW's own location, so the shell works
 // whether the app is hosted at / or at /<repo>/ (GitHub Pages sub-path).
-const CACHE_VERSION = 'quill-v2'
+const CACHE_VERSION = 'quill-v3'
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png']
 
 self.addEventListener('install', (event) => {
+  // Activate a new version immediately instead of waiting for a manual "Update"
+  // tap, so deploys reach everyone on their next visit (paired with
+  // clients.claim in activate + the controllerchange reload in main.jsx).
+  self.skipWaiting()
   event.waitUntil(
     caches.open(CACHE_VERSION).then((c) => c.addAll(SHELL))
   )
