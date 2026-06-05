@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import confetti from 'canvas-confetti'
 import { useAuth } from '../context/AuthContext.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
@@ -19,6 +20,65 @@ const PROMPTS = [
   'a neighbour who helped out',
   'a slow, quiet morning',
 ]
+
+// Rotating capture nudges (one per day) so the prompt stays fresh.
+const NUDGES = [
+  'What went a little right today?',
+  'Who made your day a bit better?',
+  'What are you grateful for right now?',
+  'What tiny thing are you looking forward to?',
+  'What did your body do for you today?',
+  'What made you laugh recently?',
+  'What felt calm today, even for a moment?',
+]
+
+// Warm, non-preachy quotes (no hustle, no toxic positivity). One per day.
+const QUOTES = [
+  { t: 'You do not have to be good. You only have to let the soft animal of your body love what it loves.', a: 'Mary Oliver' },
+  { t: 'Almost everything will work again if you unplug it for a few minutes, including you.', a: 'Anne Lamott' },
+  { t: 'There is a crack in everything. That’s how the light gets in.', a: 'Leonard Cohen' },
+  { t: 'Joy is not made to be a crumb.', a: 'Mary Oliver' },
+  { t: 'Start where you are. Use what you have. Do what you can.', a: 'Arthur Ashe' },
+  { t: 'Even the darkest night will end and the sun will rise.', a: 'Victor Hugo' },
+  { t: 'Gratitude turns what we have into enough.', a: '' },
+  { t: 'Be gentle with yourself. You are doing the best you can.', a: '' },
+  { t: 'You are not behind. There is no schedule.', a: '' },
+  { t: 'Feelings are visitors. Let them come and go.', a: '' },
+  { t: 'What you water grows. Water the good.', a: '' },
+  { t: 'Little by little, one travels far.', a: '' },
+  { t: 'Rest is not a reward for finishing. It is part of the work.', a: '' },
+  { t: 'You have survived 100% of your hardest days.', a: '' },
+  { t: 'Hope is a discipline.', a: 'Mariame Kaba' },
+  { t: 'Be the reason someone smiles today, even if that someone is you.', a: '' },
+  { t: 'It is okay to be both a masterpiece and a work in progress.', a: '' },
+  { t: 'Wherever you are, be all there.', a: 'Jim Elliot' },
+  { t: 'Small steps still move you forward.', a: '' },
+  { t: 'Take the day one small joy at a time.', a: '' },
+  { t: 'Comparison is the thief of joy.', a: 'Theodore Roosevelt' },
+  { t: 'You don’t have to do it all today.', a: '' },
+  { t: 'Breathe. You’re exactly where you need to be.', a: '' },
+  { t: 'The most wasted of days is one without laughter.', a: 'e. e. cummings' },
+  { t: 'Tend to the small things. They are not small.', a: '' },
+  { t: 'Some days the bravest thing is to be kind to yourself.', a: '' },
+  { t: 'Nothing is permanent, not even the hard parts.', a: '' },
+  { t: 'A little progress each day adds up to big change.', a: '' },
+]
+
+const todayIndex = Math.floor(Date.now() / 86400000)
+function dayBucket(ts) {
+  const d = new Date(ts)
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+}
+function celebrate() {
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    confetti({
+      particleCount: 45, spread: 55, startVelocity: 32, scalar: 0.9,
+      origin: { y: 0.7 }, disableForReducedMotion: true,
+      colors: ['#C8654A', '#D4A744', '#5A6B5D', '#E8B4B8', '#9B4423'],
+    })
+  } catch {}
+}
 
 function storageKey(user) {
   return user?.id ? `quill.joy.${user.id}` : 'quill.joy.guest'
@@ -51,7 +111,10 @@ export default function Joy() {
   const [items, setItems] = useState(() => loadJoys(key))
   const [text, setText] = useState('')
   const [memoryIdx, setMemoryIdx] = useState(0)
+  const [quoteIdx, setQuoteIdx] = useState(todayIndex)
   const [justSaved, setJustSaved] = useState(false)
+  const quote = QUOTES[Math.abs(quoteIdx) % QUOTES.length]
+  const nudge = NUDGES[todayIndex % NUDGES.length]
 
   // Switch the store when the signed-in account changes.
   useEffect(() => { setItems(loadJoys(storageKey(user))); setMemoryIdx(0) }, [user?.id])
@@ -64,6 +127,7 @@ export default function Joy() {
     if (!t) return
     setItems((prev) => [{ id: crypto.randomUUID(), text: t, createdAt: Date.now() }, ...prev])
     setText('')
+    celebrate()
     setJustSaved(true)
     setTimeout(() => setJustSaved(false), 2600)
   }
@@ -77,6 +141,17 @@ export default function Joy() {
     return older.length ? older : past
   }, [items])
   const memory = memories.length ? memories[memoryIdx % memories.length] : null
+
+  // Gentle, shame-free streak: consecutive days (ending today or yesterday)
+  // with at least one moment. Never scolds a gap; just quietly encourages.
+  const streak = useMemo(() => {
+    const days = new Set(items.map((i) => dayBucket(i.createdAt)))
+    const d = new Date()
+    if (!days.has(dayBucket(d.getTime()))) d.setDate(d.getDate() - 1)
+    let s = 0
+    while (days.has(dayBucket(d.getTime()))) { s++; d.setDate(d.getDate() - 1) }
+    return s
+  }, [items])
 
   return (
     <div className="bg-cream">
@@ -94,7 +169,36 @@ export default function Joy() {
             Save the little things that made today lighter. Weeks or months from now,
             Quill will quietly bring one back to you, on a day you might need it.
           </p>
+          {items.length > 0 && (
+            <p className="editorial-label text-ink-softer mt-6">
+              {items.length} small {items.length === 1 ? 'joy' : 'joys'} kept
+              {streak >= 2 ? ` · ${streak} days noticing the good` : ''}
+            </p>
+          )}
         </div>
+      </section>
+
+      {/* ── A thought for today ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14">
+        <Reveal>
+          <SpotlightCard className="card-paper relative overflow-hidden p-8 sm:p-12 text-center">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0"
+              style={{ background: 'radial-gradient(80% 80% at 50% 0%, rgba(90,107,93,0.10), transparent 60%)' }} />
+            <div className="relative">
+              <p className="editorial-label text-clay">A thought for today</p>
+              <p className="font-display text-2xl sm:text-4xl text-ink leading-snug mt-4 max-w-3xl mx-auto text-balance">
+                “{quote.t}”
+              </p>
+              {quote.a && <p className="display-italic text-ink-soft text-lg mt-4">{quote.a}</p>}
+              <button
+                onClick={() => setQuoteIdx((i) => i + 1)}
+                className="mt-7 inline-flex items-center gap-2 text-xs font-medium text-clay hover:text-clay-dark transition-colors link-underline"
+              >
+                Another <span className="display-italic">→</span>
+              </button>
+            </div>
+          </SpotlightCard>
+        </Reveal>
       </section>
 
       {/* ── Resurfaced memory ── */}
@@ -143,7 +247,7 @@ export default function Joy() {
             <h2 className="font-display text-3xl sm:text-4xl text-ink leading-tight">
               What made you <span className="display-italic text-clay">smile</span> today?
             </h2>
-            <p className="text-sm text-ink-soft mt-2">Even something tiny. Especially something tiny.</p>
+            <p className="text-sm text-ink-soft mt-2">{nudge} Even something tiny counts.</p>
 
             <form onSubmit={addJoy} className="mt-6">
               <textarea
