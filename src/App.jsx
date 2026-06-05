@@ -27,6 +27,7 @@ const About = lazy(() => import('./pages/About.jsx'))
 const MyQuill = lazy(() => import('./pages/MyQuill.jsx'))
 const Pro = lazy(() => import('./pages/Pro.jsx'))
 const TipLibrary = lazy(() => import('./pages/TipLibrary.jsx'))
+const Joy = lazy(() => import('./pages/Joy.jsx'))
 
 const PAGE_LABELS = {
   today: 'Today',
@@ -184,6 +185,7 @@ function AppShell() {
     myquill: <MyQuill onNavigate={handleNavigate} />,
     pro: <Pro onNavigate={handleNavigate} />,
     tips: <TipLibrary onNavigate={handleNavigate} />,
+    joy: <Joy onNavigate={handleNavigate} />,
   }
 
   return (
