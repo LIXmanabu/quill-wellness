@@ -133,9 +133,9 @@ function AppShell() {
     if (changing) applyPage(key)
     // Privacy-friendly analytics: log each section as a pageview (this is a
     // single-page app, so the URL doesn't change on tab switches). No-ops
-    // until the GoatCounter snippet in index.html is active.
-    if (changing && window.goatcounter?.count) {
-      window.goatcounter.count({ path: '/' + key, title: 'Quill · ' + key })
+    // until the Umami snippet in index.html loads.
+    if (changing && window.umami?.track) {
+      window.umami.track((props) => ({ ...props, url: '/' + key, title: 'Quill · ' + key }))
     }
     // If search is open, its history entry is on top, consume it by replacing,
     // so a later Back doesn't re-open search. Otherwise push a normal page entry.
