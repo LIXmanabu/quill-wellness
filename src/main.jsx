@@ -16,6 +16,15 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     // BASE_URL keeps the SW path correct whether hosted at / or /<repo>/.
     navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).then((reg) => {
+      // Force a version check on every load (and when the tab regains focus),
+      // so a normal refresh always picks up the newest deploy. The new worker
+      // skip-waits + claims, and the controllerchange handler below reloads
+      // once into the fresh version. No manual "Update" tap needed.
+      reg.update()
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update()
+      })
+
       // When a new SW finishes installing while an old one controls the page,
       // tell the app so it can offer a one-tap reload (see ConnectionStatus).
       reg.addEventListener('updatefound', () => {
