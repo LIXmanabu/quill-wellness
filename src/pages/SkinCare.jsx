@@ -9,12 +9,30 @@ import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 import TierBadge from '../components/TierBadge.jsx'
 
 const ingredients = [
-  { name: 'Niacinamide', good: 'Redness, large pores, oil control', strength: '2–5%', notes: 'Plays well with everything. Start with 5% AM or PM.' },
-  { name: 'Hyaluronic acid', good: 'Hydration, plumping', strength: 'Any %', notes: 'Apply to damp skin, seal with moisturizer.' },
-  { name: 'Retinoids', good: 'Acne, fine lines, texture', strength: 'Start 0.025%', notes: 'PM only. Build up slowly. Always SPF the next day.' },
-  { name: 'Vitamin C', good: 'Brightness, dullness, sun damage', strength: '10–20% L-ascorbic', notes: 'AM only, before SPF. Store dark and cool.' },
-  { name: 'Salicylic acid', good: 'Blackheads, congested pores', strength: '0.5–2%', notes: 'Oil-soluble, gets into pores. Two or three times a week for beginners.' },
-  { name: 'Ceramides', good: 'Barrier repair, sensitive skin', strength: 'Any', notes: 'Pair with retinoids or acids to rebuild the barrier.' },
+  { name: 'Niacinamide', good: 'Redness, large pores, oil control', strength: '2–5%',
+    what: 'A form of vitamin B3, the same vitamin found in fish, eggs, nuts and grains.',
+    risk: 'Very gentle. High strengths can occasionally cause mild flushing, so patch-test if your skin reacts easily.',
+    notes: 'Plays well with everything. Start with 5% AM or PM.' },
+  { name: 'Hyaluronic acid', good: 'Hydration, plumping', strength: 'Any %',
+    what: 'A water-holding sugar your own skin already makes; the bottled version is lab-grown.',
+    risk: 'Very safe. In dry air it can pull water out of skin if you skip moisturizer, so always seal it in.',
+    notes: 'Apply to damp skin, seal with moisturizer.' },
+  { name: 'Retinoids', good: 'Acne, fine lines, texture', strength: 'Start 0.025%',
+    what: 'Vitamin A derivatives (vitamin A comes from carrots, sweet potato and liver).',
+    risk: 'Can cause dryness, peeling and redness while skin adjusts, and raises sun sensitivity. Avoid during pregnancy.',
+    notes: 'PM only. Build up slowly. Always SPF the next day.' },
+  { name: 'Vitamin C', good: 'Brightness, dullness, sun damage', strength: '10–20% L-ascorbic',
+    what: 'Ascorbic acid, the same antioxidant in oranges, berries and peppers.',
+    risk: 'Can sting at higher strengths, and it oxidizes (turns brown) once old, that means it is past its best.',
+    notes: 'AM only, before SPF. Store dark and cool.' },
+  { name: 'Salicylic acid', good: 'Blackheads, congested pores', strength: '0.5–2%',
+    what: 'A BHA originally drawn from willow bark, in the same family as aspirin.',
+    risk: 'Can over-dry or irritate if overused. Skip it if you react to aspirin or salicylates.',
+    notes: 'Oil-soluble, gets into pores. Two or three times a week for beginners.' },
+  { name: 'Ceramides', good: 'Barrier repair, sensitive skin', strength: 'Any',
+    what: 'Fats that naturally make up your skin barrier, like the mortar between bricks.',
+    risk: 'Essentially none, one of the best-tolerated ingredients there is.',
+    notes: 'Pair with retinoids or acids to rebuild the barrier.' },
 ]
 
 const weeklyPlan = [
@@ -145,8 +163,11 @@ export default function SkinCare({ onNavigate }) {
                       <span className="editorial-label">{ing.strength}</span>
                     </div>
                     <h3 className="font-display text-2xl text-ink leading-tight">{ing.name}</h3>
-                    <p className="editorial-label mt-3">Good for</p>
+                    <p className="text-sm text-ink-soft mt-2 leading-relaxed">{ing.what}</p>
+                    <p className="editorial-label mt-4">Good for</p>
                     <p className="text-sm text-ink mt-1">{ing.good}</p>
+                    <p className="editorial-label text-clay mt-4">Heads-up</p>
+                    <p className="text-sm text-ink-soft mt-1 leading-relaxed">{ing.risk}</p>
                     <p className="text-xs text-ink-soft mt-3 leading-relaxed italic border-t border-ink/10 pt-3">{ing.notes}</p>
                   </SpotlightCard>
                 </Reveal>
