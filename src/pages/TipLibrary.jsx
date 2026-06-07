@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { dailyTips, categoryMeta } from '../data/dailyTips.js'
 import FavoriteButton from '../components/FavoriteButton.jsx'
 import { usePro } from '../context/ProContext.jsx'
+import { useUser } from '../context/UserContext.jsx'
 import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
@@ -10,14 +11,34 @@ import MagneticButton from '../components/interactive/MagneticButton.jsx'
 
 const FREE_PER_CATEGORY = 5
 
+// Which tip categories matter most for each onboarding goal (+ skin type adds skincare).
+const GOAL_CATEGORIES = {
+  glow: ['skincare', 'hydration', 'sleep'],
+  fitness: ['movement', 'nutrition', 'hydration'],
+  calm: ['sleep', 'mood', 'mindset'],
+  body: ['movement', 'hydration', 'mindset'],
+  eat: ['nutrition', 'hydration', 'mood'],
+}
+function relevantCategories(profile) {
+  const set = new Set(GOAL_CATEGORIES[profile.goal] || [])
+  if (profile.skinType) set.add('skincare')
+  return set
+}
+
 export default function TipLibrary({ onNavigate }) {
   const { isPro } = usePro()
-  const [filter, setFilter] = useState('all')
+  const { profile } = useUser()
+  const forYou = relevantCategories(profile)
+  const personalized = forYou.size > 0
+  const [filter, setFilter] = useState(personalized ? 'foryou' : 'all')
 
-  const categories = ['all', ...Object.keys(categoryMeta)]
+  const categories = [...(personalized ? ['foryou'] : []), 'all', ...Object.keys(categoryMeta)]
 
   const visibleTips = useMemo(() => {
-    let tips = filter === 'all' ? dailyTips : dailyTips.filter((t) => t.category === filter)
+    let tips =
+      filter === 'all' ? dailyTips
+      : filter === 'foryou' ? dailyTips.filter((t) => forYou.has(t.category))
+      : dailyTips.filter((t) => t.category === filter)
     if (!isPro) {
       const grouped = {}
       tips.forEach((t) => {
@@ -27,7 +48,7 @@ export default function TipLibrary({ onNavigate }) {
       tips = Object.values(grouped).flat()
     }
     return tips
-  }, [filter, isPro])
+  }, [filter, isPro, profile.goal, profile.skinType])
 
   return (
     <div className="bg-cream">
@@ -50,7 +71,7 @@ export default function TipLibrary({ onNavigate }) {
       </section>
 
       {/* Marquee */}
-      <section className="bg-ink text-cream py-4 border-y border-ink overflow-hidden">
+      <section className="bg-cream-dark text-ink py-4 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={Object.values(categoryMeta).map((c) => c.label)}
           separator="✺"
@@ -68,6 +89,7 @@ export default function TipLibrary({ onNavigate }) {
             {categories.map((c) => {
               const meta = categoryMeta[c]
               const active = filter === c
+              const label = c === 'all' ? 'All tips' : c === 'foryou' ? '✦ For you' : meta.label
               return (
                 <button
                   key={c}
@@ -75,10 +97,12 @@ export default function TipLibrary({ onNavigate }) {
                   className={`px-4 py-2 text-xs font-medium tracking-wide border transition-all ${
                     active
                       ? 'bg-ink text-cream border-ink'
-                      : 'bg-cream-light text-ink-soft border-ink/20 hover:border-ink hover:text-ink'
+                      : c === 'foryou'
+                        ? 'bg-clay/10 text-clay border-clay/30 hover:border-clay'
+                        : 'bg-cream-light text-ink-soft border-ink/20 hover:border-ink hover:text-ink'
                   }`}
                 >
-                  {c === 'all' ? 'All tips' : meta.label}
+                  {label}
                 </button>
               )
             })}
