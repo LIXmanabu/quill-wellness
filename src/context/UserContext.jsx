@@ -7,8 +7,19 @@ const defaultProfile = {
   skinType: '',
   goal: '',
   timePerDay: '',
+  concerns: [],
   favorites: [],
   dismissedOnboarding: false,
+}
+
+// Concerns aren't a DB column, so for signed-in users they're mirrored to
+// localStorage (per account) instead. Guests already persist the whole
+// profile locally, so they're covered automatically.
+function loadConcerns(id) {
+  try { return JSON.parse(localStorage.getItem(`quill.concerns.${id}`)) || [] } catch { return [] }
+}
+function saveConcerns(id, concerns) {
+  try { localStorage.setItem(`quill.concerns.${id}`, JSON.stringify(concerns || [])) } catch {}
 }
 
 const UserContext = createContext({
@@ -52,6 +63,7 @@ function rowToProfile(r, seedName = '') {
     skinType: r.skin_type ?? '',
     goal: r.goal ?? '',
     timePerDay: r.time_per_day ?? '',
+    concerns: [],   // not a DB column; merged from localStorage in the loader
     favorites: Array.isArray(r.favorites) ? r.favorites : [],
     dismissedOnboarding: Boolean(r.dismissed_onboarding),
   }
@@ -99,10 +111,11 @@ function SupabaseUserProvider({ children }) {
         // carry them over so signing up doesn't wipe a just-completed quiz.
         const guest = loadProfile('quill.user.guest')
         const guestHasAnswers = guest.goal || guest.skinType || guest.timePerDay
+        const stored = loadConcerns(user.id)
         if ((!row || (!row.goal && !row.skinType && !row.timePerDay)) && guestHasAnswers) {
-          setProfile({ ...guest, name: user.name || guest.name || '' })
+          setProfile({ ...guest, name: user.name || guest.name || '', concerns: stored.length ? stored : (guest.concerns || []) })
         } else {
-          setProfile(row || { ...defaultProfile, name: user.name || '' })
+          setProfile({ ...(row || { ...defaultProfile, name: user.name || '' }), concerns: stored })
         }
         loadedRef.current = true
       })
@@ -116,6 +129,7 @@ function SupabaseUserProvider({ children }) {
       try { localStorage.setItem('quill.user.guest', JSON.stringify(profile)) } catch {}
       return
     }
+    saveConcerns(user.id, profile.concerns)   // mirror concerns locally (no DB column)
     const t = setTimeout(() => {
       supabase
         .from('profiles')

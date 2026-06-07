@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useUser } from '../context/UserContext.jsx'
 import { usePro } from '../context/ProContext.jsx'
-import { getProblemTips, isPersonalized } from '../data/personalization.js'
+import { getProblemTips, isPersonalized, getConcernTips } from '../data/personalization.js'
 import { dailyTips, categoryMeta } from '../data/dailyTips.js'
 import DailyTipCard from '../components/DailyTipCard.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
@@ -42,6 +42,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
   const greeting = goalGreeting[profile.goal]
   const personalized = isPersonalized(profile)
   const answerTips = getProblemTips(profile)
+  const focusTips = getConcernTips(profile)
 
   // ── Learns from behavior ──
   const PAGE_LABEL = { today: 'Today', body: 'Body', sport: 'Movement', skincare: 'Skin Care', wellness: 'Wellness', diet: 'Diet', tips: 'Daily Tips', joy: 'Joy', myquill: 'My Quill', about: 'About', pro: 'Pro' }
@@ -235,6 +236,25 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                 </Reveal>
               ))}
             </div>
+            {focusTips.length > 0 && (
+              <Reveal>
+                <div className="mt-10">
+                  <span className="editorial-label">You asked us to watch for</span>
+                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {focusTips.map((f) => (
+                      <button key={f.label} onClick={() => onNavigate(f.section)}
+                        className="card-paper card-paper-hover p-4 sm:p-5 text-left flex items-start justify-between gap-3 group">
+                        <span>
+                          <span className="font-display text-lg text-ink block leading-tight">{f.label}</span>
+                          <span className="text-sm text-ink-soft leading-snug">{f.line}</span>
+                        </span>
+                        <span className="display-italic text-clay flex-shrink-0 transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            )}
             <Reveal>
               <button onClick={() => onNavigate('myquill')} className="btn-ink mt-8">
                 See your full plan <span className="display-italic">→</span>

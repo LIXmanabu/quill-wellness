@@ -411,5 +411,20 @@ export function getGoalLabel(profile) {
 }
 
 export function isPersonalized(profile) {
-  return !!(profile.goal || profile.skinType || profile.timePerDay)
+  return !!(profile.goal || profile.skinType || profile.timePerDay || (profile.concerns && profile.concerns.length))
+}
+
+// Focus areas (onboarding "Anything specific?") → a one-line action + section.
+export const CONCERN_META = {
+  breakouts:  { label: 'Breakouts', line: 'Salicylic acid plus niacinamide, and hands off your face.', section: 'skincare' },
+  dryness:    { label: 'Dryness', line: 'Hyaluronic acid on damp skin, sealed with a ceramide cream.', section: 'skincare' },
+  stress:     { label: 'Stress', line: 'Box breathing and a wind-down hour bring cortisol down fast.', section: 'wellness' },
+  sleep:      { label: 'Poor sleep', line: 'Same wake time daily, screens off an hour before bed.', section: 'wellness' },
+  energy:     { label: 'Low energy', line: 'Morning light, water before coffee, a short walk.', section: 'today' },
+  focus:      { label: 'Focus', line: 'Single-task in 25-minute blocks, phone in another room.', section: 'tips' },
+  cramps:     { label: 'Cramps', line: 'Heat, magnesium, gentle movement, and track your cycle.', section: 'wellness' },
+  confidence: { label: 'Confidence', line: 'Small wins, kept and revisited. Start in Joy.', section: 'joy' },
+}
+export function getConcernTips(profile) {
+  return (profile.concerns || []).map((id) => CONCERN_META[id]).filter(Boolean)
 }

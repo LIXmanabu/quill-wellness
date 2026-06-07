@@ -24,6 +24,17 @@ const times = [
   { id: '30', label: '30+ min/day', desc: 'I love self-care' },
 ]
 
+const concernOptions = [
+  { id: 'breakouts', label: 'Breakouts' },
+  { id: 'dryness', label: 'Dryness' },
+  { id: 'stress', label: 'Stress' },
+  { id: 'sleep', label: 'Poor sleep' },
+  { id: 'energy', label: 'Low energy' },
+  { id: 'focus', label: 'Focus' },
+  { id: 'cramps', label: 'Cramps' },
+  { id: 'confidence', label: 'Confidence' },
+]
+
 export default function OnboardingQuiz({ onClose }) {
   const { completeOnboarding, profile } = useUser()
   const [step, setStep] = useState(0)
@@ -32,7 +43,13 @@ export default function OnboardingQuiz({ onClose }) {
     skinType: profile.skinType || '',
     goal: profile.goal || '',
     timePerDay: profile.timePerDay || '',
+    concerns: profile.concerns || [],
   })
+
+  const toggleConcern = (id) => setData((d) => ({
+    ...d,
+    concerns: d.concerns.includes(id) ? d.concerns.filter((c) => c !== id) : [...d.concerns, id],
+  }))
 
   // Allow dismissing the modal via Escape key, without this, the modal
   // (z-100, full-screen blur) blocks navbar clicks and traps the user.
@@ -125,7 +142,31 @@ export default function OnboardingQuiz({ onClose }) {
       ),
     },
     {
-      kicker: '04 · Time',
+      kicker: '04 · Focus',
+      title: 'Anything specific?',
+      sub: 'Optional. Pick any you’d like Quill to keep an eye on, change anytime.',
+      content: (
+        <div className="flex flex-wrap gap-2 mt-8">
+          {concernOptions.map((c) => {
+            const on = data.concerns.includes(c.id)
+            return (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => toggleConcern(c.id)}
+                className={`px-4 py-2.5 text-sm border transition-all ${
+                  on ? 'bg-ink text-cream border-ink' : 'bg-cream-light text-ink border-ink/20 hover:border-ink'
+                }`}
+              >
+                {on ? '✓ ' : ''}{c.label}
+              </button>
+            )
+          })}
+        </div>
+      ),
+    },
+    {
+      kicker: '05 · Time',
       title: 'How much time?',
       sub: 'Honest answers get better suggestions. No pressure either way.',
       content: (
@@ -220,10 +261,15 @@ export default function OnboardingQuiz({ onClose }) {
         )}
 
         {step > 0 && (
-          <div className="mt-5 flex justify-between">
+          <div className="mt-5 flex justify-between items-center">
             <button onClick={() => setStep(step - 1)} className="editorial-label hover:text-clay transition-colors">
               ← Back
             </button>
+            {current.kicker === '04 · Focus' && (
+              <button onClick={() => setStep(step + 1)} className="btn-ink">
+                Continue <span className="display-italic">→</span>
+              </button>
+            )}
           </div>
         )}
       </div>
