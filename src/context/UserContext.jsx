@@ -78,7 +78,14 @@ function SupabaseUserProvider({ children }) {
 
   useEffect(() => {
     loadedRef.current = false
-    if (!user?.id) { setProfile(defaultProfile); return }
+    if (!user?.id) {
+      // Guest: keep answers in localStorage so they survive reloads, then if
+      // they sign up the account starts from their guest answers (migration
+      // happens via the save effect once a user.id appears with an empty row).
+      setProfile(loadProfile('quill.user.guest'))
+      loadedRef.current = true
+      return
+    }
     let active = true
     supabase
       .from('profiles')
@@ -87,15 +94,28 @@ function SupabaseUserProvider({ children }) {
       .maybeSingle()
       .then(({ data }) => {
         if (!active) return
-        setProfile(data ? rowToProfile(data, user.name) : { ...defaultProfile, name: user.name || '' })
+        const row = data ? rowToProfile(data, user.name) : null
+        // If the account has no answers yet but this device has guest answers,
+        // carry them over so signing up doesn't wipe a just-completed quiz.
+        const guest = loadProfile('quill.user.guest')
+        const guestHasAnswers = guest.goal || guest.skinType || guest.timePerDay
+        if ((!row || (!row.goal && !row.skinType && !row.timePerDay)) && guestHasAnswers) {
+          setProfile({ ...guest, name: user.name || guest.name || '' })
+        } else {
+          setProfile(row || { ...defaultProfile, name: user.name || '' })
+        }
         loadedRef.current = true
       })
     return () => { active = false }
   }, [user?.id, user?.name])
 
-  // Debounced upsert of profile changes for the signed-in user.
+  // Persist profile changes: signed-in → Supabase (debounced); guest → device.
   useEffect(() => {
-    if (!loadedRef.current || !user?.id) return
+    if (!loadedRef.current) return
+    if (!user?.id) {
+      try { localStorage.setItem('quill.user.guest', JSON.stringify(profile)) } catch {}
+      return
+    }
     const t = setTimeout(() => {
       supabase
         .from('profiles')
