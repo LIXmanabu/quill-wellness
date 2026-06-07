@@ -3,6 +3,8 @@ import BodyModel3D from '../components/BodyModel3D.jsx'
 import ConcernPanel from '../components/ConcernPanel.jsx'
 import { bodyData } from '../data/bodyData.js'
 import { usePro } from '../context/ProContext.jsx'
+import { useUser } from '../context/UserContext.jsx'
+import { getGoalPlan } from '../data/personalization.js'
 import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
@@ -36,6 +38,8 @@ const relatedPairs = [
 
 export default function Body({ onNavigate }) {
   const { isPro } = usePro()
+  const { profile } = useUser()
+  const goalPlan = getGoalPlan(profile)
   const [selectedRegion, setSelectedRegion] = useState(null)
 
   function closePanel() { setSelectedRegion(null) }
@@ -65,7 +69,7 @@ export default function Body({ onNavigate }) {
       </section>
 
       {/* Marquee */}
-      <section className="bg-ink text-cream py-4 border-y border-ink overflow-hidden">
+      <section className="bg-cream-dark text-ink py-4 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={['Head', 'Shoulders', 'Knees', 'Toes', 'And every soft thing in between', 'No part of you is wrong']}
           separator="◐"
@@ -74,6 +78,51 @@ export default function Body({ onNavigate }) {
           separatorClassName="text-clay text-xl"
         />
       </section>
+
+      {/* What your body needs (personalized to goal) */}
+      {goalPlan && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+          <Reveal>
+            <div className="mb-8 pb-4 border-b border-ink/15">
+              <span className="editorial-label">For your goal</span>
+              <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
+                What your body needs <span className="display-italic text-clay">to {goalPlan.label.toLowerCase()}.</span>
+              </h2>
+              <p className="text-sm text-ink-soft mt-3 max-w-xl">{goalPlan.why}</p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
+            <Reveal className="lg:col-span-7">
+              <SpotlightCard className="card-paper h-full p-6 sm:p-8">
+                <p className="editorial-label text-clay">Your daily steps</p>
+                <ol className="mt-4 space-y-2.5">
+                  {goalPlan.steps.map((s, i) => (
+                    <li key={i} className="flex gap-3 text-ink leading-snug">
+                      <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ol>
+              </SpotlightCard>
+            </Reveal>
+
+            {goalPlan.complement && (
+              <Reveal delay={80} className="lg:col-span-5">
+                <SpotlightCard className="card-sage h-full p-6 sm:p-8 flex flex-col">
+                  <p className="editorial-label text-sage-dark">Pair it with</p>
+                  <h3 className="font-display text-2xl text-ink mt-1 leading-tight">{goalPlan.complement.label}</h3>
+                  <p className="text-sm text-ink-soft mt-2 leading-relaxed flex-1">{goalPlan.complement.why}</p>
+                  <button onClick={() => onNavigate(goalPlan.complement.section)}
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline self-start">
+                    Explore <span className="display-italic">→</span>
+                  </button>
+                </SpotlightCard>
+              </Reveal>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Body map + regions */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

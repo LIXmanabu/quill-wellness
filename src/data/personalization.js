@@ -429,6 +429,19 @@ export function getConcernTips(profile) {
   return (profile.concerns || []).map((id) => CONCERN_META[id]).filter(Boolean)
 }
 
+// Goal-specific plan: the steps that move your chosen goal, plus a
+// complementary focus to pair with it.
+const GOAL_SECTION = { glow: 'skincare', fitness: 'sport', calm: 'wellness', body: 'body', eat: 'diet' }
+export function getGoalPlan(profile) {
+  const g = goalTips[profile.goal]
+  if (!g) return null
+  const c = complementMap[profile.goal]
+  const complement = c
+    ? { label: (goalTips[c.goal] || {}).label || c.goal, why: c.why, section: GOAL_SECTION[c.goal] || 'today' }
+    : null
+  return { label: g.label, why: g.why, steps: g.steps, complement }
+}
+
 // A concrete, skin-type-specific plan: what it is, what to look for/avoid,
 // and the step-by-step routine. Used for the "What your skin needs" panel.
 export function getSkinPlan(profile) {
