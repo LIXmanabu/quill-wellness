@@ -7,6 +7,7 @@ import {
   pickActivity, ENERGY_OPTIONS, FEELING_OPTIONS, windDownTips,
 } from '../data/todayActivities.js'
 import DailyTipCard from '../components/DailyTipCard.jsx'
+import { getRoutine, isPersonalized } from '../data/personalization.js'
 import Reveal from '../components/interactive/Reveal.jsx'
 import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 import { useDailyStreak } from '../hooks/useDailyStreak.js'
@@ -75,6 +76,8 @@ export default function Today({ onNavigate }) {
   const { profile } = useUser()
   const { isPro } = usePro()
   const streak = useDailyStreak()
+  const personalized = isPersonalized(profile)
+  const routine = getRoutine(profile)
   const doy = dayOfYear()
 
   const tip = getTipOfDay()
@@ -148,6 +151,57 @@ export default function Today({ onNavigate }) {
           </Reveal>
         </div>
       </section>
+
+      {/* ═══════════════ YOUR ROUTINE (from your answers) ═══════════════ */}
+      {personalized && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <Reveal>
+            <div className="flex items-baseline gap-3 mb-4">
+              <span className="editorial-num text-2xl text-clay">✦</span>
+              <span className="editorial-label">Your routine · {routine.minutes} min · {routine.label}</span>
+            </div>
+            <SpotlightCard className="card-paper p-6 sm:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <p className="editorial-label text-clay">Morning</p>
+                  <ul className="mt-3 space-y-2">
+                    {routine.morning.map((s, i) => (
+                      <li key={i} className="flex gap-3 text-sm text-ink leading-snug">
+                        <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="editorial-label text-clay">Evening</p>
+                  <ul className="mt-3 space-y-2">
+                    {routine.evening.map((s, i) => (
+                      <li key={i} className="flex gap-3 text-sm text-ink leading-snug">
+                        <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              {routine.skinAddons && (
+                <div className="mt-6 pt-5 border-t border-ink/10">
+                  <p className="editorial-label text-clay">For your skin type</p>
+                  <ul className="mt-2 space-y-1">
+                    {routine.skinAddons.map((a, i) => (
+                      <li key={i} className="text-sm text-ink-soft leading-relaxed">{a}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <button onClick={() => onNavigate('myquill')} className="btn-ghost link-underline mt-6">
+                See your full plan <span className="display-italic">→</span>
+              </button>
+            </SpotlightCard>
+          </Reveal>
+        </section>
+      )}
 
       {/* ═══════════════ 01 · TIP OF THE DAY (featured) ═══════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
