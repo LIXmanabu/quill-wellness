@@ -2,6 +2,7 @@ import RoutineCard from '../components/RoutineCard.jsx'
 import { skincareData } from '../data/skincareData.js'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
+import { getSkinPlan, CONCERN_META } from '../data/personalization.js'
 import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
@@ -50,6 +51,8 @@ export default function SkinCare({ onNavigate }) {
   const { profile } = useUser()
   const dailyRoutines = skincareData.filter((r) => ['morning', 'evening'].includes(r.id))
   const skinTypeRoutines = skincareData.filter((r) => !['morning', 'evening'].includes(r.id))
+  const skinPlan = getSkinPlan(profile)
+  const skinConcerns = (profile.concerns || []).map((id) => CONCERN_META[id]).filter((c) => c && c.section === 'skincare')
 
   return (
     <div className="bg-cream">
@@ -96,7 +99,7 @@ export default function SkinCare({ onNavigate }) {
       </section>
 
       {/* Marquee */}
-      <section className="bg-ink text-cream py-4 border-y border-ink overflow-hidden">
+      <section className="bg-cream-dark text-ink py-4 border-y border-ink/10 overflow-hidden">
         <Marquee
           items={['Cleanse', 'Hydrate', 'Protect', 'Less is more', 'Barrier first', 'Glow comes after', 'SPF · SPF · SPF']}
           separator="✦"
@@ -105,6 +108,75 @@ export default function SkinCare({ onNavigate }) {
           separatorClassName="text-clay text-xl"
         />
       </section>
+
+      {/* What your skin needs (personalized) */}
+      {skinPlan && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+          <Reveal>
+            <div className="mb-8 pb-4 border-b border-ink/15">
+              <span className="editorial-label">For your skin type</span>
+              <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
+                What your <span className="display-italic text-clay">{skinPlan.label.replace(/ skin$/i, '')}</span> skin needs.
+              </h2>
+              <p className="text-sm text-ink-soft mt-3 max-w-xl">{skinPlan.why}</p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
+            {/* Look for / Avoid */}
+            {(skinPlan.lookFor.length > 0 || skinPlan.avoid.length > 0 || skinPlan.notes.length > 0) && (
+              <Reveal className="lg:col-span-5">
+                <SpotlightCard className="card-paper h-full p-6 sm:p-8">
+                  {skinPlan.lookFor.length > 0 && (
+                    <>
+                      <p className="editorial-label text-sage-dark">Look for</p>
+                      <p className="text-ink mt-1 leading-relaxed">{skinPlan.lookFor.join(', ')}</p>
+                    </>
+                  )}
+                  {skinPlan.avoid.length > 0 && (
+                    <>
+                      <p className="editorial-label text-clay mt-5">Go easy on</p>
+                      <p className="text-ink mt-1 leading-relaxed">{skinPlan.avoid.join(', ')}</p>
+                    </>
+                  )}
+                  {skinPlan.notes.map((n) => (
+                    <p key={n} className="text-sm text-ink-soft mt-4 leading-relaxed">{n}</p>
+                  ))}
+                </SpotlightCard>
+              </Reveal>
+            )}
+
+            {/* Your steps */}
+            <Reveal delay={80} className="lg:col-span-7">
+              <SpotlightCard className="card-paper h-full p-6 sm:p-8">
+                <p className="editorial-label text-clay">Your daily steps</p>
+                <ol className="mt-4 space-y-2.5">
+                  {skinPlan.steps.map((s, i) => (
+                    <li key={i} className="flex gap-3 text-ink leading-snug">
+                      <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ol>
+              </SpotlightCard>
+            </Reveal>
+          </div>
+
+          {/* Skin concerns they flagged */}
+          {skinConcerns.length > 0 && (
+            <Reveal delay={120}>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {skinConcerns.map((c) => (
+                  <div key={c.label} className="card-sage p-4 sm:p-5">
+                    <p className="editorial-label text-sage-dark">You flagged · {c.label}</p>
+                    <p className="text-sm text-ink mt-1 leading-relaxed">{c.line}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          )}
+        </section>
+      )}
 
       {/* Daily routines */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

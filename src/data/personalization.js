@@ -428,3 +428,20 @@ export const CONCERN_META = {
 export function getConcernTips(profile) {
   return (profile.concerns || []).map((id) => CONCERN_META[id]).filter(Boolean)
 }
+
+// A concrete, skin-type-specific plan: what it is, what to look for/avoid,
+// and the step-by-step routine. Used for the "What your skin needs" panel.
+export function getSkinPlan(profile) {
+  const t = skinTypeTips[profile.skinType]
+  if (!t) return null
+  const addons = skinAddons[profile.skinType] || []
+  const lookFor = []
+  const avoid = []
+  const notes = []
+  addons.forEach((line) => {
+    if (/^look for:/i.test(line)) lookFor.push(line.replace(/^look for:\s*/i, ''))
+    else if (/^avoid:/i.test(line)) avoid.push(line.replace(/^avoid:\s*/i, ''))
+    else notes.push(line)
+  })
+  return { label: t.label, why: t.why, steps: t.steps, lookFor, avoid, notes }
+}
