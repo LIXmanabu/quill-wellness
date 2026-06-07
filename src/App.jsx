@@ -132,6 +132,11 @@ function AppShell() {
     if (wasSearch) setShowSearch(false)
     const changing = key !== activePageRef.current
     if (changing) applyPage(key)
+    // Remember the last meaningful section so Home can offer "pick up where
+    // you left off."
+    if (changing && key && key !== 'home') {
+      try { localStorage.setItem('quill.lastPage', key) } catch {}
+    }
     // Privacy-friendly analytics: log each section as a pageview (this is a
     // single-page app, so the URL doesn't change on tab switches). No-ops
     // until the Umami snippet in index.html loads.

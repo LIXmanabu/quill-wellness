@@ -1,6 +1,8 @@
+import { useMemo, useState } from 'react'
 import { useUser } from '../context/UserContext.jsx'
 import { usePro } from '../context/ProContext.jsx'
 import { getProblemTips, isPersonalized } from '../data/personalization.js'
+import { dailyTips, categoryMeta } from '../data/dailyTips.js'
 import DailyTipCard from '../components/DailyTipCard.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
 import SplitText from '../components/interactive/SplitText.jsx'
@@ -40,6 +42,20 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
   const greeting = goalGreeting[profile.goal]
   const personalized = isPersonalized(profile)
   const answerTips = getProblemTips(profile)
+
+  // ── Learns from behavior ──
+  const PAGE_LABEL = { today: 'Today', body: 'Body', sport: 'Movement', skincare: 'Skin Care', wellness: 'Wellness', diet: 'Diet', tips: 'Daily Tips', joy: 'Joy', myquill: 'My Quill', about: 'About', pro: 'Pro' }
+  const CAT_SECTION = { skincare: 'skincare', movement: 'sport', nutrition: 'diet', sleep: 'wellness', mood: 'wellness', mindset: 'wellness', hydration: 'wellness' }
+  const [lastPage] = useState(() => { try { return localStorage.getItem('quill.lastPage') } catch { return null } })
+  // The category the user saves most often, inferred from favorited tips.
+  const favInsight = useMemo(() => {
+    const ids = (profile.favorites || []).filter((f) => f.startsWith('tip:')).map((f) => f.slice(4))
+    if (!ids.length) return null
+    const counts = {}
+    ids.forEach((id) => { const t = dailyTips.find((x) => x.id === id); if (t) counts[t.category] = (counts[t.category] || 0) + 1 })
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]
+    return top ? { category: top[0], label: categoryMeta[top[0]]?.label || top[0] } : null
+  }, [profile.favorites])
 
   return (
     <div className="bg-cream">
@@ -148,6 +164,38 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
           separatorClassName="text-clay text-xl"
         />
       </section>
+
+      {/* ══════════════════════════════════════ LEARNS FROM YOU ══════════════════════════════════════ */}
+      {((lastPage && PAGE_LABEL[lastPage]) || favInsight) && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            {lastPage && PAGE_LABEL[lastPage] && (
+              <Reveal>
+                <button onClick={() => onNavigate(lastPage)}
+                  className="card-paper card-paper-hover w-full p-5 sm:p-6 text-left flex items-center justify-between gap-3 group">
+                  <span>
+                    <span className="editorial-label text-clay block">Pick up where you left off</span>
+                    <span className="font-display text-2xl text-ink">{PAGE_LABEL[lastPage]}</span>
+                  </span>
+                  <span className="display-italic text-clay transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </button>
+              </Reveal>
+            )}
+            {favInsight && (
+              <Reveal delay={80}>
+                <button onClick={() => onNavigate(CAT_SECTION[favInsight.category] || 'tips')}
+                  className="card-paper card-paper-hover w-full p-5 sm:p-6 text-left flex items-center justify-between gap-3 group">
+                  <span>
+                    <span className="editorial-label text-clay block">You keep saving</span>
+                    <span className="font-display text-2xl text-ink">{favInsight.label}</span>
+                  </span>
+                  <span className="display-italic text-clay transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </button>
+              </Reveal>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* ══════════════════════════════════════ FOR YOU, from your answers ══════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
