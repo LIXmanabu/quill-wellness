@@ -1,5 +1,6 @@
 import { useUser } from '../context/UserContext.jsx'
 import { usePro } from '../context/ProContext.jsx'
+import { getProblemTips, isPersonalized } from '../data/personalization.js'
 import DailyTipCard from '../components/DailyTipCard.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
 import SplitText from '../components/interactive/SplitText.jsx'
@@ -32,11 +33,13 @@ function getTimeGreeting() {
   return 'Good evening'
 }
 
-export default function Home({ onNavigate }) {
+export default function Home({ onNavigate, onOpenOnboarding }) {
   const { profile } = useUser()
   const { isPro } = usePro()
   const isReturning = profile.dismissedOnboarding && (profile.name || profile.goal)
   const greeting = goalGreeting[profile.goal]
+  const personalized = isPersonalized(profile)
+  const answerTips = getProblemTips(profile)
 
   return (
     <div className="bg-cream">
@@ -144,6 +147,74 @@ export default function Home({ onNavigate }) {
           itemClassName="font-display text-2xl sm:text-3xl"
           separatorClassName="text-clay text-xl"
         />
+      </section>
+
+      {/* ══════════════════════════════════════ FOR YOU, from your answers ══════════════════════════════════════ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        {personalized ? (
+          <>
+            <Reveal>
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 pb-4 border-b border-ink/15">
+                <div>
+                  <span className="editorial-label">Made for you{profile.name ? `, ${profile.name}` : ''}</span>
+                  <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
+                    Because you <span className="display-italic text-clay">told us.</span>
+                  </h2>
+                </div>
+                {onOpenOnboarding && (
+                  <button onClick={onOpenOnboarding} className="text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline self-start sm:self-end">
+                    Edit your answers <span className="display-italic">→</span>
+                  </button>
+                )}
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+              {answerTips.map((t, i) => (
+                <Reveal key={t.key} delay={i * 80}>
+                  <SpotlightCard className="card-paper card-paper-hover h-full p-6 sm:p-7">
+                    <p className="editorial-label text-clay">{t.kicker}</p>
+                    <h3 className="font-display text-2xl text-ink mt-1 leading-tight">{t.label}</h3>
+                    <p className="text-sm text-ink-soft mt-2 leading-relaxed">{t.why}</p>
+                    <ul className="mt-4 space-y-2">
+                      {t.steps.slice(0, 3).map((s) => (
+                        <li key={s} className="flex gap-2 text-sm text-ink leading-snug">
+                          <span className="text-clay flex-shrink-0" aria-hidden="true">·</span>
+                          <span>{s}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </SpotlightCard>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <button onClick={() => onNavigate('myquill')} className="btn-ink mt-8">
+                See your full plan <span className="display-italic">→</span>
+              </button>
+            </Reveal>
+          </>
+        ) : (
+          <Reveal>
+            <SpotlightCard className="card-paper p-8 sm:p-12 text-center relative overflow-hidden">
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0"
+                style={{ background: 'radial-gradient(80% 80% at 50% 0%, rgba(200,101,74,0.10), transparent 60%)' }} />
+              <div className="relative">
+                <span className="editorial-label text-clay">Make Quill yours</span>
+                <h2 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight max-w-2xl mx-auto">
+                  Answer three quick questions, get a home <span className="display-italic text-clay">made for you.</span>
+                </h2>
+                <p className="text-ink-soft mt-3 max-w-md mx-auto leading-relaxed">
+                  Your skin type, what you care about, and how much time you have. One minute, change it anytime.
+                </p>
+                {onOpenOnboarding && (
+                  <button onClick={onOpenOnboarding} className="btn-ink mt-6">
+                    Take the 1-minute quiz <span className="display-italic">→</span>
+                  </button>
+                )}
+              </div>
+            </SpotlightCard>
+          </Reveal>
+        )}
       </section>
 
       {/* ══════════════════════════════════════ IN THIS VOLUME, editorial count line ══════════════════════════════════════ */}

@@ -174,7 +174,7 @@ function AppShell() {
   }, [applyPage])
 
   const pageMap = {
-    home: <Home onNavigate={handleNavigate} />,
+    home: <Home onNavigate={handleNavigate} onOpenOnboarding={() => setShowOnboarding(true)} />,
     today: <Today onNavigate={handleNavigate} />,
     sport: <Sport onNavigate={handleNavigate} />,
     body: <Body onNavigate={handleNavigate} />,
