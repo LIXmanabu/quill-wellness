@@ -36,11 +36,12 @@ const PRIMARY = [
 const MORE_SECTIONS = [
   { key: 'sport',    label: 'Movement',     no: '01', desc: 'Beginner-safe exercise & stretching' },
   { key: 'skincare', label: 'Skin ritual',  no: '02', desc: 'Simple routines for every skin type' },
-  { key: 'wellness', label: 'Wellness',     no: '03', desc: 'Sleep, stress, mood & breathing' },
-  { key: 'joy',      label: 'Joy',          no: '04', desc: 'Collect small good moments & revisit them' },
-  { key: 'diet',     label: 'Nourishment',  no: '05', desc: 'Food, macros & meal templates' },
-  { key: 'tips',     label: 'Daily tips',   no: '06', desc: '60 evidence-informed wellness tips' },
-  { key: 'about',    label: 'About Quill',  no: '07', desc: 'Our approach & privacy' },
+  { key: 'wellness',  label: 'Wellness',     no: '03', desc: 'Sleep, stress, mood & breathing' },
+  { key: 'community', label: 'Community',    no: '04', desc: 'Share & discover routines with friends' },
+  { key: 'joy',       label: 'Joy',          no: '05', desc: 'Collect small good moments & revisit them' },
+  { key: 'diet',      label: 'Nourishment',  no: '06', desc: 'Food, macros & meal templates' },
+  { key: 'tips',      label: 'Daily tips',   no: '07', desc: '60 evidence-informed wellness tips' },
+  { key: 'about',     label: 'About Quill',  no: '08', desc: 'Our approach & privacy' },
 ]
 
 // A light haptic tick on tab change where supported (Android; iOS ignores it).

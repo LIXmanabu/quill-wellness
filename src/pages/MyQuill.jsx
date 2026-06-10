@@ -17,6 +17,7 @@ import AudioLibrary from '../components/AudioLibrary.jsx'
 import FamilySeats from '../components/FamilySeats.jsx'
 import TierReviews from '../components/TierReviews.jsx'
 import SkinJournal from '../components/SkinJournal.jsx'
+import PlansSection from '../components/PlansSection.jsx'
 import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 import { useDailyStreak } from '../hooks/useDailyStreak.js'
@@ -89,7 +90,10 @@ export default function MyQuill({ onNavigate }) {
   const [showMorePlan, setShowMorePlan] = useState(false)
 
   const resolved = profile.favorites.map((id) => ({ id, ...resolveFavorite(id) })).filter((f) => f && f.title)
-  const greeting = profile.name ? `Hello, ${profile.name}` : 'Your Quill'
+  // Strip trailing punctuation/spaces off the name so the heading's own comma
+  // doesn't stack into "Hello, Lix,," when a nickname was saved with a comma.
+  const cleanName = (profile.name || '').trim().replace(/[,\s]+$/, '')
+  const greeting = cleanName ? `Hello, ${cleanName}` : 'Your Quill'
   const personalized = isPersonalized(profile)
 
   const routine = personalized ? getRoutine(profile) : null
@@ -247,6 +251,9 @@ export default function MyQuill({ onNavigate }) {
           </Reveal>
         </section>
       )}
+
+      {/* YOUR PLANS, build your own or have Quill draft one */}
+      <PlansSection onNavigate={onNavigate} />
 
       {/* MORE OF YOUR PLAN, folded away by default so the page stays calm */}
       {hasMorePlan && (

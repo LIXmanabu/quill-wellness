@@ -15,10 +15,19 @@ function mapUser(u) {
   return { id: u.id, email: u.email, name: u.user_metadata?.name || '' }
 }
 
+// Where confirmation / reset / magic-link emails should send people back to.
+// Uses the current app URL (works for localhost AND the live sub-path) — just
+// make sure this exact URL is in Supabase → Authentication → URL Configuration.
+const appUrl = () =>
+  (typeof window !== 'undefined' ? window.location.origin + window.location.pathname : '/')
+
 // ── Real accounts: Supabase Auth (server-side, works across devices) ──
 function SupabaseAuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  // True after the user clicks a "reset password" email link, so the app can
+  // prompt them to choose a new password.
+  const [recovery, setRecovery] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -28,7 +37,8 @@ function SupabaseAuthProvider({ children }) {
       setLoading(false)
     })
     // Stay in sync across tabs, token refreshes, and sign in/out.
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') setRecovery(true)
       setUser(mapUser(session?.user))
       setLoading(false)
     })
@@ -39,10 +49,29 @@ function SupabaseAuthProvider({ children }) {
     const { data, error } = await supabase.auth.signUp({
       email: (email || '').trim(),
       password,
-      options: { data: { name: (name || '').trim() } },
+      options: { data: { name: (name || '').trim() }, emailRedirectTo: appUrl() },
     })
-    return { data: mapUser(data?.user), error }
+    // When "Confirm email" is ON, sign-up returns a user but NO session — the
+    // person must click the email link first. The UI uses this to say so.
+    const needsConfirmation = !error && !!data?.user && !data?.session
+    return { data: mapUser(data?.user), error, needsConfirmation }
   }
+
+  // Email a password-reset link. The link returns to the app and fires the
+  // PASSWORD_RECOVERY event handled above.
+  async function resetPassword(email) {
+    const { error } = await supabase.auth.resetPasswordForEmail((email || '').trim(), { redirectTo: appUrl() })
+    return { error }
+  }
+
+  // Set a new password (used during recovery, while temporarily signed in).
+  async function updatePassword(newPassword) {
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    if (!error) setRecovery(false)
+    return { error }
+  }
+
+  function clearRecovery() { setRecovery(false) }
 
   async function signIn(email, password) {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -57,7 +86,7 @@ function SupabaseAuthProvider({ children }) {
   async function signInWithMagicLink(email) {
     const { error } = await supabase.auth.signInWithOtp({
       email: (email || '').trim(),
-      options: { emailRedirectTo: window.location.origin },
+      options: { emailRedirectTo: appUrl() },
     })
     return { error }
   }
@@ -68,7 +97,10 @@ function SupabaseAuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithMagicLink, signOut }}>
+    <AuthContext.Provider value={{
+      user, loading, recovery, signUp, signIn, signInWithMagicLink, signOut,
+      resetPassword, updatePassword, clearRecovery,
+    }}>
       {children}
     </AuthContext.Provider>
   )
@@ -82,8 +114,17 @@ function LocalAuthProvider({ children }) {
   async function signUp(email, password, name) {
     const res = await localAuth.signUp(email, password, name)
     if (res.user) setUser(res.user)
-    return { data: res.user ?? null, error: res.error ?? null }
+    return { data: res.user ?? null, error: res.error ?? null, needsConfirmation: false }
   }
+
+  // Local-only mode has no email server, so password reset isn't possible here.
+  async function resetPassword() {
+    return { error: { message: 'Password reset needs the database connected. (Local accounts can’t email you.)' } }
+  }
+  async function updatePassword() {
+    return { error: { message: 'Not available in local-only mode.' } }
+  }
+  function clearRecovery() {}
 
   async function signIn(email, password) {
     const res = await localAuth.signIn(email, password)
@@ -103,7 +144,10 @@ function LocalAuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading: false, signUp, signIn, signInWithMagicLink, signOut }}>
+    <AuthContext.Provider value={{
+      user, loading: false, recovery: false, signUp, signIn, signInWithMagicLink, signOut,
+      resetPassword, updatePassword, clearRecovery,
+    }}>
       {children}
     </AuthContext.Provider>
   )

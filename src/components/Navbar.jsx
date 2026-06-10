@@ -12,6 +12,7 @@ const tabs = [
   { key: 'sport', label: 'Movement' },
   { key: 'skincare', label: 'Skin' },
   { key: 'wellness', label: 'Wellness' },
+  { key: 'community', label: 'Community' },
   { key: 'joy', label: 'Joy' },
   { key: 'diet', label: 'Diet' },
   { key: 'tips', label: 'Tips' },

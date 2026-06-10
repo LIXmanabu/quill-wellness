@@ -6,6 +6,7 @@ import SearchOverlay from './components/SearchOverlay.jsx'
 import ConnectionStatus from './components/ConnectionStatus.jsx'
 import OnboardingQuiz from './components/OnboardingQuiz.jsx'
 import AuthModal from './components/AuthModal.jsx'
+import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
 import CustomCursor from './components/interactive/CustomCursor.jsx'
 import NoiseOverlay from './components/interactive/NoiseOverlay.jsx'
 import Home from './pages/Home.jsx'
@@ -28,6 +29,7 @@ const MyQuill = lazy(() => import('./pages/MyQuill.jsx'))
 const Pro = lazy(() => import('./pages/Pro.jsx'))
 const TipLibrary = lazy(() => import('./pages/TipLibrary.jsx'))
 const Joy = lazy(() => import('./pages/Joy.jsx'))
+const Community = lazy(() => import('./pages/Community.jsx'))
 
 const PAGE_LABELS = {
   today: 'Today',
@@ -40,6 +42,7 @@ const PAGE_LABELS = {
   about: 'About Quill',
   myquill: 'Your Quill',
   pro: 'Pro edition',
+  community: 'Community',
   home: 'Home',
 }
 
@@ -66,7 +69,7 @@ function AppShell() {
   const [guestMode,      setGuestMode]      = useState(false)
   const { profile, updateProfile } = useUser()
   const { tier, isMax, setTier } = usePro()
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading, recovery } = useAuth()
 
   // However onboarding is dismissed (skip, ✕, escape, or completion),
   // remember it so logged-in users aren't asked again every visit.
@@ -191,6 +194,7 @@ function AppShell() {
     pro: <Pro onNavigate={handleNavigate} />,
     tips: <TipLibrary onNavigate={handleNavigate} />,
     joy: <Joy onNavigate={handleNavigate} />,
+    community: <Community onNavigate={handleNavigate} />,
   }
 
   return (
@@ -230,6 +234,7 @@ function AppShell() {
       <BottomTabBar activePage={activePage} onNavigate={handleNavigate} onOpenSearch={openSearch} />
 
       {showSearch     && <SearchOverlay onClose={closeSearch} onNavigate={handleNavigate} />}
+      {recovery       && <UpdatePasswordModal />}
       {showAuth       && <AuthModal onGuest={handleContinueAsGuest} />}
       {showOnboarding && <OnboardingQuiz onClose={closeOnboarding} />}
 

@@ -9,9 +9,9 @@ import { checkLock, recordFailure, recordSuccess, formatWait } from '../lib/logi
 // a passwordless "email me a link" option appears; otherwise accounts are
 // local to this browser only.
 export default function AuthModal({ onGuest }) {
-  const { signIn, signUp, signInWithMagicLink } = useAuth()
+  const { signIn, signUp, signInWithMagicLink, resetPassword } = useAuth()
 
-  const [view,     setView]     = useState('signup')    // 'welcome' | 'signin' | 'signup'
+  const [view,     setView]     = useState('signup')    // welcome | signin | signup | check-email | reset
   const [name,     setName]     = useState('')
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
@@ -84,8 +84,20 @@ export default function AuthModal({ onGuest }) {
     e.preventDefault()
     if (!pwStrong) { setError('Please pick a stronger password (see the requirements below).'); return }
     setBusy(true); setError('')
-    const { error } = await signUp(email, password, name)
-    if (error) setError(error.message)   // success → App closes the modal
+    const { error, needsConfirmation } = await signUp(email, password, name)
+    if (error) setError(error.message)
+    else if (needsConfirmation) go('check-email')   // must confirm by email first
+    // else success → App closes the modal
+    setBusy(false)
+  }
+
+  async function handleReset(e) {
+    e.preventDefault()
+    if (!email) { setError('Enter your email address first.'); return }
+    setBusy(true); setError('')
+    const { error } = await resetPassword(email)
+    if (error) setError(error.message)
+    else setLinkSent(true)
     setBusy(false)
   }
 
@@ -167,12 +179,67 @@ export default function AuthModal({ onGuest }) {
               )
             )}
 
+            {SUPABASE_ENABLED && (
+              <p className="text-xs text-ink-softer mt-3 text-center">
+                <button type="button" onClick={() => go('reset')}
+                  className="underline underline-offset-2 hover:text-ink transition-colors">Forgot your password?</button>
+              </p>
+            )}
+
             <p className="text-xs text-ink-softer mt-4 text-center">
               No account?{' '}
               <button type="button" onClick={() => go('signup')}
                 className="underline underline-offset-2 hover:text-ink transition-colors">Create one</button>
             </p>
           </form>
+        )}
+
+        {/* ── Forgot password ───────────────────────────────── */}
+        {view === 'reset' && (
+          <form onSubmit={handleReset}>
+            <button type="button" onClick={() => go('signin')}
+              className="text-xs text-ink-soft mb-6 flex items-center gap-1 hover:text-ink transition-colors">
+              ← Back
+            </button>
+            <h2 className="font-display text-3xl text-ink mb-3">Reset password</h2>
+
+            {linkSent ? (
+              <p className="text-sm text-ink-soft leading-relaxed bg-cream-dark px-4 py-3 border border-ink/10">
+                If an account exists for <span className="font-semibold">{email}</span>, we’ve sent a link to
+                set a new password. Check your inbox (and spam folder).
+              </p>
+            ) : (
+              <>
+                <p className="text-sm text-ink-soft mb-5 leading-relaxed">
+                  Enter your email and we’ll send you a link to choose a new password.
+                </p>
+                {error && <p className="text-xs text-clay-dark mb-4 bg-clay/10 px-3 py-2 border border-clay/20">{error}</p>}
+                <input type="email" placeholder="Email address" value={email}
+                  onChange={(e) => setEmail(e.target.value)} required autoComplete="email"
+                  className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors mb-5" />
+                <button type="submit" disabled={busy} className="btn-ink w-full disabled:opacity-50">
+                  {busy ? 'Sending…' : 'Send reset link'}
+                </button>
+              </>
+            )}
+          </form>
+        )}
+
+        {/* ── Confirm your email (sign-up with confirmation on) ─ */}
+        {view === 'check-email' && (
+          <div className="text-center">
+            <p className="editorial-label text-clay mb-2">Almost there</p>
+            <h2 className="font-display text-3xl text-ink leading-tight mb-3">Confirm your email</h2>
+            <p className="text-sm text-ink-soft leading-relaxed">
+              We’ve sent a confirmation link to <span className="font-semibold text-ink">{email}</span>.
+              Click it to activate your account, then come back and sign in.
+            </p>
+            <p className="text-xs text-ink-softer mt-3">Can’t find it? Check your spam folder.</p>
+            <button onClick={() => go('signin')} className="btn-ink w-full mt-6">Back to sign in</button>
+            <button onClick={onGuest} className="mt-3 w-full text-xs text-ink-softer hover:text-ink-soft transition-colors py-2 underline underline-offset-4 decoration-ink/20">
+              Continue as guest for now
+            </button>
+          </div>
         )}
 
         {/* ── Sign up ───────────────────────────────────────── */}

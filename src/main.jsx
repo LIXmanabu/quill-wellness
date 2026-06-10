@@ -48,4 +48,17 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
       window.location.reload()
     })
   })
+} else if ('serviceWorker' in navigator && import.meta.env.DEV) {
+  // A service worker installed by a PROD build viewed earlier on this same
+  // origin (e.g. `npm run preview` on localhost) will keep serving its cached,
+  // stale app shell on top of the dev server, making new pages/tabs look
+  // missing. In dev, evict any such worker + its caches, then reload once.
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    if (!regs.length) return
+    Promise.all(regs.map((r) => r.unregister()))
+      .then(() => ('caches' in window
+        ? caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+        : null))
+      .then(() => window.location.reload())
+  })
 }
