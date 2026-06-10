@@ -43,8 +43,8 @@ export default function DailyTipCard({ onNavigateLibrary }) {
           )}
         </div>
 
-        {/* Right action */}
-        <div className="lg:col-span-1 lg:flex lg:justify-end items-start">
+        {/* Right action: top-right on phones (not an orphan row), grid cell on desktop */}
+        <div className="absolute top-5 right-5 lg:static lg:col-span-1 lg:flex lg:justify-end items-start">
           <FavoriteButton id={`tip:${tip.id}`} label={tip.title} size="sm" />
         </div>
       </div>

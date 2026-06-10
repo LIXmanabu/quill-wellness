@@ -464,7 +464,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               <p className="editorial-label mb-3">Colophon</p>
               <p className="font-display text-2xl text-ink leading-tight">Quill, Wellness, <span className="display-italic">quietly.</span></p>
               <p className="text-sm text-ink-soft mt-3 leading-relaxed">
-                A wellness companion for the practice of being human. Built with care. Hand-set in Fraunces & Instrument Serif. Your account and progress live only in this browser, no server, no tracking.
+                A wellness companion for the practice of being human. Built with care. Hand-set in Fraunces & Instrument Serif. Your data stays yours: on this device as a guest, in your own private account if you make one. Never sold, never shared.
               </p>
             </div>
             <div>

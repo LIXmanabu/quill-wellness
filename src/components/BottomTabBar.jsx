@@ -66,13 +66,41 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
     return () => { document.body.style.overflow = prev }
   }, [sheetOpen])
 
+  // The sheet participates in history (like the search overlay), so the
+  // device/edge back button closes it instead of changing the page under it.
+  function openSheet() {
+    setSheetOpen(true)
+    window.history.pushState({ ...(window.history.state || {}), quillSheet: true }, '')
+  }
+  function closeSheet() {
+    if (window.history.state?.quillSheet) window.history.back()
+    else setSheetOpen(false)
+  }
+  useEffect(() => {
+    function onPop(e) {
+      setSheetOpen(!!(e.state && e.state.quillSheet))
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
   function go(key) {
     haptic()
+    // Consume the sheet's history entry so Back from the new page doesn't
+    // land on a stale sheet-open state.
+    if (window.history.state?.quillSheet) {
+      const { quillSheet, ...rest } = window.history.state
+      window.history.replaceState(rest, '')
+    }
     setSheetOpen(false)
     onNavigate(key)
   }
 
   function openSearch() {
+    if (window.history.state?.quillSheet) {
+      const { quillSheet, ...rest } = window.history.state
+      window.history.replaceState(rest, '')
+    }
     setSheetOpen(false)
     onOpenSearch?.()
   }
@@ -84,7 +112,7 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
       {/* ── The More sheet ── */}
       {sheetOpen && (
         <div className="lg:hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label="More sections">
-          <div className="absolute inset-0 bg-ink/40 animate-fade-in" onClick={() => setSheetOpen(false)} />
+          <div className="absolute inset-0 bg-ink/40 animate-fade-in" onClick={closeSheet} />
           <div className="absolute left-0 right-0 bottom-0 bg-cream-light border-t border-ink/15 shadow-soft-lg rounded-t-2xl animate-sheet-up max-h-[82vh] overflow-y-auto pb-[calc(env(safe-area-inset-bottom)+1rem)]">
             <div className="flex justify-center pt-3 pb-1">
               <span className="block w-10 h-1 rounded-full bg-ink/15" />
@@ -173,7 +201,7 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
           })}
           <li className="flex-1">
             <button
-              onClick={() => setSheetOpen((v) => !v)}
+              onClick={() => (sheetOpen ? closeSheet() : openSheet())}
               aria-expanded={sheetOpen}
               aria-label="More sections"
               className={`relative w-full min-h-[52px] flex flex-col items-center justify-center gap-0.5 transition-colors ${

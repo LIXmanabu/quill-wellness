@@ -64,7 +64,7 @@ ok('Bottom bar has 5 tabs (Home/Today/Body/My Quill/More)', m.tabButtons === 5)
 ok('Bottom bar is pinned to the bottom of the screen', m.atBottom)
 ok('Desktop top-nav tab row is hidden on mobile', m.desktopNavHidden)
 ok('PWA manifest linked', m.manifest)
-ok('theme-color meta present (#FAF6ED)', m.themeColor === '#FAF6ED')
+ok('theme-color meta present (#F7F2EA)', m.themeColor === '#F7F2EA')
 ok('apple-mobile-web-app-capable meta present', m.appleCapable)
 
 await page.screenshot({ path: 'mobile-home.png' })

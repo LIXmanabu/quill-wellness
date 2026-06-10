@@ -223,8 +223,9 @@ function AppShell() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <span className="editorial-label text-ink-soft">Quill · Vol. 01</span>
             <p className="text-xs text-ink-soft leading-relaxed max-w-xl sm:text-right">
-              Your account and progress are stored only in this browser, on your device. Quill
-              doesn't send, collect, or share any of your data. Clearing your browser will erase it.
+              As a guest, your progress lives only in this browser, and clearing it erases everything.
+              With a free account it syncs privately across your devices. Either way, your data is
+              never sold or shared.
             </p>
           </div>
         </footer>

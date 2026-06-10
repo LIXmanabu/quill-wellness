@@ -296,7 +296,8 @@ export default function Pro({ onNavigate }) {
           </div>
         </Reveal>
 
-        <div className="border border-ink/15 overflow-x-auto">
+        {/* Wide screens: the full six-column ledger */}
+        <div className="hidden md:block border border-ink/15 overflow-x-auto">
           <div className="min-w-[680px]">
             <div className="grid grid-cols-[60px_minmax(180px,1fr)_80px_120px_140px_180px] gap-3 px-4 sm:px-6 py-3 bg-cream-dark text-ink editorial-label">
               <div>№</div>
@@ -328,6 +329,40 @@ export default function Pro({ onNavigate }) {
               </Reveal>
             ))}
           </div>
+        </div>
+
+        {/* Phones: same ledger, stacked, nothing hidden offscreen */}
+        <div className="md:hidden border border-ink/15">
+          {features.map((f, i) => (
+            <Reveal key={f.title} delay={i * 20}>
+              <div className={`px-4 py-4 ${i > 0 ? 'border-t border-ink/10' : ''} ${f.status === 'planned' ? 'bg-bone' : 'bg-cream-light'}`}>
+                <div className="flex items-baseline gap-3">
+                  <span className="num-display text-lg text-ink-softer">{f.num}</span>
+                  <span className="text-base text-clay">{f.icon}</span>
+                  <span className="font-medium text-ink text-sm flex-1">{f.title}</span>
+                  <span className={`inline-block px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide border flex-shrink-0 ${
+                    f.status === 'live' ? 'bg-sage-pale text-sage-dark border-sage/30' : 'bg-gold-pale text-gold-dark border-gold/30'
+                  }`}>
+                    {f.status}
+                  </span>
+                </div>
+                <dl className="mt-3 space-y-1.5 pl-9">
+                  <div className="flex items-baseline gap-3">
+                    <dt className="editorial-label w-10 flex-shrink-0">Free</dt>
+                    <dd className="text-xs text-ink-softer">{f.free}</dd>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    <dt className="editorial-label w-10 flex-shrink-0">Pro</dt>
+                    <dd className="text-xs text-ink font-medium">{f.pro}</dd>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    <dt className="editorial-label w-10 flex-shrink-0 text-gold-dark">Max</dt>
+                    <dd className="text-xs text-gold-dark font-medium">{f.max}</dd>
+                  </div>
+                </dl>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -375,7 +410,7 @@ export default function Pro({ onNavigate }) {
             { q: 'Is this a real subscription?', a: 'No, Quill is a prototype. The checkout looks real but no payment is taken; your card details stay in your browser.' },
             { q: 'What\'s the difference between Pro and Max?', a: 'Pro gives you the full software, all 60 tips, per-answer routine, live diet tracker, ingredient deep-dives, 7-day meal templates. Max adds six dedicated tools that live on MyQuill: sleep schedule analyzer, cycle tracking, wearable sync (with sample data + manual logging), audio library with browser-generated sounds + breathwork timer, habit streak tracker, and four family seats. Plus the rainbow theme and 30-day early access to new tools.' },
             { q: 'Can I cancel anytime?', a: 'Yes, monthly with no commitment. In this prototype, cancel from My Quill or the hero CTA above.' },
-            { q: 'Do you store my data?', a: 'Everything stays in your browser via localStorage. No account, no servers, no tracking, even on Max.' },
+            { q: 'Do you store my data?', a: 'As a guest, everything stays in your browser via localStorage. If you create a free account, your profile and progress live in your private, password-protected account so they sync across devices. We never sell or share your data, on any tier.' },
             { q: 'Is content medically reviewed?', a: 'All in-app content is general wellness guidance, evidence-informed but not medical advice. Max-tier custom plans are built by registered professionals.' },
           ].map((item, i) => (
             <Reveal key={item.q} delay={i * 50}>

@@ -3,7 +3,7 @@ import Reveal from '../components/interactive/Reveal.jsx'
 
 const principles = [
   { num: '01', title: 'Body-positive & inclusive', text: 'Quill uses only positive, supportive language. No body shaming, no unrealistic ideals, just genuine care.' },
-  { num: '02', title: 'Privacy-first', text: 'No accounts, no tracking, no data collection. Everything stays on your device.' },
+  { num: '02', title: 'Privacy-first', text: 'Accounts are optional. Guest data never leaves your device; account data lives in your own private space, never sold, never shared.' },
   { num: '03', title: 'Evidence-informed', text: 'Content is built on general wellness knowledge and beginner-safe guidance, not trends or harmful myths.' },
   { num: '04', title: 'Medically responsible', text: 'We never diagnose, never promise cures, and always encourage speaking with a professional for real concerns.' },
 ]

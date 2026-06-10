@@ -7,6 +7,11 @@ export default function AnimatedCounter({ to = 100, duration = 1600, suffix = ''
 
   useEffect(() => {
     if (!visible) return
+    // Reduced motion: show the real number immediately, no count-up.
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setValue(to)
+      return
+    }
     let start = null
     const from = 0
     const end = to

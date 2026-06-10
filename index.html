@@ -2,8 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Apply saved theme before first paint so dark mode never flashes light. -->
-    <script>try{if(localStorage.getItem('quill.theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}</script>
+    <!-- Boot script (runs before first paint). The production build hashes this
+         automatically into the Content-Security-Policy (see vite.config.js), so
+         you can edit it freely, no hash to update by hand.
+         (1) apply the saved theme, so dark mode never flashes light;
+         (2) frame-buster: if the page is loaded inside someone else's iframe
+             (clickjacking), break back out to the top window, or blank the
+             page if a cross-origin frame won't let us. -->
+    <script>try{if(localStorage.getItem('quill.theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}if(window.top!==window.self){try{window.top.location=window.self.location}catch(e){document.documentElement.style.display='none'}}</script>
     <link rel="icon" type="image/png" href="./quill-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Quill — Wellness & Beauty</title>
@@ -29,7 +35,7 @@
 
     <!-- PWA / installable app shell (relative paths → works at any URL sub-path) -->
     <link rel="manifest" href="./manifest.webmanifest" />
-    <meta name="theme-color" content="#FAF6ED" />
+    <meta name="theme-color" content="#F7F2EA" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
