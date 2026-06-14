@@ -7,6 +7,7 @@ import ConnectionStatus from './components/ConnectionStatus.jsx'
 import OnboardingQuiz from './components/OnboardingQuiz.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
+import TesterBadge from './components/TesterBadge.jsx'
 import CustomCursor from './components/interactive/CustomCursor.jsx'
 import NoiseOverlay from './components/interactive/NoiseOverlay.jsx'
 import Home from './pages/Home.jsx'
@@ -238,6 +239,9 @@ function AppShell() {
       {recovery       && <UpdatePasswordModal />}
       {showAuth       && <AuthModal onGuest={handleContinueAsGuest} />}
       {showOnboarding && <OnboardingQuiz onClose={closeOnboarding} />}
+
+      {/* Beta tester pill + feedback (bottom-left); renders only for testers. */}
+      <TesterBadge />
 
       {/* Always-visible "exit upgraded tier" button, bottom-right, every page. */}
       {tier !== 'free' && (

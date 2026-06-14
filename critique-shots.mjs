@@ -169,6 +169,22 @@ await clickByText('Wellness')
 await sleep(1200)
 allIssues.push(...await shoot('11-wellness'))
 
+// Tester badge — arrive via the invite link, dismiss gates, capture closed + open
+await page.goto(URL + '?tester=quill-beta', { waitUntil: 'networkidle2', timeout: 30000 })
+await sleep(900)
+await clickByText('Continue as guest')
+await sleep(700)
+await clickByText('Skip')
+await sleep(1000)
+allIssues.push(...await shoot('12-tester-badge-closed', { fullPage: false }))
+const badgeState = await page.evaluate(() => {
+  const b = [...document.querySelectorAll('button')].find((x) => x.getAttribute('aria-label') === 'Beta tester menu')
+  if (b) b.click()
+  return { present: !!b, expanded: b?.getAttribute('aria-expanded') ?? null }
+})
+await sleep(500)
+allIssues.push(...await shoot('13-tester-badge-open', { fullPage: false }))
+
 // dedupe issues
 const seen = new Set()
 const unique = allIssues.filter((i) => {
@@ -178,5 +194,5 @@ const unique = allIssues.filter((i) => {
   return true
 })
 
-console.log(JSON.stringify({ issues: unique, consoleErrors: errors.slice(0, 10) }, null, 2))
+console.log(JSON.stringify({ issues: unique, badgeState, consoleErrors: errors.slice(0, 10) }, null, 2))
 await browser.close()
