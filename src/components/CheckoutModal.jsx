@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { usePro, DEV_CODE, TESTER_CODE } from '../context/ProContext.jsx'
+import { usePro, DEV_CODE, validateTesterCode } from '../context/ProContext.jsx'
 import Celebration from './Celebration.jsx'
 
 const planData = {
@@ -63,17 +63,20 @@ export default function CheckoutModal({ plan, onClose }) {
   const [codeError, setCodeError] = useState(false)
   const [codeUnlocked, setCodeUnlocked] = useState(false)
 
-  function tryCode(e) {
+  async function tryCode(e) {
     e.preventDefault()
-    const entered = codeInput.trim().toLowerCase()
-    if (entered === DEV_CODE.toLowerCase()) {
+    const entered = codeInput.trim()
+    if (entered.toLowerCase() === DEV_CODE.toLowerCase()) {
       setDevUnlocked(true)
       setCodeUnlocked(true)
       setCodeError(false)
       setCodeInput('')
       setTimeout(() => setCodeOpen(false), 1400)
-    } else if (entered === TESTER_CODE.toLowerCase()) {
-      // Typed-code fallback for testers who got the plain link, not ?tester=.
+      return
+    }
+    // Typed-code path for testers who got the plain link, not ?tester=.
+    // Validated against Supabase (with a local fallback) just like the link.
+    if (await validateTesterCode(entered)) {
       setTester(true)
       setCodeUnlocked(true)
       setCodeError(false)

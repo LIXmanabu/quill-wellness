@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, useMemo } from 'react'
+import { supabase, SUPABASE_ENABLED } from '../lib/supabase.js'
 
 const DEV_STORAGE_KEY = 'quill.devUnlocked'
 const TESTER_STORAGE_KEY = 'quill.tester'
@@ -8,15 +9,35 @@ const TIERS = ['free', 'pro', 'max']
 // Unlocks the tier switcher / "god mode". Keep this to yourself.
 export const DEV_CODE = 'I know Felix'
 
-// ── Shared tester code (the people you invite) ────────────────────────────
-// One code for everyone in the beta. The easiest way to onboard a tester is
-// to send them this link (no typing needed):
-//   https://lixmanabu.github.io/quill-wellness/?tester=quill-beta
-// Anyone who opens that link is silently flagged as a tester so you can tell
-// them apart from random traffic in Umami. They can also type the code into
-// the hidden box on the checkout screen. Testers use the app exactly like a
-// normal user — this does NOT unlock the developer tier switcher.
-export const TESTER_CODE = 'quill-beta'
+// ── Tester codes ──────────────────────────────────────────────────────────
+// Codes now live in Supabase (table `tester_codes`, see supabase/tester_codes.sql)
+// so you can create, revoke, expire, and track them from the dashboard with no
+// redeploy. The app validates a code through the `redeem_tester_code` function,
+// which never exposes the list of codes to the browser. The easiest way to
+// onboard a tester is to send them an invite link (no typing needed):
+//   https://lixmanabu.github.io/quill-wellness/?tester=<their-code>
+// Opening it flags them as a tester (segmented in Umami). They can also type
+// the code into the hidden box on the checkout screen. Testers use the app
+// like a normal user; this does NOT unlock the developer tier switcher.
+//
+// FALLBACK_TESTER_CODE keeps things working in local dev (no Supabase keys)
+// and during the brief window before the SQL is run on the live project.
+export const FALLBACK_TESTER_CODE = 'quill-beta'
+
+// Validate a tester code. Resolves true when the code is good. Uses the secure
+// Supabase function when available, falling back to the built-in code so the
+// invite flow never hard-breaks if the backend is offline or not yet migrated.
+export async function validateTesterCode(code) {
+  const entered = (code || '').trim()
+  if (!entered) return false
+  if (SUPABASE_ENABLED) {
+    try {
+      const { data, error } = await supabase.rpc('redeem_tester_code', { p_code: entered })
+      if (!error) return data === true
+    } catch { /* network/RPC failure → fall through to local check */ }
+  }
+  return entered.toLowerCase() === FALLBACK_TESTER_CODE.toLowerCase()
+}
 
 // Where the "Send feedback" button delivers. Swap this to your Quill business
 // email once it's set up (e.g. hello@quill...). Until then it goes to you.
@@ -61,22 +82,28 @@ export function ProProvider({ children }) {
   }, [isTester])
 
   // ── Auto-join the beta from the invite link ──────────────────────────────
-  // If the page is opened with ?tester=<code>, flag this visitor as a tester,
-  // tell Umami (so their whole session is segmented), then strip the param so
-  // a refresh stays clean and the code isn't left dangling in the address bar.
+  // If the page is opened with ?tester=<code>, validate it (against Supabase
+  // when available), flag this visitor as a tester, tell Umami so their whole
+  // session is segmented, then strip the param so a refresh stays clean and
+  // the code isn't left dangling in the address bar.
   useEffect(() => {
-    try {
-      const params = new URLSearchParams(window.location.search)
-      const code = params.get('tester')
-      if (code && code.trim().toLowerCase() === TESTER_CODE.toLowerCase()) {
-        setTesterState(true)
-        markTesterInAnalytics()
+    let cancelled = false
+    let code = null
+    try { code = new URLSearchParams(window.location.search).get('tester') } catch {}
+    if (!code) return
+    validateTesterCode(code).then((ok) => {
+      if (cancelled || !ok) return
+      setTesterState(true)
+      markTesterInAnalytics()
+      try {
+        const params = new URLSearchParams(window.location.search)
         params.delete('tester')
         const qs = params.toString()
         const clean = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
         window.history.replaceState(window.history.state, '', clean)
-      }
-    } catch {}
+      } catch {}
+    })
+    return () => { cancelled = true }
   }, [])
 
   // One-time housekeeping: clear any tier value from previous builds
