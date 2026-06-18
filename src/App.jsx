@@ -7,6 +7,7 @@ import ConnectionStatus from './components/ConnectionStatus.jsx'
 import InstallPrompt from './components/InstallPrompt.jsx'
 import OnboardingQuiz from './components/OnboardingQuiz.jsx'
 import DailyQuestion, { nextDailyQuestion } from './components/DailyQuestion.jsx'
+import ProToggle from './components/ProToggle.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
 import TesterBadge from './components/TesterBadge.jsx'
@@ -72,7 +73,7 @@ function AppShell() {
   // screen reappears on each fresh load until the visitor makes a real account.
   const [guestMode,      setGuestMode]      = useState(false)
   const { profile, loaded: profileLoaded, updateProfile } = useUser()
-  const { tier, isMax, setTier } = usePro()
+  const { tier, isMax, setTier, devUnlocked } = usePro()
   const { user, loading: authLoading, recovery } = useAuth()
 
   // However onboarding is dismissed (skip, ✕, escape, or completion),
@@ -269,8 +270,17 @@ function AppShell() {
       {/* Beta tester pill + feedback (bottom-left); renders only for testers. */}
       <TesterBadge />
 
-      {/* Always-visible "exit upgraded tier" button, bottom-right, every page. */}
-      {tier !== 'free' && (
+      {/* Floating dev tier switcher (admins only). Lives here, not in the
+          navbar, so it never crowds or crops the header on desktop. */}
+      {devUnlocked && (
+        <div className="fixed right-4 z-[55] bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-6 bg-cream-light/95 backdrop-blur-sm border border-ink/15 shadow-soft-lg p-2">
+          <ProToggle />
+        </div>
+      )}
+
+      {/* Always-visible "exit upgraded tier" button, bottom-right, every page.
+          Hidden for admins — they switch tiers with the dev control above. */}
+      {tier !== 'free' && !devUnlocked && (
         <button
           onClick={() => setTier('free')}
           className={`fixed right-4 z-[55] px-4 py-2.5 text-xs font-bold uppercase tracking-[0.18em] shadow-soft-lg transition-all border-2 bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-6 ${

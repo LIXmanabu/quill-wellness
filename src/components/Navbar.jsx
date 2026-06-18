@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import ProToggle from './ProToggle.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
@@ -24,7 +23,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
   const [scrolled, setScrolled] = useState(false)
   const [hoverKey, setHoverKey] = useState(null)
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
-  const { tier, devUnlocked } = usePro()
+  const { tier } = usePro()
   const tierLabel = tier === 'max' ? 'Max Edition' : tier === 'pro' ? 'Pro Edition' : 'Free Edition'
   const { profile } = useUser()
   const favCount = profile.favorites.length
@@ -94,7 +93,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
           {/* Logo, Magazine masthead style */}
           <button
             onClick={() => handleNav('home')}
-            className="group"
+            className="group shrink-0"
             aria-label="Quill, go to home"
           >
             <img
@@ -107,7 +106,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
           {/* Desktop tabs with sliding indicator */}
           <nav
             ref={navRef}
-            className="hidden lg:flex relative items-center gap-5 xl:gap-7"
+            className="hidden lg:flex relative items-center gap-5 xl:gap-7 min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             onMouseLeave={() => setHoverKey(null)}
           >
             {/* Sliding active/hover indicator, a single bar tracking the focused tab */}
@@ -142,7 +141,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                   ref={(el) => (tabRefs.current[tab.key] = el)}
                   onClick={() => handleNav(tab.key)}
                   onMouseEnter={() => setHoverKey(tab.key)}
-                  className={`relative text-sm tracking-wide font-medium transition-all duration-300 py-1 ${
+                  className={`relative text-sm tracking-wide font-medium transition-all duration-300 py-1 shrink-0 whitespace-nowrap ${
                     isActive ? 'text-ink' : 'text-ink-soft hover:text-ink'
                   }`}
                 >
@@ -167,8 +166,9 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
             <ThemeToggle className="ml-1 pl-3 border-l border-ink/15 h-5" />
           </nav>
 
-          {/* Right side: search + account indicator + Pro toggle */}
-          <div className="flex items-center gap-1 sm:gap-3">
+          {/* Right side: search + account indicator (the dev tier switcher is a
+              floating control now, so it never crowds or crops the nav) */}
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
             {/* Search, available on every screen size */}
             <button
               onClick={onOpenSearch}
@@ -198,7 +198,6 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 </button>
               </div>
             )}
-            {devUnlocked && <ProToggle />}
           </div>
         </div>
       </div>
