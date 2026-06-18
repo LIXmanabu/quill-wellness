@@ -32,6 +32,7 @@ function saveConcerns(id, concerns) {
 
 const UserContext = createContext({
   profile: defaultProfile,
+  loaded: false,
   updateProfile: () => {},
   toggleFavorite: () => {},
   isFavorite: () => false,
@@ -69,7 +70,9 @@ function useProfileActions(setProfile) {
 // ── Map between the app's camelCase profile and the DB's snake_case row ──
 function rowToProfile(r, seedName = '') {
   return {
-    name: cleanName(r.name ?? seedName ?? ''),
+    // Prefer the account name: an empty stored name falls back to it, so
+    // signed-in users are never asked for a name.
+    name: cleanName(r.name || seedName || ''),
     skinType: r.skin_type ?? '',
     goal: r.goal ?? '',
     timePerDay: r.time_per_day ?? '',
@@ -97,15 +100,20 @@ function SupabaseUserProvider({ children }) {
   // Becomes true only after this user's row has loaded, so the debounced
   // save never overwrites the DB with the default before the real load.
   const loadedRef = useRef(false)
+  // Same signal, but as state so consumers (e.g. the daily question) can wait
+  // for the real profile before deciding what to ask.
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     loadedRef.current = false
+    setLoaded(false)
     if (!user?.id) {
       // Guest: keep answers in localStorage so they survive reloads, then if
       // they sign up the account starts from their guest answers (migration
       // happens via the save effect once a user.id appears with an empty row).
       setProfile(loadProfile('quill.user.guest'))
       loadedRef.current = true
+      setLoaded(true)
       return
     }
     let active = true
@@ -128,6 +136,7 @@ function SupabaseUserProvider({ children }) {
           setProfile({ ...(row || { ...defaultProfile, name: cleanName(user.name || '') }), concerns: stored })
         }
         loadedRef.current = true
+        setLoaded(true)
       })
     return () => { active = false }
   }, [user?.id, user?.name])
@@ -154,7 +163,7 @@ function SupabaseUserProvider({ children }) {
   const actions = useProfileActions(setProfile)
 
   return (
-    <UserContext.Provider value={{ profile, isFavorite, ...actions }}>
+    <UserContext.Provider value={{ profile, loaded, isFavorite, ...actions }}>
       {children}
     </UserContext.Provider>
   )
@@ -171,7 +180,7 @@ function loadProfile(key, seedName = '') {
     const saved = localStorage.getItem(key)
     if (saved) {
       const parsed = JSON.parse(saved)
-      return { ...defaultProfile, ...parsed, name: cleanName(parsed.name ?? seedName) }
+      return { ...defaultProfile, ...parsed, name: cleanName(parsed.name || seedName) }
     }
   } catch {}
   return { ...defaultProfile, name: cleanName(seedName) }
@@ -201,7 +210,7 @@ function LocalUserProvider({ children }) {
   const actions = useProfileActions(setProfile)
 
   return (
-    <UserContext.Provider value={{ profile, isFavorite, ...actions }}>
+    <UserContext.Provider value={{ profile, loaded: true, isFavorite, ...actions }}>
       {children}
     </UserContext.Provider>
   )

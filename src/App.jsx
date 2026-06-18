@@ -6,6 +6,7 @@ import SearchOverlay from './components/SearchOverlay.jsx'
 import ConnectionStatus from './components/ConnectionStatus.jsx'
 import InstallPrompt from './components/InstallPrompt.jsx'
 import OnboardingQuiz from './components/OnboardingQuiz.jsx'
+import DailyQuestion, { nextDailyQuestion } from './components/DailyQuestion.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
 import TesterBadge from './components/TesterBadge.jsx'
@@ -66,10 +67,11 @@ function AppShell() {
   const [showSearch,     setShowSearch]     = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showAuth,       setShowAuth]       = useState(false)
+  const [dailyQ,         setDailyQ]         = useState(null)   // signed-in: one profile question / day
   // Guest is session-only (not remembered across reloads), so the sign-up
   // screen reappears on each fresh load until the visitor makes a real account.
   const [guestMode,      setGuestMode]      = useState(false)
-  const { profile, updateProfile } = useUser()
+  const { profile, loaded: profileLoaded, updateProfile } = useUser()
   const { tier, isMax, setTier } = usePro()
   const { user, loading: authLoading, recovery } = useAuth()
 
@@ -109,6 +111,18 @@ function AppShell() {
     // Show the onboarding (name) screen for guests too
     setShowOnboarding(true)
   }
+
+  // Signed-in users aren't asked everything up front — instead they get ONE
+  // unanswered profile question per day (never the name; that's their account
+  // name). Waits for the real profile to load so a refresh can't mis-ask, and
+  // never stacks on top of the auth/onboarding modals.
+  useEffect(() => {
+    if (DEV_MODE || !user || !profileLoaded || showAuth || showOnboarding) return
+    const q = nextDailyQuestion(profile, user.id)
+    if (!q) return
+    const t = setTimeout(() => setDailyQ(q), 800)
+    return () => clearTimeout(t)
+  }, [user, profileLoaded, profile, showAuth, showOnboarding])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
@@ -243,6 +257,14 @@ function AppShell() {
       {recovery       && <UpdatePasswordModal />}
       {showAuth       && <AuthModal onGuest={handleContinueAsGuest} />}
       {showOnboarding && <OnboardingQuiz onClose={closeOnboarding} />}
+      {dailyQ && user && (
+        <DailyQuestion
+          question={dailyQ}
+          userId={user.id}
+          name={profile.name}
+          onClose={() => setDailyQ(null)}
+        />
+      )}
 
       {/* Beta tester pill + feedback (bottom-left); renders only for testers. */}
       <TesterBadge />

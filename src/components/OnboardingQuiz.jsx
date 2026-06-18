@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useUser } from '../context/UserContext.jsx'
 
-const skinTypes = [
+export const skinTypes = [
   { id: 'dry', label: 'Dry', desc: 'Tight, sometimes flaky' },
   { id: 'oily', label: 'Oily', desc: 'Shiny T-zone, larger pores' },
   { id: 'combo', label: 'Combination', desc: 'Oily T-zone, dry cheeks' },
@@ -10,7 +10,7 @@ const skinTypes = [
   { id: 'unsure', label: 'Not sure', desc: "We'll help you find out" },
 ]
 
-const goals = [
+export const goals = [
   { id: 'glow', label: 'Glow & confidence' },
   { id: 'fitness', label: 'Move & feel strong' },
   { id: 'calm', label: 'Stress less, sleep better' },
@@ -18,7 +18,7 @@ const goals = [
   { id: 'eat', label: 'Eat smarter' },
 ]
 
-const times = [
+export const times = [
   { id: '5', label: '5 min/day', desc: 'Quick & simple' },
   { id: '15', label: '15 min/day', desc: 'A real ritual' },
   { id: '30', label: '30+ min/day', desc: 'I love self-care' },
