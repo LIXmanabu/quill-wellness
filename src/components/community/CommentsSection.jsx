@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Avatar, timeAgo } from './ui.jsx'
-import { listComments, addComment, deleteComment, isBackendMissing } from '../../lib/community.js'
+import { listComments, addComment, deleteComment, isBackendMissing, getMyCommentLikes, toggleCommentLike } from '../../lib/community.js'
 
 // ─── Conversation under a routine ─────────────────────────────────────────
 // Threaded notes on a post. Signed-in users can add one; the author and admins
@@ -10,6 +10,7 @@ export default function CommentsSection({
   postId, myId, authorMeta, canModerate = false, count = 0, onCountChange,
 }) {
   const [comments, setComments] = useState([])
+  const [likedIds, setLikedIds] = useState(new Set())   // comment ids I've liked
   const [loading, setLoading] = useState(true)
   const [ready, setReady] = useState(true)   // false → comments table not set up yet
   const [body, setBody] = useState('')
@@ -23,11 +24,32 @@ export default function CommentsSection({
     listComments(postId).then(({ data, error }) => {
       if (!active) return
       if (isBackendMissing(error)) { setReady(false); setLoading(false); return }
-      setComments(data || [])
+      const list = data || []
+      setComments(list)
       setLoading(false)
+      if (myId && list.length) {
+        getMyCommentLikes(myId, list.map((c) => c.id)).then(({ data: liked }) => {
+          if (active && liked) setLikedIds(liked)
+        })
+      }
     })
     return () => { active = false }
-  }, [postId])
+  }, [postId, myId])
+
+  // Like / unlike a comment, optimistically (count comes back from the trigger
+  // on the next load; we adjust locally for instant feedback).
+  async function toggleLike(comment) {
+    if (!myId) return
+    const wasLiked = likedIds.has(comment.id)
+    const delta = wasLiked ? -1 : 1
+    setLikedIds((s) => { const n = new Set(s); wasLiked ? n.delete(comment.id) : n.add(comment.id); return n })
+    setComments((cs) => cs.map((c) => c.id === comment.id ? { ...c, likesCount: Math.max(0, (c.likesCount || 0) + delta) } : c))
+    const { error } = await toggleCommentLike(myId, comment.id, !wasLiked)
+    if (error) {   // revert on failure (e.g. likes table not set up yet)
+      setLikedIds((s) => { const n = new Set(s); wasLiked ? n.add(comment.id) : n.delete(comment.id); return n })
+      setComments((cs) => cs.map((c) => c.id === comment.id ? { ...c, likesCount: Math.max(0, (c.likesCount || 0) - delta) } : c))
+    }
+  }
 
   function grow(el) {
     if (!el) return
@@ -126,6 +148,27 @@ export default function CommentsSection({
                         <span className="text-[11px] text-ink-softer shrink-0">{timeAgo(c.createdAt)}</span>
                       </div>
                       <p className="text-ink-soft leading-relaxed mt-0.5 whitespace-pre-wrap break-words">{c.body}</p>
+                      {/* Like a comment */}
+                      <div className="mt-1.5">
+                        <button
+                          type="button"
+                          onClick={() => toggleLike(c)}
+                          disabled={!myId}
+                          aria-pressed={likedIds.has(c.id)}
+                          aria-label={likedIds.has(c.id) ? 'Unlike comment' : 'Like comment'}
+                          title={myId ? (likedIds.has(c.id) ? 'Unlike' : 'Like') : 'Sign in to like'}
+                          className={`inline-flex items-center gap-1 text-xs transition-colors ${
+                            likedIds.has(c.id) ? 'text-clay' : 'text-ink-softer hover:text-clay'
+                          } ${!myId ? 'cursor-default' : ''}`}
+                        >
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill={likedIds.has(c.id) ? 'currentColor' : 'none'}
+                            stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+                            <path d="M12 20s-7-4.6-7-9.3A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 7 2.7C19 15.4 12 20 12 20Z" />
+                          </svg>
+                          {(c.likesCount || 0) > 0 && <span className="num-display">{c.likesCount}</span>}
+                          {(c.likesCount || 0) === 0 && <span>Like</span>}
+                        </button>
+                      </div>
                     </div>
                     {(mine || canModerate) && (
                       <button onClick={() => remove(c)} aria-label="Delete comment"

@@ -298,6 +298,7 @@ function mapComment(r) {
       avatarUrl: r.author_avatar_url || '',
     },
     body: r.body || '',
+    likesCount: r.likes_count || 0,
     createdAt: r.created_at,
   }
 }
@@ -305,12 +306,53 @@ function mapComment(r) {
 const COMMENT_COLS =
   'id, post_id, user_id, author_username, author_display_name, author_avatar_url, body, created_at'
 
+// `likes_count` on post_comments only exists once supabase/comment_likes.sql has
+// run. Selecting a missing column errors the whole thread query, so we probe
+// once and omit it until it's there (counts then read 0) — same graceful
+// degradation as the comments-count column on posts.
+let hasCommentLikesCol = true
+let commentLikesColProbe = null
+function commentCols() {
+  return hasCommentLikesCol ? `${COMMENT_COLS}, likes_count` : COMMENT_COLS
+}
+async function ensureCommentLikesCol() {
+  if (!commentLikesColProbe) {
+    commentLikesColProbe = supabase
+      .from('post_comments').select('likes_count').limit(1)
+      .then(({ error }) => {
+        if (error && (error.code === '42703' || /likes_count/i.test(error.message || ''))) hasCommentLikesCol = false
+      })
+      .catch(() => {})
+  }
+  return commentLikesColProbe
+}
+
 /** Comments on a post, oldest first (RLS hides those on posts you can't see). */
 export async function listComments(postId) {
+  await ensureCommentLikesCol()
   const { data, error } = await supabase
-    .from('post_comments').select(COMMENT_COLS)
+    .from('post_comments').select(commentCols())
     .eq('post_id', postId).order('created_at', { ascending: true }).limit(200)
   return error ? err(error) : ok((data || []).map(mapComment))
+}
+
+/** Which of these comments the signed-in user has liked (their own rows only). */
+export async function getMyCommentLikes(userId, commentIds) {
+  if (!userId || !commentIds || commentIds.length === 0) return ok(new Set())
+  const { data, error } = await supabase
+    .from('comment_likes').select('comment_id').eq('user_id', userId).in('comment_id', commentIds)
+  if (error) return ok(new Set())   // table not set up yet → nothing liked
+  return ok(new Set((data || []).map((r) => r.comment_id)))
+}
+
+/** Like / unlike a comment. The denormalised count is kept by a DB trigger. */
+export async function toggleCommentLike(userId, commentId, on) {
+  if (on) {
+    const { error } = await supabase.from('comment_likes').insert({ user_id: userId, comment_id: commentId })
+    return error ? err(error) : ok(true)
+  }
+  const { error } = await supabase.from('comment_likes').delete().match({ user_id: userId, comment_id: commentId })
+  return error ? err(error) : ok(true)
 }
 
 /**

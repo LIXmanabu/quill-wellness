@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Avatar } from './ui.jsx'
+import LikeBadge from './LikeBadge.jsx'
 import CommunityPostCard from './CommunityPostCard.jsx'
 import {
   getProfileByUsername, getUserPosts, getFriendStatus,
@@ -85,6 +86,8 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
             <Stat n={totalLikes} label={totalLikes === 1 ? 'like earned' : 'likes earned'} heart />
             <Stat n={totalSaves} label="saved" />
             <Stat n={posts.length} label={posts.length === 1 ? 'routine' : 'routines'} />
+            {/* Earned like-medal (🥉10 · 🥈100 · 🥇1,000 · 💎10,000) */}
+            <LikeBadge totalLikes={totalLikes} showProgress={status === 'self'} size="lg" />
           </div>
           {topPost && topPost.likesCount > 0 && (
             <button onClick={() => onOpenPost(topPost)}
