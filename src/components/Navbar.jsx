@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import ThemeToggle from './ThemeToggle.jsx'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
@@ -144,7 +145,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                   }`}
                 >
                   <span className="flex items-center gap-1.5">
-                    <span className={`text-[10px] num-display transition-colors duration-300 ${isActive || hoverKey === tab.key ? 'text-clay' : 'text-ink-softer'}`}>
+                    <span className="text-[10px] num-display text-ink-softer">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className={`inline-block transition-transform duration-500 ${isActive ? '-translate-y-px' : ''}`}>
@@ -175,6 +176,9 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 <circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" />
               </svg>
             </button>
+
+            {/* Night-mode toggle, always visible here in the header */}
+            <ThemeToggle className="min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
 
             {/* Show email initial + sign-out when logged in (production only) */}
             {!DEV_MODE && user && (

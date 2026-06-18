@@ -114,7 +114,7 @@ export default function MyQuill({ onNavigate }) {
         </div>
         <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
           <span className={isMax ? 'tier-gradient-text' : ''}>
-            <SplitText byChar stagger={28}>{greeting},</SplitText>
+            <SplitText byChar stagger={28}>{`${greeting},`}</SplitText>
           </span>
           <br />
           <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={500}>here you are.</SplitText></span>
