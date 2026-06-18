@@ -1,13 +1,17 @@
 import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { supabase, SUPABASE_ENABLED } from '../lib/supabase.js'
+import { useAuth } from './AuthContext.jsx'
 
-const DEV_STORAGE_KEY = 'quill.devUnlocked'
 const TESTER_STORAGE_KEY = 'quill.tester'
 const TIERS = ['free', 'pro', 'max']
 
-// ── Private developer code (you) ──────────────────────────────────────────
-// Unlocks the tier switcher / "god mode". Keep this to yourself.
-export const DEV_CODE = 'I know Felix'
+// ── Developer / "god mode" ────────────────────────────────────────────────
+// Dev access is no longer a typed code (that old code shipped inside the
+// public JavaScript for anyone to find). It's now granted automatically to
+// admin accounts, and the decision is made by the SERVER: a locked `admins`
+// table + the is_admin() function (see supabase/admins.sql). Add your own
+// user ID there and signing in unlocks the tier switcher — with nothing
+// secret left in the browser bundle.
 
 // ── Tester codes ──────────────────────────────────────────────────────────
 // Codes now live in Supabase (table `tester_codes`, see supabase/tester_codes.sql)
@@ -39,9 +43,11 @@ export async function validateTesterCode(code) {
   return entered.toLowerCase() === FALLBACK_TESTER_CODE.toLowerCase()
 }
 
-// Where the "Send feedback" button delivers. Swap this to your Quill business
-// email once it's set up (e.g. hello@quill...). Until then it goes to you.
-export const FEEDBACK_EMAIL = 'felix_s3006@icloud.com'
+// Where tester notes ("request a change") and any "contact us" links deliver.
+// This is the Quill project inbox, so beta feedback lands separately from your
+// personal mail. (Account emails — password reset, sign-in links — are sent by
+// Supabase, not from here; that "from" address is set in the Supabase dashboard.)
+export const FEEDBACK_EMAIL = 'Quill-app@protonmail.com'
 
 const ProContext = createContext({
   tier: 'free',
@@ -56,26 +62,38 @@ const ProContext = createContext({
 })
 
 export function ProProvider({ children }) {
+  const { user } = useAuth()
+
   // Tier is intentionally NOT persisted across reloads. Every page load
   // starts at Free, users have to "upgrade" through the checkout flow
   // again, which is the desired behaviour for this prototype.
   const [tier, setTierState] = useState('free')
 
-  // Dev-mode unlock IS persisted, once you've entered the code, you
-  // stay unlocked until you explicitly lock again.
-  const [devUnlocked, setDevUnlockedState] = useState(() => {
-    try { return localStorage.getItem(DEV_STORAGE_KEY) === 'true' } catch { return false }
-  })
+  // Dev-mode unlock is NOT stored in the browser and can't be typed in: it is
+  // granted only when the signed-in account is an admin, which the server
+  // confirms via is_admin() (supabase/admins.sql). Signing out turns it off.
+  const [devUnlocked, setDevUnlockedState] = useState(false)
 
-  // Tester flag is persisted too: once someone arrives via the tester link
+  // Ask the server whether the current account is an admin whenever the
+  // signed-in user changes. Anyone who isn't signed in, or isn't in the
+  // locked `admins` table, simply gets false.
+  useEffect(() => {
+    let cancelled = false
+    if (!user || !SUPABASE_ENABLED) { setDevUnlockedState(false); return }
+    supabase
+      .rpc('is_admin')
+      .then(({ data, error }) => {
+        if (!cancelled) setDevUnlockedState(!error && data === true)
+      })
+      .catch(() => { if (!cancelled) setDevUnlockedState(false) })
+    return () => { cancelled = true }
+  }, [user?.id])
+
+  // Tester flag is persisted: once someone arrives via the tester link
   // (or types the code), they stay a tester on this device until they leave.
   const [isTester, setTesterState] = useState(() => {
     try { return localStorage.getItem(TESTER_STORAGE_KEY) === 'true' } catch { return false }
   })
-
-  useEffect(() => {
-    try { localStorage.setItem(DEV_STORAGE_KEY, String(devUnlocked)) } catch {}
-  }, [devUnlocked])
 
   useEffect(() => {
     try { localStorage.setItem(TESTER_STORAGE_KEY, String(isTester)) } catch {}

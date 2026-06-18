@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { SUPABASE_ENABLED } from '../lib/supabase'
+import { FEEDBACK_EMAIL } from '../context/ProContext.jsx'
 import { checkLock, recordFailure, recordSuccess, formatWait } from '../lib/loginGuard'
 
 // ─── Auth modal ───────────────────────────────────────────────────────
@@ -170,6 +171,10 @@ export default function AuthModal({ onGuest }) {
               linkSent ? (
                 <p className="text-xs text-ink-soft mt-4 text-center bg-cream-dark px-3 py-2 border border-ink/10">
                   Check your inbox, we sent a one-click sign-in link to <span className="font-semibold">{email}</span>.
+                  <span className="block mt-1 text-ink-softer">
+                    It can land in your spam folder. Still nothing? Email us at{' '}
+                    <a href={`mailto:${FEEDBACK_EMAIL}`} className="underline underline-offset-2 hover:text-ink">{FEEDBACK_EMAIL}</a>.
+                  </span>
                 </p>
               ) : (
                 <button type="button" onClick={handleMagicLink} disabled={busy}
@@ -206,7 +211,10 @@ export default function AuthModal({ onGuest }) {
             {linkSent ? (
               <p className="text-sm text-ink-soft leading-relaxed bg-cream-dark px-4 py-3 border border-ink/10">
                 If an account exists for <span className="font-semibold">{email}</span>, we’ve sent a link to
-                set a new password. Check your inbox (and spam folder).
+                set a new password. Check your inbox <span className="font-semibold">and your spam folder</span> —
+                these emails sometimes land there. Still can’t find it? Email us at{' '}
+                <a href={`mailto:${FEEDBACK_EMAIL}`} className="underline underline-offset-2 hover:text-ink">{FEEDBACK_EMAIL}</a>{' '}
+                and we’ll help you get back in.
               </p>
             ) : (
               <>

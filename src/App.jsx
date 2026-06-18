@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.jsx'
 import BottomTabBar from './components/BottomTabBar.jsx'
 import SearchOverlay from './components/SearchOverlay.jsx'
 import ConnectionStatus from './components/ConnectionStatus.jsx'
+import InstallPrompt from './components/InstallPrompt.jsx'
 import OnboardingQuiz from './components/OnboardingQuiz.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
@@ -209,6 +210,7 @@ function AppShell() {
       <NoiseOverlay />
       <CustomCursor />
       <ConnectionStatus />
+      <InstallPrompt />
       <Navbar activePage={activePage} onNavigate={handleNavigate} onOpenSearch={openSearch} />
       <main className="pt-16 md:pt-28 relative pb-[calc(env(safe-area-inset-bottom)+5.5rem)] lg:pb-0">
         <div key={activePage} className="animate-page-in">

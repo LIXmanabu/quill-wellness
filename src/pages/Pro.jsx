@@ -7,6 +7,7 @@ import AnimatedCounter from '../components/interactive/AnimatedCounter.jsx'
 import MagneticButton from '../components/interactive/MagneticButton.jsx'
 import SpotlightCard from '../components/interactive/SpotlightCard.jsx'
 import CheckoutModal from '../components/CheckoutModal.jsx'
+import TesterCodeEntry from '../components/TesterCodeEntry.jsx'
 
 const features = [
   // ── Real, built today ─────────────────────────────────────────
@@ -275,6 +276,9 @@ export default function Pro({ onNavigate }) {
                       </MagneticButton>
                     )}
                   </div>
+
+                  {/* Beta testers stay on Free — this is where they redeem their code. */}
+                  {t.key === 'free' && <TesterCodeEntry />}
                 </SpotlightCard>
               </Reveal>
             )

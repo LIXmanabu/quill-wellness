@@ -18,6 +18,7 @@ import FamilySeats from '../components/FamilySeats.jsx'
 import TierReviews from '../components/TierReviews.jsx'
 import SkinJournal from '../components/SkinJournal.jsx'
 import PlansSection from '../components/PlansSection.jsx'
+import TesterCodeEntry from '../components/TesterCodeEntry.jsx'
 import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
 import { useDailyStreak } from '../hooks/useDailyStreak.js'
@@ -152,6 +153,12 @@ export default function MyQuill({ onNavigate }) {
               <ProfileChip num="01" label="Skin type" value={skinTypeLabels[profile.skinType] || 'Not set'} />
               <ProfileChip num="02" label="Goal" value={goalLabels[profile.goal] || 'Not set'} />
               <ProfileChip num="03" label="Time / day" value={profile.timePerDay ? `${profile.timePerDay} min` : 'Not set'} />
+            </div>
+
+            {/* Beta access — redeem a tester code here, from your account. */}
+            <div className="mt-6 pt-6 border-t border-ink/15 max-w-sm">
+              <span className="editorial-label">Beta access</span>
+              <TesterCodeEntry />
             </div>
           </div>
         </Reveal>

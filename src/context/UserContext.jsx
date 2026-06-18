@@ -12,6 +12,14 @@ const defaultProfile = {
   dismissedOnboarding: false,
 }
 
+// Trim a saved name and strip any trailing commas/spaces. Greetings render the
+// name inside their own punctuation (e.g. "Hello, {name}," or "Good morning,
+// {name}"), so a nickname accidentally saved as "Lix," would otherwise show a
+// stray double comma. Normalising here keeps every greeting clean.
+export function cleanName(name) {
+  return (name || '').trim().replace(/[\s,]+$/, '')
+}
+
 // Concerns aren't a DB column, so for signed-in users they're mirrored to
 // localStorage (per account) instead. Guests already persist the whole
 // profile locally, so they're covered automatically.
@@ -34,7 +42,8 @@ const UserContext = createContext({
 // Shared mutators so both backends expose the identical API to the app.
 function useProfileActions(setProfile) {
   const updateProfile = useCallback((patch) => {
-    setProfile((p) => ({ ...p, ...patch }))
+    const clean = 'name' in patch ? { ...patch, name: cleanName(patch.name) } : patch
+    setProfile((p) => ({ ...p, ...clean }))
   }, [setProfile])
 
   const toggleFavorite = useCallback((id) => {
@@ -48,7 +57,8 @@ function useProfileActions(setProfile) {
   }, [setProfile])
 
   const completeOnboarding = useCallback((data) => {
-    setProfile((p) => ({ ...p, ...data, dismissedOnboarding: true }))
+    const clean = 'name' in data ? { ...data, name: cleanName(data.name) } : data
+    setProfile((p) => ({ ...p, ...clean, dismissedOnboarding: true }))
   }, [setProfile])
 
   const resetProfile = useCallback(() => setProfile(defaultProfile), [setProfile])
@@ -59,7 +69,7 @@ function useProfileActions(setProfile) {
 // ── Map between the app's camelCase profile and the DB's snake_case row ──
 function rowToProfile(r, seedName = '') {
   return {
-    name: r.name ?? seedName ?? '',
+    name: cleanName(r.name ?? seedName ?? ''),
     skinType: r.skin_type ?? '',
     goal: r.goal ?? '',
     timePerDay: r.time_per_day ?? '',
@@ -113,9 +123,9 @@ function SupabaseUserProvider({ children }) {
         const guestHasAnswers = guest.goal || guest.skinType || guest.timePerDay
         const stored = loadConcerns(user.id)
         if ((!row || (!row.goal && !row.skinType && !row.timePerDay)) && guestHasAnswers) {
-          setProfile({ ...guest, name: user.name || guest.name || '', concerns: stored.length ? stored : (guest.concerns || []) })
+          setProfile({ ...guest, name: cleanName(user.name || guest.name || ''), concerns: stored.length ? stored : (guest.concerns || []) })
         } else {
-          setProfile({ ...(row || { ...defaultProfile, name: user.name || '' }), concerns: stored })
+          setProfile({ ...(row || { ...defaultProfile, name: cleanName(user.name || '') }), concerns: stored })
         }
         loadedRef.current = true
       })
@@ -159,9 +169,12 @@ function storageKey(user) {
 function loadProfile(key, seedName = '') {
   try {
     const saved = localStorage.getItem(key)
-    if (saved) return { ...defaultProfile, ...JSON.parse(saved) }
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      return { ...defaultProfile, ...parsed, name: cleanName(parsed.name ?? seedName) }
+    }
   } catch {}
-  return { ...defaultProfile, name: seedName }
+  return { ...defaultProfile, name: cleanName(seedName) }
 }
 
 function LocalUserProvider({ children }) {

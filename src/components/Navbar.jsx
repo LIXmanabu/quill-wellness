@@ -100,7 +100,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
             <img
               src={`${import.meta.env.BASE_URL}quill-logo.png`}
               alt="Quill"
-              className="h-10 md:h-12 w-auto"
+              className="h-12 md:h-14 w-auto shrink-0 transition-transform group-hover:scale-[1.03]"
             />
           </button>
 

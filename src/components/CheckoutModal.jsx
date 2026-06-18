@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { usePro, DEV_CODE, validateTesterCode } from '../context/ProContext.jsx'
+import { usePro } from '../context/ProContext.jsx'
 import Celebration from './Celebration.jsx'
 
 const planData = {
@@ -37,56 +37,10 @@ const planData = {
   },
 }
 
-function formatCard(v) {
-  return v.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim()
-}
-function formatExp(v) {
-  const d = v.replace(/\D/g, '').slice(0, 4)
-  return d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d
-}
-function formatCvc(v) {
-  return v.replace(/\D/g, '').slice(0, 4)
-}
-
 export default function CheckoutModal({ plan, onClose }) {
-  const { setTier, devUnlocked, setDevUnlocked, setTester } = usePro()
-  const [email, setEmail] = useState('')
-  const [card, setCard] = useState('')
-  const [exp, setExp] = useState('')
-  const [cvc, setCvc] = useState('')
-  const [country, setCountry] = useState('United Kingdom')
+  const { setTier } = usePro()
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
-  // Dev-mode unlock UI state
-  const [codeOpen, setCodeOpen] = useState(false)
-  const [codeInput, setCodeInput] = useState('')
-  const [codeError, setCodeError] = useState(false)
-  const [codeUnlocked, setCodeUnlocked] = useState(false)
-
-  async function tryCode(e) {
-    e.preventDefault()
-    const entered = codeInput.trim()
-    if (entered.toLowerCase() === DEV_CODE.toLowerCase()) {
-      setDevUnlocked(true)
-      setCodeUnlocked(true)
-      setCodeError(false)
-      setCodeInput('')
-      setTimeout(() => setCodeOpen(false), 1400)
-      return
-    }
-    // Typed-code path for testers who got the plain link, not ?tester=.
-    // Validated against Supabase (with a local fallback) just like the link.
-    if (await validateTesterCode(entered)) {
-      setTester(true)
-      setCodeUnlocked(true)
-      setCodeError(false)
-      setCodeInput('')
-      setTimeout(() => setCodeOpen(false), 1400)
-    } else {
-      setCodeError(true)
-      setTimeout(() => setCodeError(false), 600)
-    }
-  }
 
   const p = planData[plan]
 
@@ -98,11 +52,11 @@ export default function CheckoutModal({ plan, onClose }) {
 
   if (!p) return null
 
-  const valid = email.includes('@') && card.replace(/\s/g, '').length >= 15 && exp.length >= 5 && cvc.length >= 3
-
+  // No card is collected during the beta — testers unlock with their code, and
+  // billing isn't live yet. This just flips the tier locally after a short beat.
   function handleSubmit(e) {
     e.preventDefault()
-    if (!valid || submitting) return
+    if (submitting) return
     setSubmitting(true)
     setTimeout(() => {
       setTier(plan)
@@ -163,7 +117,7 @@ export default function CheckoutModal({ plan, onClose }) {
           </div>
 
           <p className="text-[10px] text-ink-softer mt-6 leading-relaxed italic">
-            Prototype mockup, no payment is taken, no card details are sent anywhere. Card stays in your browser.
+            Free beta, no payment is taken and no card details are ever requested or collected.
           </p>
         </aside>
 
@@ -179,162 +133,49 @@ export default function CheckoutModal({ plan, onClose }) {
             </div>
           ) : (
             <>
-              <span className="editorial-label">Step 02 · Payment</span>
+              <span className="editorial-label">Free beta</span>
               <h3 className="font-display text-3xl text-ink mt-1 leading-tight">
-                Your details
+                No card needed
               </h3>
 
-              <div className="mt-6 space-y-4">
-                <Field label="Email">
-                  <input
-                    type="email"
-                    required
-                    autoFocus
-                    autoComplete="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={submitting}
-                  />
-                </Field>
-                <Field label="Card number">
-                  <div className="relative">
-                    <input
-                      required
-                      inputMode="numeric"
-                      autoComplete="cc-number"
-                      placeholder="4242 4242 4242 4242"
-                      value={card}
-                      onChange={(e) => setCard(formatCard(e.target.value))}
-                      disabled={submitting}
-                    />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] tracking-widest text-ink-softer">VISA</span>
-                  </div>
-                </Field>
-                <div className="grid grid-cols-2 gap-4">
-                  <Field label="Expiry">
-                    <input
-                      required
-                      inputMode="numeric"
-                      autoComplete="cc-exp"
-                      placeholder="MM/YY"
-                      value={exp}
-                      onChange={(e) => setExp(formatExp(e.target.value))}
-                      disabled={submitting}
-                    />
-                  </Field>
-                  <Field label="CVC">
-                    <input
-                      required
-                      inputMode="numeric"
-                      autoComplete="cc-csc"
-                      placeholder="123"
-                      value={cvc}
-                      onChange={(e) => setCvc(formatCvc(e.target.value))}
-                      disabled={submitting}
-                    />
-                  </Field>
+              <div className="mt-6 flex-1 space-y-4">
+                <p className="text-sm text-ink-soft leading-relaxed">
+                  Billing isn’t live yet, so there’s nothing to pay and no card to enter.
+                  During the beta you can unlock <span className="font-semibold text-ink">Quill {p.label}</span> for
+                  free to explore everything it includes.
+                </p>
+                <div className="bg-bone border border-ink/10 px-4 py-3">
+                  <p className="text-xs text-ink-soft leading-relaxed">
+                    Got a tester code? You can also unlock free access from the
+                    <span className="font-semibold text-ink"> Have a tester code?</span> box next to the Free plan.
+                  </p>
                 </div>
-                <Field label="Country">
-                  <select
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    disabled={submitting}
-                  >
-                    {['United Kingdom', 'United States', 'Germany', 'France', 'Spain', 'Italy', 'Netherlands', 'Australia', 'Canada', 'Other'].map((c) => (
-                      <option key={c}>{c}</option>
-                    ))}
-                  </select>
-                </Field>
               </div>
 
               <button
                 type="submit"
-                disabled={!valid || submitting}
+                disabled={submitting}
                 className="mt-6 btn-ink w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed"
-                data-cursor-label="subscribe"
+                data-cursor-label="unlock"
               >
                 {submitting ? (
                   <span className="flex items-center gap-2">
-                    <span className="num-display animate-pulse">●</span> Processing…
+                    <span className="num-display animate-pulse">●</span> Unlocking…
                   </span>
                 ) : (
-                  <>Subscribe, ${p.price}/{p.period} <span className="display-italic">→</span></>
+                  <>Unlock {p.label} for the beta <span className="display-italic">→</span></>
                 )}
               </button>
 
               <p className="text-[10px] text-ink-softer text-center mt-3 leading-relaxed">
-                By subscribing you agree to Quill's terms. Cancel anytime from My Quill.
+                No charge, no card stored. Real billing arrives after the beta.
               </p>
             </>
           )}
         </form>
 
-        {/* ─── Hidden dev-mode unlock ─────────────────────────────────
-            A tiny dot in the bottom-right corner. Clicking it opens an
-            inline code input. Typing the secret unlocks the dev tier
-            switcher in the navbar. */}
-        {!devUnlocked && !done && (
-          <>
-            {!codeOpen ? (
-              <button
-                type="button"
-                onClick={() => setCodeOpen(true)}
-                aria-label="Developer access"
-                title=""
-                className="absolute bottom-2 right-2 w-2 h-2 rounded-full bg-ink/15 hover:bg-clay transition-colors"
-              />
-            ) : (
-              <form
-                onSubmit={tryCode}
-                className="absolute bottom-4 right-4 bg-cream-light border border-ink/20 shadow-soft-lg p-3 animate-fade-up flex items-center gap-2"
-                style={{ zIndex: 50 }}
-              >
-                <input
-                  type="text"
-                  value={codeInput}
-                  onChange={(e) => setCodeInput(e.target.value)}
-                  autoFocus
-                  placeholder="code"
-                  className={`w-32 text-xs bg-cream border px-2 py-1 focus:outline-none transition-all ${
-                    codeError ? 'border-clay animate-pop-in' : 'border-ink/20 focus:border-ink'
-                  }`}
-                />
-                <button
-                  type="submit"
-                  className="text-xs px-2 py-1 bg-ink text-cream hover:bg-ink-light transition-colors"
-                >
-                  ↵
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setCodeOpen(false); setCodeInput(''); setCodeError(false) }}
-                  className="text-xs text-ink-softer hover:text-clay display-italic"
-                >
-                  ✕
-                </button>
-              </form>
-            )}
-          </>
-        )}
-        {codeUnlocked && (
-          <div className="absolute bottom-4 right-4 bg-sage text-cream px-3 py-2 text-xs font-medium animate-pop-in" style={{ zIndex: 50 }}>
-            ✓ Dev mode unlocked
-          </div>
-        )}
       </div>
     </div>
     </>
-  )
-}
-
-function Field({ label, children }) {
-  return (
-    <label className="block">
-      <span className="editorial-label block mb-1.5">{label}</span>
-      <div className="checkout-field">
-        {children}
-      </div>
-    </label>
   )
 }

@@ -37,9 +37,9 @@ export default function TesterBadge() {
 
   if (!isTester) return null
 
-  const subject = encodeURIComponent('Quill beta feedback')
+  const subject = encodeURIComponent('Quill — request a change')
   const body = encodeURIComponent(
-    'What I liked:\n\n\nWhat felt confusing or broken:\n\n\nWhat I wish it did:\n\n\n' +
+    'What I’d like changed:\n\n\nWhere I saw it (which screen):\n\n\nWhat I liked:\n\n\n' +
     '— sent from the Quill beta'
   )
   const mailto = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`
@@ -50,13 +50,13 @@ export default function TesterBadge() {
         <div className="absolute bottom-full left-0 mb-2 w-60 bg-cream-light border-2 border-ink shadow-soft-lg p-4 animate-fade-up">
           <p className="editorial-label text-clay">You're testing Quill</p>
           <p className="text-sm text-ink-soft leading-snug mt-1">
-            Thanks for trying the beta. Tell us what worked and what didn't, it shapes what comes next.
+            Something you'd like changed? Send a quick note, it shapes what comes next.
           </p>
           <a
             href={mailto}
             className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-ink text-cream text-sm font-medium hover:bg-clay transition-colors"
           >
-            Send feedback →
+            Request a change →
           </a>
           <button
             type="button"
