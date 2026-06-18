@@ -93,11 +93,13 @@ function AppShell() {
       // Not logged in and not a guest → show auth modal
       setShowAuth(true)
     } else {
-      // Logged in or guest → close auth. Native apps never re-ask identity on
-      // every launch, so onboarding is gated to first run only: show it just
-      // when the user hasn't been onboarded and hasn't told us their name.
+      // Logged in or guest → close auth. The name/onboarding popup is ONLY for
+      // visitors without an account (guests). Signed-in users are never auto-
+      // asked — not on first run and not after a refresh — because their name
+      // comes from sign-up and their profile loads asynchronously (so a refresh
+      // would otherwise flash the popup before the real profile arrives).
       setShowAuth(false)
-      if (!profile.dismissedOnboarding && !profile.name) setShowOnboarding(true)
+      if (!user && !profile.dismissedOnboarding && !profile.name) setShowOnboarding(true)
     }
   }, [user, authLoading, guestMode])
 
