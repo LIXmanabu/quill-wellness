@@ -3,6 +3,7 @@ import { supabase, SUPABASE_ENABLED } from '../lib/supabase.js'
 import { useAuth } from './AuthContext.jsx'
 
 const TESTER_STORAGE_KEY = 'quill.tester'
+const BETA_STORAGE_KEY = 'quill.betaActive'
 const TIERS = ['free', 'pro', 'max']
 
 // ── Developer / "god mode" ────────────────────────────────────────────────
@@ -59,6 +60,7 @@ const ProContext = createContext({
   isMax: false,
   devUnlocked: false,
   isTester: false,
+  betaActive: true,
   setTier: () => {},
   togglePro: () => {},
   setDevUnlocked: () => {},
@@ -102,6 +104,30 @@ export function ProProvider({ children }) {
   useEffect(() => {
     try { localStorage.setItem(TESTER_STORAGE_KEY, String(isTester)) } catch {}
   }, [isTester])
+
+  // ── Beta master switch (remote) ──────────────────────────────────────────
+  // A single flag in Supabase (app_config.beta_active — see supabase/beta_switch.sql).
+  // While true, tester mode works normally. Flip it to false at launch and the
+  // app stops treating ANYONE as a tester — even people who already redeemed a
+  // code — and hides all tester UI, with no redeploy. Cached locally so a
+  // returning visitor doesn't flicker. Defaults ON if the table isn't set up.
+  const [betaActive, setBetaActive] = useState(() => {
+    try { return localStorage.getItem(BETA_STORAGE_KEY) !== 'false' } catch { return true }
+  })
+
+  useEffect(() => {
+    if (!SUPABASE_ENABLED) return
+    let cancelled = false
+    supabase.from('app_config').select('value').eq('key', 'beta_active').maybeSingle()
+      .then(({ data, error }) => {
+        if (cancelled || error) return   // table missing → keep default (beta on)
+        const active = data ? data.value !== false : true
+        setBetaActive(active)
+        try { localStorage.setItem(BETA_STORAGE_KEY, String(active)) } catch {}
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
 
   // ── Auto-join the beta from the invite link ──────────────────────────────
   // If the page is opened with ?tester=<code>, validate it (against Supabase
@@ -162,12 +188,14 @@ export function ProProvider({ children }) {
     isPro: tier === 'pro' || tier === 'max',
     isMax: tier === 'max',
     devUnlocked,
-    isTester,
+    // Beta over → nobody is a tester any more, regardless of their saved flag.
+    isTester: isTester && betaActive,
+    betaActive,
     setTier,
     togglePro,
     setDevUnlocked,
     setTester,
-  }), [tier, devUnlocked, isTester])
+  }), [tier, devUnlocked, isTester, betaActive])
 
   return (
     <ProContext.Provider value={value}>

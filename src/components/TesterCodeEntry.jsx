@@ -10,7 +10,7 @@ import { usePro, validateTesterCode } from '../context/ProContext.jsx'
    shows a confirmation instead of the form.
    ──────────────────────────────────────────────────────────────────────── */
 export default function TesterCodeEntry() {
-  const { isTester, setTester } = usePro()
+  const { isTester, setTester, betaActive } = usePro()
   const [open, setOpen]   = useState(false)
   const [code, setCode]   = useState('')
   const [busy, setBusy]   = useState(false)
@@ -32,6 +32,9 @@ export default function TesterCodeEntry() {
       setError(true)
     }
   }
+
+  // Beta period is over → no code entry at all.
+  if (!betaActive) return null
 
   // Already redeemed (this session or a previous one) → quiet confirmation.
   if (isTester || done) {
