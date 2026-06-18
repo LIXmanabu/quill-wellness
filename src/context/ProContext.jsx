@@ -24,12 +24,16 @@ const TIERS = ['free', 'pro', 'max']
 // the code into the hidden box on the checkout screen. Testers use the app
 // like a normal user; this does NOT unlock the developer tier switcher.
 //
-// FALLBACK_TESTER_CODE keeps things working in local dev (no Supabase keys)
-// and during the brief window before the SQL is run on the live project.
-export const FALLBACK_TESTER_CODE = 'quill-beta'
+// FALLBACK_TESTER_CODES are always-on built-in codes: they work in local dev
+// (no Supabase keys) and during the window before the SQL is run on the live
+// project. 'quill-beta' is kept so older invite links never break; 'testerbeta'
+// is the simple shareable code. (Custom codes you create in the dashboard work
+// through the secure RPC, regardless of these.)
+export const FALLBACK_TESTER_CODES = ['quill-beta', 'testerbeta']
+export const FALLBACK_TESTER_CODE = FALLBACK_TESTER_CODES[0]
 
 // Validate a tester code. Resolves true when the code is good. Uses the secure
-// Supabase function when available, falling back to the built-in code so the
+// Supabase function when available, falling back to the built-in codes so the
 // invite flow never hard-breaks if the backend is offline or not yet migrated.
 export async function validateTesterCode(code) {
   const entered = (code || '').trim()
@@ -37,10 +41,10 @@ export async function validateTesterCode(code) {
   if (SUPABASE_ENABLED) {
     try {
       const { data, error } = await supabase.rpc('redeem_tester_code', { p_code: entered })
-      if (!error) return data === true
+      if (!error && data === true) return true   // good code in the dashboard table
     } catch { /* network/RPC failure → fall through to local check */ }
   }
-  return entered.toLowerCase() === FALLBACK_TESTER_CODE.toLowerCase()
+  return FALLBACK_TESTER_CODES.includes(entered.toLowerCase())
 }
 
 // Where tester notes ("request a change") and any "contact us" links deliver.

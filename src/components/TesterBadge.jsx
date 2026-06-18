@@ -45,9 +45,9 @@ export default function TesterBadge() {
   const mailto = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`
 
   return (
-    <div ref={ref} className="fixed left-4 z-[55] bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-6">
+    <div ref={ref} className="fixed left-1/2 -translate-x-1/2 z-[55] top-[calc(env(safe-area-inset-top)+4rem)] lg:top-[7rem] flex flex-col items-center">
       {open && (
-        <div className="absolute bottom-full left-0 mb-2 w-60 bg-cream-light border-2 border-ink shadow-soft-lg p-4 animate-fade-up">
+        <div className="absolute top-full left-1/2 -ml-[7.5rem] mt-2 w-60 bg-cream-light border-2 border-ink shadow-soft-lg p-4 animate-fade-up">
           <p className="editorial-label text-clay">You're testing Quill</p>
           <p className="text-sm text-ink-soft leading-snug mt-1">
             Something you'd like changed? Send a quick note, it shapes what comes next.
