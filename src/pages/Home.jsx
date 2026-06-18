@@ -4,6 +4,7 @@ import { usePro } from '../context/ProContext.jsx'
 import { getProblemTips, isPersonalized, getConcernTips } from '../data/personalization.js'
 import { dailyTips, categoryMeta } from '../data/dailyTips.js'
 import DailyTipCard from '../components/DailyTipCard.jsx'
+import FooterBar from '../components/FooterBar.jsx'
 import Marquee from '../components/interactive/Marquee.jsx'
 import SplitText from '../components/interactive/SplitText.jsx'
 import Reveal from '../components/interactive/Reveal.jsx'
@@ -485,7 +486,8 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
           </div>
           <div className="mt-10 pt-6 border-t border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] num-display text-ink-softer uppercase tracking-[0.25em]">
             <span>Quill · Vol. 01 · 2026</span>
-            <span>Made with attention, not algorithms</span>
+            <FooterBar onNavigate={onNavigate} />
+            <span className="hidden lg:inline">Made with attention, not algorithms</span>
           </div>
         </div>
       </section>

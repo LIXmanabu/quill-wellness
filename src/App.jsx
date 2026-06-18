@@ -8,6 +8,7 @@ import InstallPrompt from './components/InstallPrompt.jsx'
 import OnboardingQuiz from './components/OnboardingQuiz.jsx'
 import DailyQuestion, { nextDailyQuestion } from './components/DailyQuestion.jsx'
 import ProToggle from './components/ProToggle.jsx'
+import FooterBar from './components/FooterBar.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
 import TesterBadge from './components/TesterBadge.jsx'
@@ -237,16 +238,18 @@ function AppShell() {
         </div>
       </main>
 
-      {/* Footer, local-only data notice (Home has its own colophon footer) */}
+      {/* Footer, local-only data notice (Home has its own colophon footer).
+          Extra bottom padding on mobile so it clears the fixed bottom tab bar. */}
       {activePage !== 'home' && (
         <footer className="border-t border-ink/10 mt-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-[calc(env(safe-area-inset-bottom)+6rem)] lg:pb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <span className="editorial-label text-ink-soft">Quill · Vol. 01</span>
-            <p className="text-xs text-ink-soft leading-relaxed max-w-xl sm:text-right">
+            <p className="text-xs text-ink-soft leading-relaxed max-w-md sm:text-right order-last sm:order-none">
               As a guest, your progress lives only in this browser, and clearing it erases everything.
               With a free account it syncs privately across your devices. Either way, your data is
               never sold or shared.
             </p>
+            <FooterBar onNavigate={handleNavigate} />
           </div>
         </footer>
       )}

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import ThemeToggle from './ThemeToggle.jsx'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
@@ -16,7 +15,6 @@ const tabs = [
   { key: 'diet', label: 'Diet' },
   { key: 'tips', label: 'Tips' },
   { key: 'myquill', label: 'My Quill' },
-  { key: 'about', label: 'About' },
 ]
 
 export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
@@ -162,8 +160,6 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
               )
             })}
 
-            {/* Dark-mode toggle, sits right after the About tab on desktop */}
-            <ThemeToggle className="ml-1 pl-3 border-l border-ink/15 h-5" />
           </nav>
 
           {/* Right side: search + account indicator (the dev tier switcher is a
@@ -179,10 +175,6 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 <circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" />
               </svg>
             </button>
-
-            {/* Light / dark theme toggle, only on mobile/tablet here; on desktop
-                it lives next to the About tab in the nav above. */}
-            <ThemeToggle className="lg:hidden min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
 
             {/* Show email initial + sign-out when logged in (production only) */}
             {!DEV_MODE && user && (
