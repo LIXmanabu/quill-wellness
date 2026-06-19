@@ -304,6 +304,11 @@ export default function Community() {
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" /></svg>
               Find people
             </button>
+            {myId && myProfile?.username && (
+              <button onClick={() => openProfile(myProfile.username)} className="chip chip-cream hover:border-ink/40 transition-colors">
+                My profile
+              </button>
+            )}
             {myId && (
               <button onClick={() => setView('friends')} className="chip chip-cream hover:border-ink/40 transition-colors">
                 Friends &amp; requests
