@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useUser } from '../context/UserContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import { getUserPosts, COMMUNITY_ENABLED } from '../lib/community.js'
+import LikeBadge from '../components/community/LikeBadge.jsx'
 import { usePro } from '../context/ProContext.jsx'
 import { dailyTips, categoryMeta } from '../data/dailyTips.js'
 import { skincareData } from '../data/skincareData.js'
@@ -84,6 +87,18 @@ function resolveFavorite(id) {
 
 export default function MyQuill({ onNavigate }) {
   const { profile, resetProfile } = useUser()
+  const { user } = useAuth()
+
+  // Total likes earned across your shared community routines → drives your medal.
+  const [communityLikes, setCommunityLikes] = useState(0)
+  useEffect(() => {
+    if (!user?.id || !COMMUNITY_ENABLED) { setCommunityLikes(0); return }
+    let active = true
+    getUserPosts(user.id)
+      .then(({ data }) => { if (active) setCommunityLikes((data || []).reduce((s, p) => s + (p.likesCount || 0), 0)) })
+      .catch(() => {})
+    return () => { active = false }
+  }, [user?.id])
   const { isPro, isMax, tier } = usePro()
   const tierLabel = isMax ? 'Max' : isPro ? 'Pro' : 'Free'
   const streak = useDailyStreak()
@@ -138,6 +153,10 @@ export default function MyQuill({ onNavigate }) {
                 <h2 className="font-display text-4xl sm:text-5xl text-ink mt-1 leading-tight">
                   {profile.name || 'Anonymous reader'}
                 </h2>
+                {/* Community like-medal (earned from likes on your shared routines) */}
+                {communityLikes >= 10 && (
+                  <div className="mt-3"><LikeBadge totalLikes={communityLikes} showProgress size="lg" /></div>
+                )}
               </div>
               <ConfirmButton
                 onConfirm={resetProfile}

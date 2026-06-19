@@ -1,28 +1,36 @@
 import { badgeForLikes, nextBadge } from '../../lib/badges.js'
 
-/* A member's earned like-medal. Renders nothing until the first tier (10
-   likes). With `showProgress`, adds a quiet "N to <next tier>" nudge below. */
+/* A member's earned like-medal — an illustrated badge (public/badges/) that
+   levels up with total likes: Bloom 10 · Glow 100 · Spotlight 1k · Icon 10k ·
+   Ultra Rare 100k. Renders nothing until the first tier. With `showProgress`,
+   adds a quiet "N to <next tier>" nudge. */
 export default function LikeBadge({ totalLikes, showProgress = false, size = 'md' }) {
   const badge = badgeForLikes(totalLikes)
   if (!badge) return null
   const next = showProgress ? nextBadge(totalLikes) : null
-  const big = size === 'lg'
+  const imgH = size === 'lg' ? 'h-16' : 'h-11'
 
   return (
-    <span className="inline-flex flex-col gap-1">
-      <span
-        className={`inline-flex items-center gap-1.5 border bg-cream-light ${big ? 'px-3 py-1.5 text-sm' : 'px-2.5 py-1 text-xs'}`}
-        style={{ borderColor: badge.accent, color: badge.accent }}
-        title={`${badge.label} member · ${(totalLikes || 0).toLocaleString('en-GB')} likes earned`}
-      >
-        <span aria-hidden="true" className={big ? 'text-base' : 'text-sm'}>{badge.icon}</span>
-        <span className="font-bold uppercase tracking-[0.14em]">{badge.label}</span>
-      </span>
-      {next && (
-        <span className="text-[10px] text-ink-softer uppercase tracking-[0.12em]">
-          {next.remaining.toLocaleString('en-GB')} to {next.label}
+    <span className="inline-flex items-center gap-2.5">
+      <img
+        src={`${import.meta.env.BASE_URL}badges/${badge.img}`}
+        alt={`${badge.label} badge`}
+        className={`${imgH} w-auto rounded-md shadow-soft shrink-0`}
+        loading="lazy"
+      />
+      <span className="flex flex-col leading-tight">
+        <span className="font-bold uppercase tracking-[0.14em] text-xs" style={{ color: badge.accent }}>
+          {badge.label}
         </span>
-      )}
+        <span className="text-[10px] text-ink-softer">
+          {(totalLikes || 0).toLocaleString('en-GB')} likes earned
+        </span>
+        {next && (
+          <span className="text-[10px] text-ink-softer/80">
+            {next.remaining.toLocaleString('en-GB')} to {next.label}
+          </span>
+        )}
+      </span>
     </span>
   )
 }
