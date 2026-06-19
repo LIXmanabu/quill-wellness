@@ -553,6 +553,41 @@ export default function Diet({ onNavigate }) {
         </div>
       </section>
 
+      {/* Live diet tracker — the headline tool, kept high so it's seen first */}
+      {isPro ? (
+        <>
+          <DietTracker />
+          <ProMealPlans />
+        </>
+      ) : (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <Reveal>
+            <SpotlightCard className="pro-card p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-9">
+                <span className="editorial-label text-gold-dark">Pro Edition · the tool people love</span>
+                <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
+                  Track your day. Get the <span className="display-italic text-clay">next bite.</span>
+                </h3>
+                <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
+                  A live diet tracker that learns from what you ate today and suggests your next snack or meal, closing protein, fibre and calorie gaps against your goal. Plus seven-day meal templates for every goal.
+                </p>
+                <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-y-1 text-xs text-ink-soft">
+                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Log meals + snacks in one click</li>
+                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Live macro &amp; fibre dashboard</li>
+                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Smart next-meal suggestions</li>
+                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Seven-day meal templates</li>
+                </ul>
+              </div>
+              <div className="lg:col-span-3 lg:text-right">
+                <button onClick={() => onNavigate?.('pro')} className="btn-ink">
+                  Unlock <span className="display-italic">→</span>
+                </button>
+              </div>
+            </SpotlightCard>
+          </Reveal>
+        </section>
+      )}
+
       {/* Marquee */}
       <section className="bg-cream-dark text-ink py-4 border-y border-ink/10 overflow-hidden">
         <Marquee
@@ -583,41 +618,6 @@ export default function Diet({ onNavigate }) {
 
       <IdealPlate />
       <PHScale />
-
-      {/* Pro: live diet tracker + meal plans */}
-      {isPro ? (
-        <>
-          <ProMealPlans />
-          <DietTracker />
-        </>
-      ) : (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <Reveal>
-            <SpotlightCard className="pro-card p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              <div className="lg:col-span-9">
-                <span className="editorial-label text-gold-dark">Pro Edition</span>
-                <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                  Track your day. Get the <span className="display-italic text-clay">next bite.</span>
-                </h3>
-                <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
-                  A live diet tracker that learns from what you ate today and suggests your next snack or meal, closing protein, fibre and calorie gaps against your goal. Plus seven-day meal templates for every goal.
-                </p>
-                <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-y-1 text-xs text-ink-soft">
-                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Log meals + snacks in one click</li>
-                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Live macro &amp; fibre dashboard</li>
-                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Smart next-meal suggestions</li>
-                  <li className="flex items-baseline gap-2"><span className="text-clay">+</span> Seven-day meal templates</li>
-                </ul>
-              </div>
-              <div className="lg:col-span-3 lg:text-right">
-                <button onClick={() => onNavigate?.('pro')} className="btn-ink">
-                  Unlock <span className="display-italic">→</span>
-                </button>
-              </div>
-            </SpotlightCard>
-          </Reveal>
-        </section>
-      )}
 
       {/* Disclaimer */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">

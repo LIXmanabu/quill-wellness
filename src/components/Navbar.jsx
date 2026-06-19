@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import ThemeToggle from './ThemeToggle.jsx'
-import { usePro } from '../context/ProContext.jsx'
+import { usePro, FEEDBACK_EMAIL } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
 
@@ -22,8 +22,10 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
   const [scrolled, setScrolled] = useState(false)
   const [hoverKey, setHoverKey] = useState(null)
   const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 })
-  const { tier } = usePro()
+  const { tier, isTester } = usePro()
   const tierLabel = tier === 'max' ? 'Max Edition' : tier === 'pro' ? 'Pro Edition' : 'Free Edition'
+  // Tester feedback ("request a change"), surfaced right in the masthead strip.
+  const feedbackHref = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('Quill — request a change')}&body=${encodeURIComponent('What I’d like changed:\n\n\nWhere I saw it (which screen):\n\n\nWhat I liked:\n\n\n— sent from the Quill beta')}`
   const { profile } = useUser()
   const favCount = profile.favorites.length
   const { user, signOut } = useAuth()
@@ -83,7 +85,13 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
         <div className="masthead">
           <span>Quill · Wellness Quarterly</span>
           <span>Issue 01 · {date}</span>
-          <span>{tierLabel}</span>
+          {isTester ? (
+            <a href={feedbackHref} className="text-clay hover:text-ink transition-colors" title="Send the team a note">
+              ✎ Request a change
+            </a>
+          ) : (
+            <span>{tierLabel}</span>
+          )}
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 
@@ -76,6 +76,29 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
     if (window.history.state?.quillSheet) window.history.back()
     else setSheetOpen(false)
   }
+
+  // Swipe-down-to-close for the More sheet (the natural phone gesture). Only
+  // engages when the sheet is scrolled to the top, so dragging still scrolls
+  // the list when there's more below. Past ~90px of downward drag → close.
+  const sheetRef = useRef(null)
+  const dragStart = useRef(null)
+  const [dragY, setDragY] = useState(0)
+  const [dragging, setDragging] = useState(false)
+  function onSheetTouchStart(e) {
+    dragStart.current = { y: e.touches[0].clientY, top: sheetRef.current?.scrollTop || 0 }
+    setDragging(true)
+  }
+  function onSheetTouchMove(e) {
+    if (!dragStart.current) return
+    const dy = e.touches[0].clientY - dragStart.current.y
+    setDragY(dy > 0 && dragStart.current.top <= 0 ? dy : 0)
+  }
+  function onSheetTouchEnd() {
+    setDragging(false)
+    if (dragY > 90) closeSheet()
+    setDragY(0)
+    dragStart.current = null
+  }
   useEffect(() => {
     function onPop(e) {
       setSheetOpen(!!(e.state && e.state.quillSheet))
@@ -113,10 +136,17 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
       {sheetOpen && (
         <div className="lg:hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label="More sections">
           <div className="absolute inset-0 bg-ink/40 animate-fade-in" onClick={closeSheet} />
-          <div className="absolute left-0 right-0 bottom-0 bg-cream-light border-t border-ink/15 shadow-soft-lg rounded-t-2xl animate-sheet-up max-h-[82vh] overflow-y-auto pb-[calc(env(safe-area-inset-bottom)+1rem)]">
-            <div className="flex justify-center pt-3 pb-1">
-              <span className="block w-10 h-1 rounded-full bg-ink/15" />
-            </div>
+          <div
+            ref={sheetRef}
+            onTouchStart={onSheetTouchStart}
+            onTouchMove={onSheetTouchMove}
+            onTouchEnd={onSheetTouchEnd}
+            style={dragY ? { transform: `translateY(${dragY}px)`, transition: dragging ? 'none' : 'transform 0.25s ease' } : undefined}
+            className="absolute left-0 right-0 bottom-0 bg-cream-light border-t border-ink/15 shadow-soft-lg rounded-t-2xl animate-sheet-up max-h-[82vh] overflow-y-auto overscroll-contain pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+            {/* Grab handle — tap or swipe down to close */}
+            <button type="button" onClick={closeSheet} aria-label="Close" className="w-full flex justify-center pt-3 pb-1">
+              <span className="block w-10 h-1 rounded-full bg-ink/25" />
+            </button>
             <div className="px-5 pt-2 pb-1 flex items-baseline justify-between">
               <span className="editorial-label text-ink-softer">More from Quill</span>
               <span className="editorial-label text-ink-softer">{tierLabel}</span>
