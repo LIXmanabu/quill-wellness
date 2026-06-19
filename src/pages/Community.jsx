@@ -190,7 +190,10 @@ export default function Community() {
   if (!COMMUNITY_ENABLED) return <ConnectGate />
 
   // A signed-in user without a username must set one before posting/friending.
-  const needsSetup = myId && myProfile === null
+  // Every account gets an auto-created profile row at signup, so "no row" never
+  // happens — the real signal is an empty username. (myProfile === undefined
+  // means still loading; don't prompt yet.)
+  const needsSetup = myId && myProfile !== undefined && !myProfile?.username
   if (needsSetup && (view === 'create' || view === 'friends')) {
     return <ProfileSetup myId={myId} seedName={user?.name} onDone={(p) => { setMyProfile(p); setView(view) }} onBack={() => setView('feed')} />
   }
@@ -282,6 +285,16 @@ export default function Community() {
               </button>
             )}
           </div>
+
+          {/* Nudge signed-in users to claim a username, so they're findable. */}
+          {myId && myProfile !== undefined && !myProfile?.username && (
+            <div className="mt-5 bg-cream border border-clay/30 p-4 flex flex-wrap items-center gap-3">
+              <p className="text-sm text-ink flex-1 min-w-[14rem] leading-snug">
+                <span className="font-semibold">Pick a username</span> so people can find and friend you — and so your shared routines show your name.
+              </p>
+              <button onClick={() => setView('friends')} className="btn-clay shrink-0">Set username →</button>
+            </div>
+          )}
         </div>
       </section>
 
