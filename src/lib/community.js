@@ -426,10 +426,19 @@ export async function searchUsers(query, myId) {
 export async function getProfileByUsername(username) {
   const { data, error } = await supabase
     .from('public_profiles')
-    .select('id, username, display_name, avatar_url, bio, created_at')
+    .select('id, username, display_name, avatar_url, bio, created_at, badge_override')
     .ilike('username', (username || '').trim())
     .maybeSingle()
   return error ? err(error) : ok(data)
+}
+
+// Admin-only (enforced by the guard trigger in badge_override.sql): set or clear
+// a public badge floor so an account's medals show as earned to everyone.
+// `floor` is a like-total (e.g. 100000 lights up every medal) or null to clear.
+export async function setBadgeOverride(userId, floor) {
+  const { error } = await supabase
+    .from('profiles').update({ badge_override: floor }).eq('id', userId)
+  return error ? err(error) : ok(true)
 }
 
 /** Posts by a given user that the viewer is allowed to see (RLS enforced). */

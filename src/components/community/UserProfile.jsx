@@ -2,15 +2,15 @@ import { useState, useEffect, useCallback } from 'react'
 import { Avatar } from './ui.jsx'
 import LikeBadge from './LikeBadge.jsx'
 import BadgeCase from './BadgeCase.jsx'
-import { effectiveLikes } from '../../lib/badges.js'
+import { effectiveLikes, badgeForLikes } from '../../lib/badges.js'
 import CommunityPostCard from './CommunityPostCard.jsx'
 import {
   getProfileByUsername, getUserPosts, getFriendStatus,
-  sendFriendRequest, removeFriend, getMyInteractions,
+  sendFriendRequest, removeFriend, getMyInteractions, setBadgeOverride,
 } from '../../lib/community.js'
 
 // ─── A user's public profile + their visible posts ───────────────────────
-export default function UserProfile({ username, myId, onBack, onOpenPost, onReportUser }) {
+export default function UserProfile({ username, myId, isAdmin = false, onBack, onOpenPost, onReportUser }) {
   const [profile, setProfile] = useState(null)
   const [posts, setPosts] = useState([])
   const [status, setStatus] = useState('none')   // none | outgoing | incoming | friends | self
@@ -59,6 +59,12 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
     setStatus('none'); setBusy(false)
   }
 
+  // Admin-only: flip this account's public badge floor, then reload to reflect it.
+  async function handleSetOverride(floor) {
+    await setBadgeOverride(profile.id, floor)
+    await load()
+  }
+
   if (loading) return <div className="max-w-3xl mx-auto px-4 py-16 text-center text-ink-soft">Loading profile…</div>
   if (!profile) return (
     <div className="max-w-3xl mx-auto px-4 py-16 text-center">
@@ -76,6 +82,12 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
   const totalSaves = posts.reduce((s, p) => s + (p.savesCount || 0), 0)
   const topPost = posts.reduce((best, p) => ((p.likesCount || 0) > (best?.likesCount || 0) ? p : best), null)
 
+  // Badge display: fold in any admin-set public override (seen by everyone) and,
+  // on your own profile, your local preview.
+  const isSelf = status === 'self'
+  const override = profile.badge_override || 0
+  const effLikes = effectiveLikes(totalLikes, { isSelf, override })
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       <button onClick={onBack} className="btn-ghost mb-6"><span className="display-italic text-base">←</span> Back</button>
@@ -92,9 +104,17 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
 
       {/* Your badge case — the full medal collection (own profile only, always
           shown so you can see your badges even before your first post). */}
-      {status === 'self' && (
+      {isSelf && (
         <div className="mt-6">
-          <BadgeCase totalLikes={totalLikes} isSelf />
+          <BadgeCase totalLikes={totalLikes} isSelf isAdmin={isAdmin} override={override} onSetOverride={handleSetOverride} />
+        </div>
+      )}
+
+      {/* Another person's earned medal — shown even before their first post (e.g.
+          when an admin override has lit up their badges). */}
+      {!isSelf && posts.length === 0 && badgeForLikes(effLikes) && (
+        <div className="mt-6">
+          <LikeBadge totalLikes={effLikes} size="lg" />
         </div>
       )}
 
@@ -106,7 +126,7 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
             <Stat n={totalSaves} label="saved" />
             <Stat n={posts.length} label={posts.length === 1 ? 'routine' : 'routines'} />
             {/* Earned like-medal (🥉10 · 🥈100 · 🥇1,000 · 💎10,000) */}
-            <LikeBadge totalLikes={effectiveLikes(totalLikes, status === 'self')} showProgress={status === 'self'} size="lg" />
+            <LikeBadge totalLikes={effLikes} showProgress={isSelf} size="lg" />
           </div>
           {topPost && topPost.likesCount > 0 && (
             <button onClick={() => onOpenPost(topPost)}

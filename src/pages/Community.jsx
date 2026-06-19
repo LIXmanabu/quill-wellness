@@ -265,7 +265,7 @@ export default function Community() {
   if (view === 'profile' && selectedUsername) {
     return (
       <>
-        <UserProfile username={selectedUsername} myId={myId}
+        <UserProfile username={selectedUsername} myId={myId} isAdmin={isAdmin}
           onBack={() => setView('feed')} onOpenPost={openPost} onReportUser={openReportUser} />
         {report && <ReportContentModal target={report} onClose={() => setReport(null)} onSubmit={report.submit} />}
       </>

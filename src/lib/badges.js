@@ -45,8 +45,13 @@ export function setPreviewAllBadges(on) {
   window.dispatchEvent(new Event(BADGE_PREVIEW_EVENT))
 }
 
-// Like-total to render with: on your own profile with preview on, pretend the
-// top tier is reached so every medal lights up. Otherwise the real total.
-export function effectiveLikes(total, isSelf) {
-  return isSelf && previewAllBadges() ? LIKE_BADGES[LIKE_BADGES.length - 1].min : (total || 0)
+// Top tier's threshold — the floor that lights up every medal.
+export const MAX_BADGE_LIKES = LIKE_BADGES[LIKE_BADGES.length - 1].min
+
+// Like-total to render a profile's badges with. Takes the real total and folds
+// in two things: a public `override` floor (admin-set, seen by everyone) and,
+// on your own profile, the local "show all" preview (seen only by you).
+export function effectiveLikes(total, { isSelf = false, override = 0 } = {}) {
+  const base = Math.max(total || 0, override || 0)
+  return isSelf && previewAllBadges() ? Math.max(base, MAX_BADGE_LIKES) : base
 }
