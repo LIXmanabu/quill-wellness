@@ -56,6 +56,7 @@ export default function UserSearch({ myId, onOpenProfile }) {
       {!touched && (
         <p className="text-sm text-ink-soft mt-6 leading-relaxed">
           Search for friends by their username or display name, then open their profile to send a friend request.
+          Don’t know their username? Use a <span className="text-ink">friend code</span> in Friends &amp; requests instead.
         </p>
       )}
     </div>

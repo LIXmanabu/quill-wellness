@@ -522,6 +522,39 @@ export async function listFriends(myId) {
   return ok(others.map((id) => profiles[id] || { id }))
 }
 
+// ── Friend codes ─────────────────────────────────────────────────────────────
+// A short, shareable handle so people can add each other without knowing a
+// username. Backed by supabase/friend_codes.sql (codes never appear in the
+// public_profiles view — they're resolved only by the RPC below).
+
+const FRIEND_CODE_MISSING = /could not find the function|add_friend_by_code|my_friend_code/i
+
+// True when friend_codes.sql hasn't been run yet, so the UI can hide the feature
+// instead of showing an error.
+export function isFriendCodeMissing(error) {
+  return !!error && FRIEND_CODE_MISSING.test(error.message || '')
+}
+
+/** My own friend code (created on first use). */
+export async function getMyFriendCode() {
+  const { data, error } = await supabase.rpc('my_friend_code')
+  return error ? err(error) : ok(data)
+}
+
+/** Add a friend by their code → { status: 'friends' | 'requested', user_id }. */
+export async function addFriendByCode(code) {
+  const { data, error } = await supabase.rpc('add_friend_by_code', { code })
+  if (error) return err(error)
+  // Enrich with the other person's public identity for a friendly confirmation.
+  let profile = null
+  if (data?.user_id) {
+    const { data: p } = await supabase
+      .from('public_profiles').select('id, username, display_name, avatar_url').eq('id', data.user_id).maybeSingle()
+    profile = p || null
+  }
+  return ok({ status: data?.status, profile })
+}
+
 // Lightweight count of pending requests *waiting on me* — drives the header
 // notification bell. Head-only count, so it's cheap to poll.
 export async function countIncomingRequests(myId) {

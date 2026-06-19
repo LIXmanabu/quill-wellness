@@ -42,6 +42,7 @@ If you ever see `relation "public.post_comments" does not exist`, run #3 before 
 |------|---------------|
 | `community_patch_no_media_review.sql` | Publishes photo/video posts immediately (removes the pre-publish review gate) |
 | `friend_request_decline_fix.sql` | Declining a friend request no longer permanently blocks the sender from re-asking (deletes the request once answered; one-time cleanup of stuck rows) |
+| `friend_codes.sql` | Shareable friend codes (`friend_code` column + `my_friend_code()` / `add_friend_by_code()`), so people can add each other without knowing a username |
 
 ---
 
