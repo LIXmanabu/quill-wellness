@@ -21,6 +21,8 @@ import {
   getMyInteractions, toggleLike, toggleSave, getUserPosts,
   getMyProfile, isUsernameAvailable, updateMyProfile, checkIsAdmin,
   reportPost, reportUser, qaForumReady,
+  countIncomingRequests, takeCommunityView,
+  COMMUNITY_VIEW_EVENT, FRIEND_REQUESTS_CHANGED,
 } from '../lib/community.js'
 import { detectLikeMilestones } from '../lib/communityMilestones.js'
 import { takeCommunityDraft } from '../lib/plans.js'
@@ -50,6 +52,7 @@ export default function Community() {
   const [myProfile, setMyProfile] = useState(undefined) // undefined=loading, null=none
   const [isAdmin, setIsAdmin] = useState(false)
   const [myPostCount, setMyPostCount] = useState(null)  // null=unknown, drives the first-post nudge
+  const [pendingRequests, setPendingRequests] = useState(0) // incoming friend requests, for the chip badge
 
   // ── Feed state ──
   const [tab, setTab] = useState('foryou')
@@ -72,6 +75,30 @@ export default function Community() {
     const d = takeCommunityDraft()
     if (d) { setDraft(d); setView('create') }
   }, [])
+
+  // Deep-link from the header bell (or elsewhere) into a sub-view. The stash
+  // covers the case where Community was just lazy-loaded by the click; the live
+  // event covers the case where Community is already on screen.
+  useEffect(() => {
+    const initial = takeCommunityView()
+    if (initial) { setView(initial); window.scrollTo(0, 0) }
+    function onView(e) {
+      if (e.detail) { setView(e.detail); window.scrollTo(0, 0) }
+    }
+    window.addEventListener(COMMUNITY_VIEW_EVENT, onView)
+    return () => window.removeEventListener(COMMUNITY_VIEW_EVENT, onView)
+  }, [])
+
+  // Keep the incoming-request count fresh for the "Friends & requests" chip
+  // badge, refreshing when a request is answered anywhere in the app.
+  useEffect(() => {
+    if (!COMMUNITY_ENABLED || !myId) { setPendingRequests(0); return }
+    let active = true
+    const refresh = () => countIncomingRequests(myId).then(({ data }) => { if (active) setPendingRequests(data || 0) })
+    refresh()
+    window.addEventListener(FRIEND_REQUESTS_CHANGED, refresh)
+    return () => { active = false; window.removeEventListener(FRIEND_REQUESTS_CHANGED, refresh) }
+  }, [myId])
 
   // Load my community profile + admin flag once signed in.
   useEffect(() => {
@@ -310,8 +337,13 @@ export default function Community() {
               </button>
             )}
             {myId && (
-              <button onClick={() => setView('friends')} className="chip chip-cream hover:border-ink/40 transition-colors">
+              <button onClick={() => setView('friends')} className="chip chip-cream hover:border-ink/40 transition-colors inline-flex items-center gap-1.5">
                 Friends &amp; requests
+                {pendingRequests > 0 && (
+                  <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] num-display bg-clay text-cream rounded-full">
+                    {pendingRequests > 9 ? '9+' : pendingRequests}
+                  </span>
+                )}
               </button>
             )}
             <button onClick={() => setView('badges')} className="chip chip-cream hover:border-ink/40 transition-colors">

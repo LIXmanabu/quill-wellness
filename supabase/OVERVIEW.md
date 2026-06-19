@@ -36,6 +36,13 @@ If you ever see `relation "public.post_comments" does not exist`, run #3 before 
 
 **Current status:** all of the above are installed and verified live.
 
+### Patches (run once, on top of the above)
+
+| File | What it fixes |
+|------|---------------|
+| `community_patch_no_media_review.sql` | Publishes photo/video posts immediately (removes the pre-publish review gate) |
+| `friend_request_decline_fix.sql` | Declining a friend request no longer permanently blocks the sender from re-asking (deletes the request once answered; one-time cleanup of stuck rows) |
+
 ---
 
 ## Make yourself an admin

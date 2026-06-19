@@ -39,8 +39,17 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
 
   async function onAddFriend() {
     setBusy(true)
-    await sendFriendRequest(myId, profile.id)
-    setStatus('outgoing'); setBusy(false)
+    const { error } = await sendFriendRequest(myId, profile.id)
+    // Only show "Request sent" if it actually was. On failure (e.g. a stale
+    // declined request blocks a duplicate), re-read the true status instead of
+    // falsely claiming success.
+    if (error) {
+      const st = await getFriendStatus(profile.id, myId)
+      setStatus(st.data)
+    } else {
+      setStatus('outgoing')
+    }
+    setBusy(false)
   }
   async function onRemoveFriend() {
     setBusy(true)

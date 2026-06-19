@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import ThemeToggle from './ThemeToggle.jsx'
+import NotificationBell from './NotificationBell.jsx'
+import useFriendRequestCount from '../hooks/useFriendRequestCount.js'
 import { usePro, FEEDBACK_EMAIL } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
@@ -28,6 +30,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
   const feedbackHref = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('Quill — request a change')}&body=${encodeURIComponent('What I’d like changed:\n\n\nWhere I saw it (which screen):\n\n\nWhat I liked:\n\n\n— sent from the Quill beta')}`
   const { profile } = useUser()
   const favCount = profile.favorites.length
+  const requestCount = useFriendRequestCount()
   const { user, signOut } = useAuth()
 
   const navRef = useRef(null)
@@ -164,6 +167,11 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                         {favCount}
                       </span>
                     )}
+                    {tab.key === 'community' && requestCount > 0 && (
+                      <span className="ml-1 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] num-display bg-clay text-cream rounded-full animate-pop-in">
+                        {requestCount > 9 ? '9+' : requestCount}
+                      </span>
+                    )}
                   </span>
                 </button>
               )
@@ -184,6 +192,9 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 <circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" />
               </svg>
             </button>
+
+            {/* Friend-request bell — shows for signed-in users on every screen */}
+            <NotificationBell onNavigate={handleNav} />
 
             {/* Night-mode toggle, always visible here in the header */}
             <ThemeToggle className="min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />

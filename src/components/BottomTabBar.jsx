@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { usePro } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
+import useFriendRequestCount from '../hooks/useFriendRequestCount.js'
 
 /*
   App-style bottom navigation, shown on phones/tablets only (lg:hidden).
@@ -54,6 +55,7 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
   const { profile } = useUser()
   const { tier, isMax } = usePro()
   const favCount = profile.favorites.length
+  const requestCount = useFriendRequestCount()
 
   // A "More" section being active should light up the More tab.
   const moreActive = MORE_SECTIONS.some((s) => s.key === activePage) || activePage === 'pro'
@@ -177,7 +179,14 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
                 >
                   <span className="text-[10px] num-display text-clay w-6 shrink-0">{s.no}</span>
                   <span className="min-w-0">
-                    <span className="block font-display text-xl text-ink">{s.label}</span>
+                    <span className="flex items-center gap-2 font-display text-xl text-ink">
+                      {s.label}
+                      {s.key === 'community' && requestCount > 0 && (
+                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] num-display bg-clay text-cream rounded-full">
+                          {requestCount > 9 ? '9+' : requestCount}
+                        </span>
+                      )}
+                    </span>
                     <span className="block text-sm text-ink-soft leading-snug">{s.desc}</span>
                   </span>
                 </button>
@@ -238,7 +247,14 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
                 moreActive || sheetOpen ? 'text-clay' : 'text-ink-soft active:text-ink'
               }`}
             >
-              {icons.more}
+              <span className="relative">
+                {icons.more}
+                {requestCount > 0 && (
+                  <span className="absolute -top-1 -right-2 inline-flex items-center justify-center min-w-[15px] h-[15px] px-1 text-[9px] num-display bg-clay text-cream rounded-full">
+                    {requestCount > 9 ? '9+' : requestCount}
+                  </span>
+                )}
+              </span>
               <span className="text-[10px] tracking-wide font-medium">More</span>
               {(moreActive || sheetOpen) && <span className="absolute top-0 w-7 h-px bg-clay" aria-hidden="true" />}
             </button>

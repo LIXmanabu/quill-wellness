@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from 'react'
 import { Avatar } from './ui.jsx'
 import {
   listFriendRequests, listFriends, respondFriendRequest, cancelFriendRequest, removeFriend,
+  FRIEND_REQUESTS_CHANGED,
 } from '../../lib/community.js'
+
+// Tell the header bell + the chip badge to re-count after any change here.
+const announceChange = () => window.dispatchEvent(new Event(FRIEND_REQUESTS_CHANGED))
 
 // ─── Incoming / outgoing requests + current friends ───────────────────────
 export default function FriendRequests({ myId, onOpenProfile }) {
@@ -24,9 +28,9 @@ export default function FriendRequests({ myId, onOpenProfile }) {
 
   useEffect(() => { load() }, [load])
 
-  async function respond(id, accept) { await respondFriendRequest(id, accept); load() }
-  async function cancel(id) { await cancelFriendRequest(id); load() }
-  async function unfriend(id) { await removeFriend(id); load() }
+  async function respond(id, accept) { await respondFriendRequest(id, accept); announceChange(); load() }
+  async function cancel(id) { await cancelFriendRequest(id); announceChange(); load() }
+  async function unfriend(id) { await removeFriend(id); announceChange(); load() }
 
   if (loading) return <div className="py-12 text-center text-ink-soft">Loading…</div>
 

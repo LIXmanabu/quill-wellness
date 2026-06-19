@@ -136,16 +136,18 @@ begin
   if r.receiver_id <> auth.uid() then raise exception 'Not your request to answer'; end if;
   if r.status <> 'pending' then raise exception 'Request already answered'; end if;
 
-  update public.friend_requests
-     set status = case when accept then 'accepted' else 'declined' end,
-         updated_at = now()
-   where id = request_id;
-
   if accept then
     insert into public.friendships (user_a, user_b)
     values (least(r.sender_id, r.receiver_id), greatest(r.sender_id, r.receiver_id))
     on conflict do nothing;
   end if;
+
+  -- Remove the request once answered. On accept the friendship row is now the
+  -- source of truth; on decline we must leave NO trace, because the
+  -- unique(sender_id, receiver_id) constraint would otherwise permanently block
+  -- the sender from ever asking again (they can't delete a non-pending row
+  -- either). Deleting keeps friend_requests holding only live, pending rows.
+  delete from public.friend_requests where id = request_id;
 end;
 $$;
 

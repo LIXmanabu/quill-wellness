@@ -522,6 +522,30 @@ export async function listFriends(myId) {
   return ok(others.map((id) => profiles[id] || { id }))
 }
 
+// Lightweight count of pending requests *waiting on me* — drives the header
+// notification bell. Head-only count, so it's cheap to poll.
+export async function countIncomingRequests(myId) {
+  if (!myId) return ok(0)
+  const { count, error } = await supabase
+    .from('friend_requests')
+    .select('id', { count: 'exact', head: true })
+    .eq('receiver_id', myId).eq('status', 'pending')
+  return error ? err(error) : ok(count || 0)
+}
+
+// ── Cross-component deep-link into a Community sub-view ───────────────────────
+// The header bell lives outside the Community page, so it can't call setView
+// directly. It stashes the target view here (read on Community mount, covering
+// the lazy-load case) AND fires the event below (caught when Community is
+// already mounted). Mirrors the takeCommunityDraft() pattern in plans.js.
+let pendingCommunityView = null
+export function requestCommunityView(view) { pendingCommunityView = view }
+export function takeCommunityView() { const v = pendingCommunityView; pendingCommunityView = null; return v }
+
+// Event names other parts of the app listen for / emit.
+export const COMMUNITY_VIEW_EVENT = 'quill:community-view'        // detail: view name
+export const FRIEND_REQUESTS_CHANGED = 'quill:friend-requests-changed'
+
 // ── Reports ───────────────────────────────────────────────────────────────
 export async function reportPost(reporterId, post, reason, details) {
   const { error } = await supabase.from('community_reports').insert({
