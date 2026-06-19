@@ -26,3 +26,27 @@ export function nextBadge(total) {
   const next = LIKE_BADGES.find((b) => t < b.min)
   return next ? { ...next, remaining: next.min - t } : null
 }
+
+// ─── "Show all badges" preview (per-device, your own profile only) ─────────
+// A vanity/preview switch: when on, your own profile renders every medal as
+// earned. It lives in localStorage, so it only ever affects YOUR view on THIS
+// device — other people always see the medals you've truly earned.
+const PREVIEW_KEY = 'quill.previewAllBadges'
+export const BADGE_PREVIEW_EVENT = 'quill:badge-preview-changed'
+
+export function previewAllBadges() {
+  try { return localStorage.getItem(PREVIEW_KEY) === '1' } catch { return false }
+}
+export function setPreviewAllBadges(on) {
+  try {
+    if (on) localStorage.setItem(PREVIEW_KEY, '1')
+    else localStorage.removeItem(PREVIEW_KEY)
+  } catch {}
+  window.dispatchEvent(new Event(BADGE_PREVIEW_EVENT))
+}
+
+// Like-total to render with: on your own profile with preview on, pretend the
+// top tier is reached so every medal lights up. Otherwise the real total.
+export function effectiveLikes(total, isSelf) {
+  return isSelf && previewAllBadges() ? LIKE_BADGES[LIKE_BADGES.length - 1].min : (total || 0)
+}

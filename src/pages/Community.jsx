@@ -76,18 +76,30 @@ export default function Community() {
     if (d) { setDraft(d); setView('create') }
   }, [])
 
-  // Deep-link from the header bell (or elsewhere) into a sub-view. The stash
-  // covers the case where Community was just lazy-loaded by the click; the live
-  // event covers the case where Community is already on screen.
+  // Deep-link from the header bell / account button (or elsewhere) into a
+  // sub-view. The stash covers the case where Community was just lazy-loaded by
+  // the click; the live event covers the case where Community is already on
+  // screen. 'myprofile' is special — it opens your own profile once it's known.
+  const [wantSelf, setWantSelf] = useState(false)
   useEffect(() => {
-    const initial = takeCommunityView()
-    if (initial) { setView(initial); window.scrollTo(0, 0) }
-    function onView(e) {
-      if (e.detail) { setView(e.detail); window.scrollTo(0, 0) }
+    const apply = (v) => {
+      if (v === 'myprofile') { setWantSelf(true); return }
+      setView(v); window.scrollTo(0, 0)
     }
+    const initial = takeCommunityView()
+    if (initial) apply(initial)
+    function onView(e) { if (e.detail) apply(e.detail) }
     window.addEventListener(COMMUNITY_VIEW_EVENT, onView)
     return () => window.removeEventListener(COMMUNITY_VIEW_EVENT, onView)
   }, [])
+
+  // Resolve "open my profile" once my profile (and its username) has loaded.
+  useEffect(() => {
+    if (!wantSelf || myProfile === undefined) return
+    if (myProfile?.username) openProfile(myProfile.username)
+    else setView('friends')   // no username yet → the setup flow lives here
+    setWantSelf(false)
+  }, [wantSelf, myProfile])
 
   // Load my community profile + admin flag once signed in.
   useEffect(() => {

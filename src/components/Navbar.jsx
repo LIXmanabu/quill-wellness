@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import ThemeToggle from './ThemeToggle.jsx'
 import useFriendRequestCount from '../hooks/useFriendRequestCount.js'
+import { requestCommunityView, COMMUNITY_VIEW_EVENT } from '../lib/community.js'
 import { usePro, FEEDBACK_EMAIL } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
@@ -198,9 +199,18 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
             {/* Show email initial + sign-out when logged in (production only) */}
             {!DEV_MODE && user && (
               <div className="hidden lg:flex items-center gap-2">
-                <span className="w-7 h-7 rounded-full bg-clay/20 flex items-center justify-center text-[11px] font-bold text-clay uppercase">
+                <button
+                  onClick={() => {
+                    handleNav('community')
+                    requestCommunityView('myprofile')
+                    window.dispatchEvent(new CustomEvent(COMMUNITY_VIEW_EVENT, { detail: 'myprofile' }))
+                  }}
+                  className="w-7 h-7 rounded-full bg-clay/20 flex items-center justify-center text-[11px] font-bold text-clay uppercase hover:bg-clay/30 transition-colors focus-visible:ring-2 focus-visible:ring-clay"
+                  aria-label="Your profile & badges"
+                  title="Your profile & badges"
+                >
                   {user.email?.[0] ?? '?'}
-                </span>
+                </button>
                 <button
                   onClick={signOut}
                   className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-soft hover:text-ink transition-colors"

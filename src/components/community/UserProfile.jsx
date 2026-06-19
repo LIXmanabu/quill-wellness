@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Avatar } from './ui.jsx'
 import LikeBadge from './LikeBadge.jsx'
+import BadgeCase from './BadgeCase.jsx'
+import { effectiveLikes } from '../../lib/badges.js'
 import CommunityPostCard from './CommunityPostCard.jsx'
 import {
   getProfileByUsername, getUserPosts, getFriendStatus,
@@ -88,6 +90,14 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
         </div>
       </header>
 
+      {/* Your badge case — the full medal collection (own profile only, always
+          shown so you can see your badges even before your first post). */}
+      {status === 'self' && (
+        <div className="mt-6">
+          <BadgeCase totalLikes={totalLikes} isSelf />
+        </div>
+      )}
+
       {/* Likes earned — public trust signal */}
       {posts.length > 0 && (
         <div className="mt-6">
@@ -96,7 +106,7 @@ export default function UserProfile({ username, myId, onBack, onOpenPost, onRepo
             <Stat n={totalSaves} label="saved" />
             <Stat n={posts.length} label={posts.length === 1 ? 'routine' : 'routines'} />
             {/* Earned like-medal (🥉10 · 🥈100 · 🥇1,000 · 💎10,000) */}
-            <LikeBadge totalLikes={totalLikes} showProgress={status === 'self'} size="lg" />
+            <LikeBadge totalLikes={effectiveLikes(totalLikes, status === 'self')} showProgress={status === 'self'} size="lg" />
           </div>
           {topPost && topPost.likesCount > 0 && (
             <button onClick={() => onOpenPost(topPost)}
