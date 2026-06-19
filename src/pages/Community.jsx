@@ -6,6 +6,8 @@ import CommunityPostCard from '../components/community/CommunityPostCard.jsx'
 import CommunityFeaturedPost from '../components/community/CommunityFeaturedPost.jsx'
 import CommunityPostDetail from '../components/community/CommunityPostDetail.jsx'
 import CreateCommunityPostForm from '../components/community/CreateCommunityPostForm.jsx'
+import AskQuestionForm from '../components/community/AskQuestionForm.jsx'
+import QuestionCard from '../components/community/QuestionCard.jsx'
 import UserSearch from '../components/community/UserSearch.jsx'
 import UserProfile from '../components/community/UserProfile.jsx'
 import FriendRequests from '../components/community/FriendRequests.jsx'
@@ -17,7 +19,7 @@ import {
   COMMUNITY_ENABLED, isBackendMissing, listFeed, getPost, createPost, deletePost,
   getMyInteractions, toggleLike, toggleSave, getUserPosts,
   getMyProfile, isUsernameAvailable, updateMyProfile, checkIsAdmin,
-  reportPost, reportUser,
+  reportPost, reportUser, qaForumReady,
 } from '../lib/community.js'
 import { detectLikeMilestones } from '../lib/communityMilestones.js'
 import { takeCommunityDraft } from '../lib/plans.js'
@@ -50,6 +52,8 @@ export default function Community() {
 
   // ── Feed state ──
   const [tab, setTab] = useState('foryou')
+  const [mode, setMode] = useState('routines')   // 'routines' | 'qa' (the Q&A forum)
+  const [qaReady, setQaReady] = useState(true)    // false → run supabase/qa_forum.sql
   const [category, setCategory] = useState(null)
   const [sortByLikes, setSortByLikes] = useState(false)  // false = For-You/recent order, true = Most loved
   const [search, setSearch] = useState('')
@@ -102,7 +106,8 @@ export default function Community() {
   const loadFeed = useCallback(async () => {
     if (!COMMUNITY_ENABLED) { setLoadingFeed(false); return }
     setLoadingFeed(true)
-    const { data, error } = await listFeed({ tab, category, search, userId: myId, sortByLikes })
+    const kind = mode === 'qa' ? 'question' : 'routine'
+    const { data, error } = await listFeed({ tab, category, search, userId: myId, sortByLikes, kind })
     setBackendReady(!isBackendMissing(error))
     const list = data || []
     setPosts(list)
@@ -111,9 +116,12 @@ export default function Community() {
       if (inter) setInteractions(inter)
     }
     setLoadingFeed(false)
-  }, [tab, category, search, myId, sortByLikes])
+  }, [tab, category, search, myId, sortByLikes, mode])
 
   useEffect(() => { if (view === 'feed') loadFeed() }, [view, loadFeed])
+
+  // Is the Q&A column present? (hides the forum until supabase/qa_forum.sql runs)
+  useEffect(() => { qaForumReady().then(setQaReady) }, [])
 
   // ── Account age estimate for the trust check (DB is authoritative) ──
   const accountAgeDays = myProfile?.created_at
@@ -219,6 +227,9 @@ export default function Community() {
     )
   }
   if (view === 'create') {
+    if (mode === 'qa') {
+      return <AskQuestionForm onCreate={handleCreate} onBack={() => setView('feed')} />
+    }
     return <CreateCommunityPostForm userId={myId}
       initial={draft} onBack={() => { setDraft(null); setView('feed') }} onCreate={handleCreate} />
   }
@@ -256,17 +267,35 @@ export default function Community() {
             <div>
               <p className="editorial-label text-clay">Quill Community</p>
               <h1 className="font-display text-[clamp(2.2rem,8vw,3.6rem)] text-ink leading-[0.95] tracking-tight mt-2">
-                Routines, <span className="display-italic text-clay">shared.</span>
+                {mode === 'qa'
+                  ? <>Ask &amp; <span className="display-italic text-clay">answer.</span></>
+                  : <>Routines, <span className="display-italic text-clay">shared.</span></>}
               </h1>
               <p className="text-ink-soft mt-3 max-w-lg leading-relaxed">
-                Real skincare, beauty, movement and wellness plans from people like you. Save what works, share your own.
+                {mode === 'qa'
+                  ? 'Ask the community anything about skincare, wellness, movement or diet — and upvote the answers that help.'
+                  : 'Real skincare, beauty, movement and wellness plans from people like you. Save what works, share your own.'}
               </p>
             </div>
             <button onClick={() => myId ? setView('create') : null} disabled={!myId}
               className="btn-clay shrink-0 hidden sm:inline-flex disabled:opacity-50" data-cursor-label="share">
-              <span className="display-italic text-base">＋</span> Share routine
+              <span className="display-italic text-base">＋</span> {mode === 'qa' ? 'Ask a question' : 'Share routine'}
             </button>
           </div>
+
+          {/* Routines / Q&A switch */}
+          {qaReady && (
+            <div className="inline-flex mt-5 border border-ink/15 bg-cream p-0.5">
+              {[['routines', 'Routines'], ['qa', 'Q&A']].map(([m, label]) => (
+                <button key={m} onClick={() => { setMode(m); setTab('foryou'); setCategory(null); setView('feed') }}
+                  className={`px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
+                    mode === m ? 'bg-ink text-cream' : 'text-ink-soft hover:text-ink'
+                  }`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* People tools */}
           <div className="flex flex-wrap items-center gap-2 mt-6">
@@ -306,7 +335,7 @@ export default function Community() {
               <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" /></svg>
             </span>
             <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search routines…" className="input-line pl-11 py-2" />
+              placeholder={mode === 'qa' ? 'Search questions…' : 'Search routines…'} className="input-line pl-11 py-2" />
           </label>
 
           {/* Sub-tabs */}
@@ -325,25 +354,29 @@ export default function Community() {
             })}
           </div>
 
-          {/* Category chips + "Most loved" sort */}
+          {/* Category chips (routines only) + sort */}
           <div className="flex items-center gap-2">
-            <div className="flex gap-2 overflow-x-auto pb-1 flex-1">
-              <button onClick={() => setCategory(null)}
-                className={`chip whitespace-nowrap ${!category ? 'chip-ink' : 'chip-cream hover:border-ink/40'}`}>All</button>
-              {CATEGORIES.map((c) => (
-                <button key={c.value} onClick={() => setCategory(category === c.value ? null : c.value)}
-                  className={`chip whitespace-nowrap transition-colors ${category === c.value ? 'chip-ink' : 'chip-cream hover:border-ink/40'}`}>
-                  {c.label}
-                </button>
-              ))}
-            </div>
+            {mode === 'qa' ? (
+              <div className="flex-1" />
+            ) : (
+              <div className="flex gap-2 overflow-x-auto pb-1 flex-1">
+                <button onClick={() => setCategory(null)}
+                  className={`chip whitespace-nowrap ${!category ? 'chip-ink' : 'chip-cream hover:border-ink/40'}`}>All</button>
+                {CATEGORIES.map((c) => (
+                  <button key={c.value} onClick={() => setCategory(category === c.value ? null : c.value)}
+                    className={`chip whitespace-nowrap transition-colors ${category === c.value ? 'chip-ink' : 'chip-cream hover:border-ink/40'}`}>
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            )}
             <button onClick={() => setSortByLikes((v) => !v)} aria-pressed={sortByLikes}
-              title={sortByLikes ? 'Showing most-loved first' : 'Sort by most loved'}
+              title={sortByLikes ? 'Showing top first' : 'Sort by top'}
               className={`chip whitespace-nowrap shrink-0 flex items-center gap-1 transition-colors ${sortByLikes ? 'card-clay' : 'chip-cream hover:border-ink/40'}`}>
               <svg viewBox="0 0 24 24" width="13" height="13" fill={sortByLikes ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                 <path d="M12 20s-7-4.6-7-9.3A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 7 2.7C19 15.4 12 20 12 20Z" />
               </svg>
-              Most loved
+              {mode === 'qa' ? 'Top' : 'Most loved'}
             </button>
           </div>
         </div>
@@ -378,6 +411,27 @@ export default function Community() {
           <Panel title="Friends" onBack={() => setView('feed')}>
             <FriendRequests myId={myId} onOpenProfile={openProfile} />
           </Panel>
+        ) : mode === 'qa' ? (
+          /* ── Q&A forum feed ── */
+          <div className="space-y-3">
+            {loadingFeed ? (
+              <p className="text-ink-softer text-sm py-8 text-center">Loading questions…</p>
+            ) : posts.length === 0 ? (
+              <div className="card-bone p-8 text-center">
+                <p className="font-display text-2xl text-ink">No questions yet.</p>
+                <p className="text-ink-soft mt-2">{myId ? 'Be the first to ask the community something.' : 'Sign in to ask the first question.'}</p>
+                {myId && <button onClick={() => setView('create')} className="btn-clay mt-5">Ask a question</button>}
+              </div>
+            ) : (
+              posts.map((p) => (
+                <QuestionCard key={p.id} post={p} myId={myId}
+                  liked={interactions.liked.has(p.id)}
+                  onOpen={() => openPost(p)}
+                  onUpvote={() => handleLike(p)}
+                  onOpenAuthor={() => p.author.username && openProfile(p.author.username)} />
+              ))
+            )}
+          </div>
         ) : (
           <>
             {tab === 'mine' && !loadingFeed && posts.length > 0 && (

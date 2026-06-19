@@ -90,6 +90,7 @@ export function mapPost(r) {
     savesCount: r.saves_count || 0,
     commentsCount: r.comments_count || 0,
     reportsCount: r.reports_count || 0,
+    kind: r.kind || 'routine',           // 'routine' | 'question' (Q&A forum)
     createdAt: r.created_at,
     updatedAt: r.updated_at,
   }
@@ -107,11 +108,16 @@ const POST_COLS =
 // been applied yet — same "degrade gracefully" rule as isBackendMissing().
 let hasCommentsCol = true
 let commentsColProbe = null
+let hasKindCol = true            // `kind` exists once supabase/qa_forum.sql has run
+let kindColProbe = null
 function missingCommentsCol(error) {
   return !!error && (error.code === '42703' || /comments_count/i.test(error.message || ''))
 }
 function postCols() {
-  return hasCommentsCol ? `${POST_COLS}, comments_count` : POST_COLS
+  let cols = POST_COLS
+  if (hasCommentsCol) cols += ', comments_count'
+  if (hasKindCol) cols += ', kind'
+  return cols
 }
 async function ensureCommentsCol() {
   if (!commentsColProbe) {
@@ -122,11 +128,23 @@ async function ensureCommentsCol() {
   }
   return commentsColProbe
 }
+async function ensureKindCol() {
+  if (!kindColProbe) {
+    kindColProbe = supabase
+      .from('community_posts').select('kind').limit(1)
+      .then(({ error }) => { if (error && (error.code === '42703' || /\bkind\b/i.test(error.message || ''))) hasKindCol = false })
+      .catch(() => {})
+  }
+  return kindColProbe
+}
+async function ensurePostCols() { await Promise.all([ensureCommentsCol(), ensureKindCol()]) }
+// Whether the Q&A column is available (the UI hides the forum until it is).
+export async function qaForumReady() { await ensureKindCol(); return hasKindCol }
 
 // ── Feed ──────────────────────────────────────────────────────────────────
 // tab: 'foryou' (public) | 'friends' | 'mine' | 'saved'
-export async function listFeed({ tab = 'foryou', category = null, search = '', userId = null, sortByLikes = false } = {}) {
-  await ensureCommentsCol()
+export async function listFeed({ tab = 'foryou', category = null, search = '', userId = null, sortByLikes = false, kind = 'routine' } = {}) {
+  await ensurePostCols()
   // "Saved" needs the join from saved_posts → posts; handle separately.
   if (tab === 'saved') {
     if (!userId) return ok([])
@@ -137,12 +155,14 @@ export async function listFeed({ tab = 'foryou', category = null, search = '', u
       .order('created_at', { ascending: false })
     if (error) return err(error)
     let posts = (data || []).map((r) => mapPost(r.post)).filter(Boolean)
-    posts = applyClientFilters(posts, { category, search })
+    posts = applyClientFilters(posts, { category, search, kind })
     if (sortByLikes) posts = byLikes(posts)
     return ok(posts)
   }
 
   let q = supabase.from('community_posts').select(postCols())
+  // Routines vs Q&A questions live in one table; the feed shows one kind.
+  if (hasKindCol && kind) q = q.eq('kind', kind)
   q = sortByLikes
     ? q.order('likes_count', { ascending: false }).order('created_at', { ascending: false })
     : q.order('created_at', { ascending: false })
@@ -194,8 +214,9 @@ function rankForYou(posts) {
   return [...posts].sort((a, b) => score(b) - score(a))
 }
 
-function applyClientFilters(posts, { category, search }) {
+function applyClientFilters(posts, { category, search, kind }) {
   let out = posts
+  if (kind) out = out.filter((p) => (p.kind || 'routine') === kind)
   if (category) out = out.filter((p) => p.category === category)
   if (search?.trim()) {
     const s = search.trim().toLowerCase()
@@ -206,7 +227,7 @@ function applyClientFilters(posts, { category, search }) {
 }
 
 export async function getPost(id) {
-  await ensureCommentsCol()
+  await ensurePostCols()
   const { data, error } = await supabase
     .from('community_posts').select(postCols()).eq('id', id).maybeSingle()
   return error ? err(error) : ok(mapPost(data))
@@ -238,7 +259,10 @@ export async function createPost(userId, author, payload) {
     products: payload.products || [],
     media: payload.media || [],
   }
-  await ensureCommentsCol()
+  await ensurePostCols()
+  // Q&A questions are the same table, flagged with kind (omit if the column
+  // isn't there yet so older databases still accept routine posts).
+  if (hasKindCol && payload.kind) row.kind = payload.kind
   const { data, error } = await supabase
     .from('community_posts').insert(row).select(postCols()).single()
   if (error) return { data: null, error, blocked: false, reason: '' }
