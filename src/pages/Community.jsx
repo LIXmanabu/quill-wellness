@@ -21,9 +21,9 @@ import {
   getMyInteractions, toggleLike, toggleSave, getUserPosts,
   getMyProfile, isUsernameAvailable, updateMyProfile, checkIsAdmin,
   reportPost, reportUser, qaForumReady,
-  countIncomingRequests, takeCommunityView,
-  COMMUNITY_VIEW_EVENT, FRIEND_REQUESTS_CHANGED,
+  takeCommunityView, COMMUNITY_VIEW_EVENT,
 } from '../lib/community.js'
+import useFriendRequestCount from '../hooks/useFriendRequestCount.js'
 import { detectLikeMilestones } from '../lib/communityMilestones.js'
 import { takeCommunityDraft } from '../lib/plans.js'
 
@@ -52,7 +52,7 @@ export default function Community() {
   const [myProfile, setMyProfile] = useState(undefined) // undefined=loading, null=none
   const [isAdmin, setIsAdmin] = useState(false)
   const [myPostCount, setMyPostCount] = useState(null)  // null=unknown, drives the first-post nudge
-  const [pendingRequests, setPendingRequests] = useState(0) // incoming friend requests, for the chip badge
+  const pendingRequests = useFriendRequestCount() // incoming friend requests, for the bell + chip badges
 
   // ── Feed state ──
   const [tab, setTab] = useState('foryou')
@@ -88,17 +88,6 @@ export default function Community() {
     window.addEventListener(COMMUNITY_VIEW_EVENT, onView)
     return () => window.removeEventListener(COMMUNITY_VIEW_EVENT, onView)
   }, [])
-
-  // Keep the incoming-request count fresh for the "Friends & requests" chip
-  // badge, refreshing when a request is answered anywhere in the app.
-  useEffect(() => {
-    if (!COMMUNITY_ENABLED || !myId) { setPendingRequests(0); return }
-    let active = true
-    const refresh = () => countIncomingRequests(myId).then(({ data }) => { if (active) setPendingRequests(data || 0) })
-    refresh()
-    window.addEventListener(FRIEND_REQUESTS_CHANGED, refresh)
-    return () => { active = false; window.removeEventListener(FRIEND_REQUESTS_CHANGED, refresh) }
-  }, [myId])
 
   // Load my community profile + admin flag once signed in.
   useEffect(() => {
@@ -311,19 +300,37 @@ export default function Community() {
             </button>
           </div>
 
-          {/* Routines / Q&A switch */}
-          {qaReady && (
-            <div className="inline-flex mt-5 border border-ink/15 bg-cream p-0.5">
-              {[['routines', 'Routines'], ['qa', 'Q&A']].map(([m, label]) => (
-                <button key={m} onClick={() => { setMode(m); setTab('foryou'); setCategory(null); setView('feed') }}
-                  className={`px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
-                    mode === m ? 'bg-ink text-cream' : 'text-ink-soft hover:text-ink'
-                  }`}>
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Routines / Q&A switch + friend-request bell */}
+          <div className="flex items-center gap-3 mt-5">
+            {qaReady && (
+              <div className="inline-flex border border-ink/15 bg-cream p-0.5">
+                {[['routines', 'Routines'], ['qa', 'Q&A']].map(([m, label]) => (
+                  <button key={m} onClick={() => { setMode(m); setTab('foryou'); setCategory(null); setView('feed') }}
+                    className={`px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
+                      mode === m ? 'bg-ink text-cream' : 'text-ink-soft hover:text-ink'
+                    }`}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
+            {myId && (
+              <button onClick={() => { setView('friends'); window.scrollTo(0, 0) }}
+                aria-label={pendingRequests > 0 ? `Friend requests — ${pendingRequests} new` : 'Friend requests'}
+                title={pendingRequests > 0 ? `${pendingRequests} new friend ${pendingRequests === 1 ? 'request' : 'requests'}` : 'Friend requests'}
+                className="relative flex items-center justify-center w-9 h-9 border border-ink/15 bg-cream text-ink-soft hover:text-ink hover:border-ink/40 transition-colors">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                  <path d="M18 8a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M10.3 20a2 2 0 0 0 3.4 0" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {pendingRequests > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] num-display bg-clay text-cream rounded-full animate-pop-in">
+                    {pendingRequests > 9 ? '9+' : pendingRequests}
+                  </span>
+                )}
+              </button>
+            )}
+          </div>
 
           {/* People tools */}
           <div className="flex flex-wrap items-center gap-2 mt-6">

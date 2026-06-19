@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import ThemeToggle from './ThemeToggle.jsx'
-import NotificationBell from './NotificationBell.jsx'
 import useFriendRequestCount from '../hooks/useFriendRequestCount.js'
 import { usePro, FEEDBACK_EMAIL } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
@@ -192,9 +191,6 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 <circle cx="11" cy="11" r="7" /><path d="m20 20-3.2-3.2" strokeLinecap="round" />
               </svg>
             </button>
-
-            {/* Friend-request bell — shows for signed-in users on every screen */}
-            <NotificationBell onNavigate={handleNav} />
 
             {/* Night-mode toggle, always visible here in the header */}
             <ThemeToggle className="min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-clay rounded" />
