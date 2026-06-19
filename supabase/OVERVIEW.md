@@ -30,6 +30,7 @@ see `SETUP.md`; this file is the full picture once you're past that.
 | 5 | `admins.sql` | Developer/admin mode (`admins` list + `is_admin()`) |
 | 6 | `tester_codes.sql` | Beta tester codes (`tester_codes` + `redeem_tester_code()`) |
 | 7 | `beta_switch.sql` | The beta master switch (`app_config.beta_active`) |
+| 8 | `qa_forum.sql` | Q&A forum (`kind` column on posts; questions reuse posts/comments/likes) |
 
 If you ever see `relation "public.post_comments" does not exist`, run #3 before #4.
 
