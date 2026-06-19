@@ -8,6 +8,7 @@ import CommunityPostDetail from '../components/community/CommunityPostDetail.jsx
 import CreateCommunityPostForm from '../components/community/CreateCommunityPostForm.jsx'
 import AskQuestionForm from '../components/community/AskQuestionForm.jsx'
 import QuestionCard from '../components/community/QuestionCard.jsx'
+import BadgeLegend from '../components/community/BadgeLegend.jsx'
 import UserSearch from '../components/community/UserSearch.jsx'
 import UserProfile from '../components/community/UserProfile.jsx'
 import FriendRequests from '../components/community/FriendRequests.jsx'
@@ -308,6 +309,9 @@ export default function Community() {
                 Friends &amp; requests
               </button>
             )}
+            <button onClick={() => setView('badges')} className="chip chip-cream hover:border-ink/40 transition-colors">
+              <span aria-hidden="true">✦</span> Badges
+            </button>
             {isAdmin && (
               <button onClick={() => setView('admin')} className="chip card-clay hover:opacity-80 transition-opacity">
                 Moderation queue
@@ -410,6 +414,10 @@ export default function Community() {
         ) : view === 'friends' ? (
           <Panel title="Friends" onBack={() => setView('feed')}>
             <FriendRequests myId={myId} onOpenProfile={openProfile} />
+          </Panel>
+        ) : view === 'badges' ? (
+          <Panel title="Community badges" onBack={() => setView('feed')}>
+            <BadgeLegend />
           </Panel>
         ) : mode === 'qa' ? (
           /* ── Q&A forum feed ── */
