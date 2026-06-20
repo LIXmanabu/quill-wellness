@@ -89,9 +89,14 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
           <span>Quill · Wellness Quarterly</span>
           <span>Issue 01 · {date}</span>
           {isTester ? (
-            <a href={feedbackHref} className="text-clay hover:text-ink transition-colors" title="Send the team a note">
-              ✎ Request a change
-            </a>
+            <span className="inline-flex items-center gap-3">
+              <span className="text-clay font-semibold" title="You’re previewing Quill as a beta tester">
+                Tester · {tierLabel}
+              </span>
+              <a href={feedbackHref} className="text-clay hover:text-ink transition-colors" title="Send the team a note">
+                ✎ Request a change
+              </a>
+            </span>
           ) : (
             <span>{tierLabel}</span>
           )}
