@@ -161,7 +161,7 @@ export function ActivityTimeline({ items }) {
   )
 }
 
-export function BadgesSection({ totalLikes, isSelf, isAdmin, override, onSetOverride }) {
+export function BadgesSection({ totalLikes, isSelf, isAdmin, override, onSetOverride, onCreatePlan }) {
   const earned = badgeForLikes(totalLikes)
   return (
     <div className="space-y-4">
@@ -171,7 +171,9 @@ export function BadgesSection({ totalLikes, isSelf, isAdmin, override, onSetOver
       </div>
       <BadgeCase totalLikes={totalLikes} isSelf={isSelf} isAdmin={isAdmin} override={override} onSetOverride={onSetOverride} />
       {!earned && (
-        <Empty>Your first badge is waiting. Share a plan to begin your Quill journey.</Empty>
+        <Empty action={onCreatePlan ? { label: 'Share a plan', onClick: onCreatePlan } : null}>
+          Your first badge is waiting. Share a plan to begin your Quill journey.
+        </Empty>
       )}
       <div className="space-y-2">
         {LIKE_BADGES.map((b) => {
@@ -236,8 +238,15 @@ function Toggle({ label, hint, checked, onChange }) {
   )
 }
 
-export function SettingsPanel({ profile, email, isDemo, onSaveProfile, onLogout }) {
-  const [prefs, setPrefs] = useState(loadPrefs)
+const PATCH_KEY = {
+  visibility: 'profileVisibility', showBadges: 'showBadges', showSaved: 'showSaved',
+  allowRequests: 'allowRequests', allowComments: 'allowComments',
+}
+
+export function SettingsPanel({ profile, prefs: prefsProp, email, isDemo, onSaveProfile, onSavePrefs, onLogout }) {
+  // Real prefs from the DB when available; localStorage only as a demo/offline
+  // fallback (or before profile_privacy.sql has been run).
+  const [prefs, setPrefs] = useState(() => ({ ...DEFAULT_PREFS, ...loadPrefs(), ...(prefsProp || {}) }))
   const [name, setName] = useState(profile.displayName || '')
   const [bio, setBio] = useState(profile.bio || '')
   const [saving, setSaving] = useState(false)
@@ -247,6 +256,7 @@ export function SettingsPanel({ profile, email, isDemo, onSaveProfile, onLogout 
     const next = { ...prefs, [key]: val }
     setPrefs(next)
     try { localStorage.setItem(PREFS_KEY, JSON.stringify(next)) } catch {}
+    if (!isDemo && onSavePrefs && PATCH_KEY[key]) onSavePrefs({ [PATCH_KEY[key]]: val })
   }
 
   async function saveProfile() {
@@ -280,7 +290,9 @@ export function SettingsPanel({ profile, email, isDemo, onSaveProfile, onLogout 
       {/* Privacy */}
       <div className="card-bone p-4">
         <span className="editorial-label text-clay">Privacy</span>
-        <p className="text-[11px] text-ink-softer mt-0.5 mb-2">Saved on this device for now.</p>
+        <p className="text-[11px] text-ink-softer mt-0.5 mb-2">
+          {isDemo ? 'Saved on this device for the demo.' : 'Synced to your account and enforced across devices.'}
+        </p>
         <div className="mb-2">
           <span className="text-sm text-ink block mb-1.5">Profile visibility</span>
           <div className="flex gap-1.5">
@@ -325,10 +337,13 @@ export function SettingsPanel({ profile, email, isDemo, onSaveProfile, onLogout 
   )
 }
 
-export function Empty({ children }) {
+export function Empty({ children, action }) {
   return (
     <div className="card-bone p-6 text-center">
       <p className="text-sm text-ink-soft leading-relaxed max-w-sm mx-auto">{children}</p>
+      {action && (
+        <button onClick={action.onClick} className="btn-clay mt-4">{action.label}</button>
+      )}
     </div>
   )
 }

@@ -107,7 +107,7 @@ export default function ProfileOverviewModal({ onNavigate }) {
         username: prof.username,
         avatarUrl: prof.avatar_url || '',
         bio: prof.bio || '',
-        visibility: 'public',
+        visibility: prof.profile_visibility || 'public',
         memberSince: prof.created_at
           ? new Date(prof.created_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
           : null,
@@ -123,6 +123,13 @@ export default function ProfileOverviewModal({ onNavigate }) {
         toNext: next ? next.remaining : 0,
         nextLabel: next ? next.label : 'next milestone',
         helper: 'Glow grows when your plans inspire others.',
+      },
+      prefs: {
+        visibility: prof.profile_visibility || 'public',
+        showBadges: prof.show_badges !== false,
+        showSaved: prof.show_saved === true,
+        allowRequests: prof.allow_requests !== false,
+        allowComments: prof.allow_comments !== false,
       },
       plans, saved: savedPlans, activity: deriveActivity(plans, totalLikes),
       totalLikes, totalSaves, badgeLikes,
@@ -171,6 +178,15 @@ export default function ProfileOverviewModal({ onNavigate }) {
     const fresh = await loadReal()
     if (fresh) setData(fresh)
   }
+  // Privacy prefs save without a full reload (toggles should feel instant); the
+  // local mirror in SettingsPanel keeps the UI in sync.
+  function handleSavePrefs(patch) {
+    if (data?.isDemo) return
+    updateMyProfile(user.id, patch)
+    if (patch.profileVisibility) {
+      setData((d) => d && { ...d, profile: { ...d.profile, visibility: patch.profileVisibility } })
+    }
+  }
 
   // Leave the modal and deep-link into the Community page. The stash covers the
   // case where Community is still lazy-loading; the event covers it being live.
@@ -189,6 +205,9 @@ export default function ProfileOverviewModal({ onNavigate }) {
     if (data?.isDemo) return
     goToCommunity({ view: 'friends' })
   }
+  // Empty-state CTAs.
+  function createPlan() { goToCommunity({ view: 'create' }) }
+  function exploreCommunity() { goToCommunity({ view: 'feed' }) }
 
   if (!open) return null
 
@@ -279,15 +298,17 @@ export default function ProfileOverviewModal({ onNavigate }) {
             : <Sections tab={tab} data={data} setTab={setTab}
                 email={user?.email} onSignOut={signOut}
                 onSetOverride={handleSetOverride} onSaveProfile={handleSaveProfile}
-                onOpenPlan={openPlan} onOpenFriends={openFriends} />}
+                onSavePrefs={handleSavePrefs} onOpenPlan={openPlan} onOpenFriends={openFriends}
+                onCreatePlan={createPlan} onExplore={exploreCommunity} />}
         </div>
       </div>
     </div>
   )
 }
 
-function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSaveProfile, onOpenPlan, onOpenFriends }) {
-  const { profile, stats, glow, plans, saved, activity, totalLikes, badgeLikes, isSelf, isAdmin, override, isDemo } = data
+function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSaveProfile, onSavePrefs, onOpenPlan, onOpenFriends, onCreatePlan, onExplore }) {
+  const { profile, prefs, stats, glow, plans, saved, activity, totalLikes, badgeLikes, isSelf, isAdmin, override, isDemo } = data
+  const createAction = { label: 'Create your first plan', onClick: onCreatePlan }
 
   const onStat = (id) => {
     if (id === 'shared') setTab('Plans')
@@ -306,7 +327,7 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
       <Section title="Recent shared plans" action={plans.length ? { label: 'See all', onClick: () => setTab('Plans') } : null}>
         {plans.length
           ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{plans.slice(0, 2).map((p) => <PlanCard key={p.id} plan={p} onOpen={() => onOpenPlan?.(p)} />)}</div>
-          : <Empty>You haven’t shared a plan yet. Create your first Beauty Plan and let the community discover your glow.</Empty>}
+          : <Empty action={createAction}>You haven’t shared a plan yet. Create your first Beauty Plan and let the community discover your glow.</Empty>}
       </Section>
       <Section title="Recent activity">
         <ActivityTimeline items={activity.slice(0, 4)} />
@@ -318,7 +339,7 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
     <Section title="Your shared plans">
       {plans.length
         ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{plans.map((p) => <PlanCard key={p.id} plan={p} onOpen={() => onOpenPlan?.(p)} />)}</div>
-        : <Empty>You haven’t shared a plan yet. Create your first Beauty Plan and let the community discover your glow.</Empty>}
+        : <Empty action={createAction}>You haven’t shared a plan yet. Create your first Beauty Plan and let the community discover your glow.</Empty>}
     </Section>
   )
 
@@ -326,7 +347,7 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
     <Section title="Saved plans">
       {saved.length
         ? <div className="space-y-2.5">{saved.map((p) => <SavedPlanCard key={p.id} plan={p} onOpen={() => onOpenPlan?.(p)} />)}</div>
-        : <Empty>Saved plans will appear here when you bookmark routines from the community.</Empty>}
+        : <Empty action={{ label: 'Explore routines', onClick: onExplore }}>Saved plans will appear here when you bookmark routines from the community.</Empty>}
     </Section>
   )
 
@@ -335,11 +356,13 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
   )
 
   if (tab === 'Badges') return (
-    <BadgesSection totalLikes={badgeLikes} isSelf={isSelf} isAdmin={isAdmin} override={override} onSetOverride={onSetOverride} />
+    <BadgesSection totalLikes={badgeLikes} isSelf={isSelf} isAdmin={isAdmin} override={override}
+      onSetOverride={onSetOverride} onCreatePlan={onCreatePlan} />
   )
 
   if (tab === 'Settings') return (
-    <SettingsPanel profile={profile} email={email} isDemo={isDemo} onSaveProfile={onSaveProfile} onLogout={onSignOut} />
+    <SettingsPanel profile={profile} prefs={prefs} email={email} isDemo={isDemo}
+      onSaveProfile={onSaveProfile} onSavePrefs={onSavePrefs} onLogout={onSignOut} />
   )
 
   return null

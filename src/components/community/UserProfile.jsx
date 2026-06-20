@@ -87,6 +87,9 @@ export default function UserProfile({ username, myId, isAdmin = false, onBack, o
   const isSelf = status === 'self'
   const override = profile.badge_override || 0
   const effLikes = effectiveLikes(totalLikes, { isSelf, override })
+  // Privacy prefs (profile_privacy.sql): respect another member's choices.
+  const showBadges = isSelf || profile.show_badges !== false
+  const acceptsRequests = profile.allow_requests !== false
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -112,7 +115,7 @@ export default function UserProfile({ username, myId, isAdmin = false, onBack, o
 
       {/* Another person's earned medal — shown even before their first post (e.g.
           when an admin override has lit up their badges). */}
-      {!isSelf && posts.length === 0 && badgeForLikes(effLikes) && (
+      {!isSelf && showBadges && posts.length === 0 && badgeForLikes(effLikes) && (
         <div className="mt-6">
           <LikeBadge totalLikes={effLikes} size="lg" />
         </div>
@@ -126,7 +129,7 @@ export default function UserProfile({ username, myId, isAdmin = false, onBack, o
             <Stat n={totalSaves} label="saved" />
             <Stat n={posts.length} label={posts.length === 1 ? 'routine' : 'routines'} />
             {/* Earned like-medal (🥉10 · 🥈100 · 🥇1,000 · 💎10,000) */}
-            <LikeBadge totalLikes={effLikes} showProgress={isSelf} size="lg" />
+            {showBadges && <LikeBadge totalLikes={effLikes} showProgress={isSelf} size="lg" />}
           </div>
           {topPost && topPost.likesCount > 0 && (
             <button onClick={() => onOpenPost(topPost)}
@@ -148,7 +151,9 @@ export default function UserProfile({ username, myId, isAdmin = false, onBack, o
       {/* Friend actions */}
       {status !== 'self' && (
         <div className="mt-6 flex items-center gap-3 flex-wrap">
-          {status === 'none' && <button onClick={onAddFriend} disabled={busy} className="btn-clay disabled:opacity-50">+ Add friend</button>}
+          {status === 'none' && (acceptsRequests
+            ? <button onClick={onAddFriend} disabled={busy} className="btn-clay disabled:opacity-50">+ Add friend</button>
+            : <span className="chip chip-cream">Not accepting friend requests</span>)}
           {status === 'outgoing' && <span className="chip chip-cream">Request sent</span>}
           {status === 'incoming' && <span className="chip card-gold">Wants to be your friend — see Requests</span>}
           {status === 'friends' && (

@@ -28,12 +28,20 @@ function ok(data) { return { data, error: null } }
 /** My own profile row (full, owner-only columns included). */
 export async function getMyProfile(userId) {
   if (!userId) return ok(null)
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('id, username, display_name, avatar_url, bio, created_at, badge_override')
-    .eq('id', userId)
-    .maybeSingle()
+  const base = 'id, username, display_name, avatar_url, bio, created_at, badge_override'
+  // Privacy prefs only exist once profile_privacy.sql has been run. Try them,
+  // and fall back to the base columns if they're not there yet, so the profile
+  // keeps loading either way.
+  const rich = base + ', profile_visibility, show_badges, show_saved, allow_requests, allow_comments'
+  let { data, error } = await supabase.from('profiles').select(rich).eq('id', userId).maybeSingle()
+  if (error && missingColumn(error)) {
+    ({ data, error } = await supabase.from('profiles').select(base).eq('id', userId).maybeSingle())
+  }
   return error ? err(error) : ok(data)
+}
+
+function missingColumn(error) {
+  return !!error && (error.code === '42703' || /column .* does not exist/i.test(error.message || ''))
 }
 
 export async function isUsernameAvailable(username, myId) {
@@ -56,6 +64,12 @@ export async function updateMyProfile(userId, patch) {
   if (patch.displayName !== undefined) row.display_name = patch.displayName.trim()
   if (patch.bio !== undefined) row.bio = patch.bio.trim()
   if (patch.avatarUrl !== undefined) row.avatar_url = patch.avatarUrl
+  // Privacy prefs (columns from profile_privacy.sql).
+  if (patch.profileVisibility !== undefined) row.profile_visibility = patch.profileVisibility
+  if (patch.showBadges !== undefined) row.show_badges = patch.showBadges
+  if (patch.showSaved !== undefined) row.show_saved = patch.showSaved
+  if (patch.allowRequests !== undefined) row.allow_requests = patch.allowRequests
+  if (patch.allowComments !== undefined) row.allow_comments = patch.allowComments
   const { error } = await supabase.from('profiles').update(row).eq('id', userId)
   return error ? err(error) : ok(true)
 }
@@ -424,12 +438,25 @@ export async function searchUsers(query, myId) {
 }
 
 export async function getProfileByUsername(username) {
-  const { data, error } = await supabase
-    .from('public_profiles')
-    .select('id, username, display_name, avatar_url, bio, created_at, badge_override')
-    .ilike('username', (username || '').trim())
-    .maybeSingle()
-  return error ? err(error) : ok(data)
+  const uname = (username || '').trim()
+  // Prefer the visibility-aware RPC (profile_privacy.sql): it returns nothing
+  // for a private / friends-only profile the viewer isn't allowed to see.
+  const { data, error } = await supabase.rpc('get_visible_profile', { uname })
+  if (!error) return ok(Array.isArray(data) ? (data[0] || null) : data)
+  // RPC not deployed yet → fall back to the plain public view (no gating).
+  if (missingFunction(error)) {
+    const r = await supabase
+      .from('public_profiles')
+      .select('id, username, display_name, avatar_url, bio, created_at, badge_override')
+      .ilike('username', uname)
+      .maybeSingle()
+    return r.error ? err(r.error) : ok(r.data)
+  }
+  return err(error)
+}
+
+function missingFunction(error) {
+  return !!error && (error.code === 'PGRST202' || /could not find the function|get_visible_profile/i.test(error.message || ''))
 }
 
 // Admin-only (enforced by the guard trigger in badge_override.sql): set or clear
