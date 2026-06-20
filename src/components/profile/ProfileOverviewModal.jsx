@@ -5,6 +5,7 @@ import { badgeForLikes, nextBadge, LIKE_BADGES, effectiveLikes } from '../../lib
 import {
   COMMUNITY_ENABLED, getMyProfile, listFeed, listFriends,
   checkIsAdmin, setBadgeOverride, updateMyProfile,
+  requestCommunityView, COMMUNITY_VIEW_EVENT,
 } from '../../lib/community.js'
 import {
   GlowScoreCard, StatsGrid, PlanCard, SavedPlanCard,
@@ -42,7 +43,7 @@ function deriveActivity(plans, totalLikes) {
   return acts
 }
 
-export default function ProfileOverviewModal() {
+export default function ProfileOverviewModal({ onNavigate }) {
   const { user, signOut } = useAuth()
   const [open, setOpen] = useState(false)
   const [tab, setTab] = useState('Overview')
@@ -171,6 +172,24 @@ export default function ProfileOverviewModal() {
     if (fresh) setData(fresh)
   }
 
+  // Leave the modal and deep-link into the Community page. The stash covers the
+  // case where Community is still lazy-loading; the event covers it being live.
+  function goToCommunity(payload) {
+    onNavigate?.('community')
+    requestCommunityView(payload)
+    window.dispatchEvent(new CustomEvent(COMMUNITY_VIEW_EVENT, { detail: payload }))
+    close()
+  }
+  // Demo plans aren't real rows, so there's nothing to open for them.
+  function openPlan(plan) {
+    if (data?.isDemo || !plan?.id || String(plan.id).startsWith('demo-')) return
+    goToCommunity({ post: plan.id })
+  }
+  function openFriends() {
+    if (data?.isDemo) return
+    goToCommunity({ view: 'friends' })
+  }
+
   if (!open) return null
 
   return (
@@ -259,26 +278,34 @@ export default function ProfileOverviewModal() {
             ? <div className="py-16 text-center text-ink-soft">Loading your glow…</div>
             : <Sections tab={tab} data={data} setTab={setTab}
                 email={user?.email} onSignOut={signOut}
-                onSetOverride={handleSetOverride} onSaveProfile={handleSaveProfile} />}
+                onSetOverride={handleSetOverride} onSaveProfile={handleSaveProfile}
+                onOpenPlan={openPlan} onOpenFriends={openFriends} />}
         </div>
       </div>
     </div>
   )
 }
 
-function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSaveProfile }) {
+function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSaveProfile, onOpenPlan, onOpenFriends }) {
   const { profile, stats, glow, plans, saved, activity, totalLikes, badgeLikes, isSelf, isAdmin, override, isDemo } = data
+
+  const onStat = (id) => {
+    if (id === 'shared') setTab('Plans')
+    else if (id === 'saved') setTab('Saved')
+    else if (id === 'badges') setTab('Badges')
+    else if (id === 'friends') onOpenFriends?.()
+  }
 
   if (tab === 'Overview') return (
     <div className="space-y-5">
       <GlowScoreCard {...glow} />
-      <StatsGrid stats={stats} />
+      <StatsGrid stats={stats} onStat={onStat} />
       <Section title="Badge collection" action={{ label: 'View all badges', onClick: () => setTab('Badges') }}>
         <BadgesPreview totalLikes={badgeLikes} />
       </Section>
       <Section title="Recent shared plans" action={plans.length ? { label: 'See all', onClick: () => setTab('Plans') } : null}>
         {plans.length
-          ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{plans.slice(0, 2).map((p) => <PlanCard key={p.id} plan={p} onOpen={() => {}} />)}</div>
+          ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{plans.slice(0, 2).map((p) => <PlanCard key={p.id} plan={p} onOpen={() => onOpenPlan?.(p)} />)}</div>
           : <Empty>You haven’t shared a plan yet. Create your first Beauty Plan and let the community discover your glow.</Empty>}
       </Section>
       <Section title="Recent activity">
@@ -290,7 +317,7 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
   if (tab === 'Plans') return (
     <Section title="Your shared plans">
       {plans.length
-        ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{plans.map((p) => <PlanCard key={p.id} plan={p} onOpen={() => {}} />)}</div>
+        ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{plans.map((p) => <PlanCard key={p.id} plan={p} onOpen={() => onOpenPlan?.(p)} />)}</div>
         : <Empty>You haven’t shared a plan yet. Create your first Beauty Plan and let the community discover your glow.</Empty>}
     </Section>
   )
@@ -298,7 +325,7 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
   if (tab === 'Saved') return (
     <Section title="Saved plans">
       {saved.length
-        ? <div className="space-y-2.5">{saved.map((p) => <SavedPlanCard key={p.id} plan={p} onOpen={() => {}} />)}</div>
+        ? <div className="space-y-2.5">{saved.map((p) => <SavedPlanCard key={p.id} plan={p} onOpen={() => onOpenPlan?.(p)} />)}</div>
         : <Empty>Saved plans will appear here when you bookmark routines from the community.</Empty>}
     </Section>
   )

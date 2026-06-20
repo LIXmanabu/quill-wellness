@@ -273,7 +273,7 @@ function AppShell() {
 
       {/* Profile Overview modal — opens from the header avatar (event-driven,
           self-contained). Real Supabase data when signed in, demo data otherwise. */}
-      <ProfileOverviewModal />
+      <ProfileOverviewModal onNavigate={handleNavigate} />
 
       {/* Beta tester pill + feedback (bottom-left); renders only for testers. */}
       <TesterBadge />

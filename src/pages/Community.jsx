@@ -83,6 +83,14 @@ export default function Community() {
   const [wantSelf, setWantSelf] = useState(false)
   useEffect(() => {
     const apply = (v) => {
+      if (!v) return
+      // Rich deep-links from the profile modal: open a post, or jump to a feed tab.
+      if (typeof v === 'object') {
+        if (v.post) { openPostById(v.post); return }
+        if (v.tab) { setTab(v.tab); setView('feed'); window.scrollTo(0, 0); return }
+        if (v.view) { setView(v.view); window.scrollTo(0, 0); return }
+        return
+      }
       if (v === 'myprofile') { setWantSelf(true); return }
       setView(v); window.scrollTo(0, 0)
     }

@@ -41,23 +41,32 @@ export function GlowScoreCard({ score, toNext, nextLabel, helper }) {
   )
 }
 
-export function StatsGrid({ stats }) {
+export function StatsGrid({ stats, onStat }) {
   const items = [
-    { label: 'Quill Glow', value: stats.glow },
-    { label: 'Total likes', value: stats.likes },
-    { label: 'Shared plans', value: stats.sharedPlans },
-    { label: 'Saved plans', value: stats.savedPlans },
-    { label: 'Friends', value: stats.friends },
-    { label: 'Badges', value: stats.badges },
+    { id: 'glow', label: 'Quill Glow', value: stats.glow },
+    { id: 'likes', label: 'Total likes', value: stats.likes },
+    { id: 'shared', label: 'Shared plans', value: stats.sharedPlans },
+    { id: 'saved', label: 'Saved plans', value: stats.savedPlans },
+    { id: 'friends', label: 'Friends', value: stats.friends },
+    { id: 'badges', label: 'Badges', value: stats.badges },
   ]
+  // Only the cells that lead somewhere are tappable.
+  const clickable = new Set(['shared', 'saved', 'friends', 'badges'])
   return (
     <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-      {items.map((it) => (
-        <div key={it.label} className="card-bone p-3 text-center">
-          <p className="num-display text-2xl text-ink leading-none">{nf(it.value)}</p>
-          <p className="text-[10px] uppercase tracking-[0.12em] text-ink-softer mt-1.5 leading-tight">{it.label}</p>
-        </div>
-      ))}
+      {items.map((it) => {
+        const Tag = onStat && clickable.has(it.id) ? 'button' : 'div'
+        return (
+          <Tag
+            key={it.id}
+            onClick={Tag === 'button' ? () => onStat(it.id) : undefined}
+            className={`card-bone p-3 text-center w-full ${Tag === 'button' ? 'hover:border-clay/40 border border-transparent transition-colors' : ''}`}
+          >
+            <p className="num-display text-2xl text-ink leading-none">{nf(it.value)}</p>
+            <p className="text-[10px] uppercase tracking-[0.12em] text-ink-softer mt-1.5 leading-tight">{it.label}</p>
+          </Tag>
+        )
+      })}
     </div>
   )
 }
