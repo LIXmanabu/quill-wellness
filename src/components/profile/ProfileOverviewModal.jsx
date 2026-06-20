@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { Avatar, VisibilityIcon, timeAgo } from '../community/ui.jsx'
-import { badgeForLikes, nextBadge, LIKE_BADGES } from '../../lib/badges.js'
+import { badgeForLikes, nextBadge, LIKE_BADGES, effectiveLikes } from '../../lib/badges.js'
 import {
   COMMUNITY_ENABLED, getMyProfile, listFeed, listFriends,
   checkIsAdmin, setBadgeOverride, updateMyProfile,
@@ -72,7 +72,7 @@ export default function ProfileOverviewModal() {
     plans: DEMO_PLANS,
     saved: DEMO_SAVED,
     activity: DEMO_ACTIVITY,
-    totalLikes: DEMO_STATS.glow,
+    totalLikes: DEMO_STATS.glow, badgeLikes: DEMO_STATS.glow,
     isSelf: true, isAdmin: false, override: 0, isDemo: true,
   }), [])
 
@@ -93,8 +93,13 @@ export default function ProfileOverviewModal() {
     const totalLikes = plans.reduce((s, p) => s + (p.likesCount || 0), 0)
     const totalSaves = plans.reduce((s, p) => s + (p.savesCount || 0), 0)
     const friendCount = (friends.data || []).length
+    const override = prof.badge_override || 0
+    // Badge displays honour the public override (and your local "show all"
+    // preview) so a lit-up account reads as earned everywhere in the modal —
+    // while Glow/likes stay the true community numbers.
+    const badgeLikes = effectiveLikes(totalLikes, { isSelf: true, override })
     const next = nextBadge(totalLikes)
-    const earnedBadges = LIKE_BADGES.filter((b) => totalLikes >= b.min).length
+    const earnedBadges = LIKE_BADGES.filter((b) => badgeLikes >= b.min).length
     return {
       profile: {
         displayName: prof.display_name || prof.username,
@@ -119,8 +124,8 @@ export default function ProfileOverviewModal() {
         helper: 'Glow grows when your plans inspire others.',
       },
       plans, saved: savedPlans, activity: deriveActivity(plans, totalLikes),
-      totalLikes, totalSaves,
-      isSelf: true, isAdmin, override: prof.badge_override || 0, isDemo: false,
+      totalLikes, totalSaves, badgeLikes,
+      isSelf: true, isAdmin, override, isDemo: false,
     }
   }, [user])
 
@@ -262,14 +267,14 @@ export default function ProfileOverviewModal() {
 }
 
 function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSaveProfile }) {
-  const { profile, stats, glow, plans, saved, activity, totalLikes, isSelf, isAdmin, override, isDemo } = data
+  const { profile, stats, glow, plans, saved, activity, totalLikes, badgeLikes, isSelf, isAdmin, override, isDemo } = data
 
   if (tab === 'Overview') return (
     <div className="space-y-5">
       <GlowScoreCard {...glow} />
       <StatsGrid stats={stats} />
       <Section title="Badge collection" action={{ label: 'View all badges', onClick: () => setTab('Badges') }}>
-        <BadgesPreview totalLikes={totalLikes} />
+        <BadgesPreview totalLikes={badgeLikes} />
       </Section>
       <Section title="Recent shared plans" action={plans.length ? { label: 'See all', onClick: () => setTab('Plans') } : null}>
         {plans.length
@@ -303,7 +308,7 @@ function Sections({ tab, data, setTab, email, onSignOut, onSetOverride, onSavePr
   )
 
   if (tab === 'Badges') return (
-    <BadgesSection totalLikes={totalLikes} isSelf={isSelf} isAdmin={isAdmin} override={override} onSetOverride={onSetOverride} />
+    <BadgesSection totalLikes={badgeLikes} isSelf={isSelf} isAdmin={isAdmin} override={override} onSetOverride={onSetOverride} />
   )
 
   if (tab === 'Settings') return (
