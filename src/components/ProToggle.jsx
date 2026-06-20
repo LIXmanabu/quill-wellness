@@ -5,11 +5,12 @@ const tiers = ['free', 'pro', 'max']
 const labels = { free: 'Free', pro: 'Pro', max: 'Max' }
 
 /**
- * Dev-mode tier switcher, only rendered when devUnlocked is true.
- * Includes a DEV badge so it's obvious this is the developer view,
- * and a tiny "lock" link to disable dev mode again.
+ * Tier switcher (Free / Pro / Max). Rendered for admins (mode="dev") and beta
+ * testers (mode="tester") so they can preview every version.
+ *  • dev mode shows a clickable DEV badge that locks the switcher away again.
+ *  • tester mode shows a static BETA label (testers can't lock dev mode).
  */
-export default function ProToggle() {
+export default function ProToggle({ mode = 'dev' }) {
   const { tier, setTier, setDevUnlocked } = usePro()
   const index = tiers.indexOf(tier)
   const [armed, setArmed] = useState(false)
@@ -24,15 +25,24 @@ export default function ProToggle() {
 
   return (
     <div className="inline-flex items-center gap-2">
-      {/* DEV badge */}
-      <span
-        onClick={() => (armed ? lock() : setArmed(true))}
-        onMouseLeave={() => setArmed(false)}
-        title={armed ? 'Click again to lock developer mode' : 'Click to lock developer mode'}
-        className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] border border-clay text-clay bg-clay-paler cursor-pointer hover:bg-clay hover:text-cream transition-colors"
-      >
-        {armed ? 'Lock?' : 'Dev'}
-      </span>
+      {/* DEV badge (admins) / BETA label (testers) */}
+      {mode === 'dev' ? (
+        <span
+          onClick={() => (armed ? lock() : setArmed(true))}
+          onMouseLeave={() => setArmed(false)}
+          title={armed ? 'Click again to lock developer mode' : 'Click to lock developer mode'}
+          className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] border border-clay text-clay bg-clay-paler cursor-pointer hover:bg-clay hover:text-cream transition-colors"
+        >
+          {armed ? 'Lock?' : 'Dev'}
+        </span>
+      ) : (
+        <span
+          title="Beta testers can preview every version"
+          className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] border border-clay text-clay bg-clay-paler"
+        >
+          Beta
+        </span>
+      )}
 
       {/* Tier slider */}
       <div
