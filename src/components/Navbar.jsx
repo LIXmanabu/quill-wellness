@@ -118,6 +118,17 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
             />
           </button>
 
+          {/* Mobile tester-version chip (the editorial masthead carries this on
+              md+). Updates live as the tester switches Free/Pro/Max. */}
+          {isTester && (
+            <span
+              className="md:hidden inline-flex items-center px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-clay border border-clay/40 bg-clay-paler rounded-full shrink-0"
+              title="You’re previewing Quill as a beta tester"
+            >
+              Tester · {tier === 'max' ? 'Max' : tier === 'pro' ? 'Pro' : 'Free'}
+            </span>
+          )}
+
           {/* Desktop tabs with sliding indicator */}
           <nav
             ref={navRef}
