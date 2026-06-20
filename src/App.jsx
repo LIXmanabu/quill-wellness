@@ -12,6 +12,7 @@ import FooterBar from './components/FooterBar.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
 import TesterBadge from './components/TesterBadge.jsx'
+import ProfileOverviewModal from './components/profile/ProfileOverviewModal.jsx'
 import CustomCursor from './components/interactive/CustomCursor.jsx'
 import NoiseOverlay from './components/interactive/NoiseOverlay.jsx'
 import Home from './pages/Home.jsx'
@@ -269,6 +270,10 @@ function AppShell() {
           onClose={() => setDailyQ(null)}
         />
       )}
+
+      {/* Profile Overview modal — opens from the header avatar (event-driven,
+          self-contained). Real Supabase data when signed in, demo data otherwise. */}
+      <ProfileOverviewModal />
 
       {/* Beta tester pill + feedback (bottom-left); renders only for testers. */}
       <TesterBadge />

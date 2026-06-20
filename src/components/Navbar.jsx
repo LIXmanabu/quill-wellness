@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import ThemeToggle from './ThemeToggle.jsx'
 import useFriendRequestCount from '../hooks/useFriendRequestCount.js'
-import { requestCommunityView, COMMUNITY_VIEW_EVENT } from '../lib/community.js'
+import { PROFILE_MODAL_EVENT } from './profile/ProfileOverviewModal.jsx'
 import { usePro, FEEDBACK_EMAIL } from '../context/ProContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { useAuth, DEV_MODE } from '../context/AuthContext.jsx'
@@ -198,22 +198,18 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
 
             {/* Show email initial + sign-out when logged in (production only) */}
             {!DEV_MODE && user && (
-              <div className="hidden lg:flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={() => {
-                    handleNav('community')
-                    requestCommunityView('myprofile')
-                    window.dispatchEvent(new CustomEvent(COMMUNITY_VIEW_EVENT, { detail: 'myprofile' }))
-                  }}
-                  className="w-7 h-7 rounded-full bg-clay/20 flex items-center justify-center text-[11px] font-bold text-clay uppercase hover:bg-clay/30 transition-colors focus-visible:ring-2 focus-visible:ring-clay"
-                  aria-label="Your profile & badges"
-                  title="Your profile & badges"
+                  onClick={() => window.dispatchEvent(new Event(PROFILE_MODAL_EVENT))}
+                  className="w-8 h-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-7 sm:h-7 rounded-full bg-clay/20 flex items-center justify-center text-[11px] font-bold text-clay uppercase hover:bg-clay/30 transition-colors focus-visible:ring-2 focus-visible:ring-clay"
+                  aria-label="Open your Quill profile & badges"
+                  title="My Quill profile"
                 >
                   {user.email?.[0] ?? '?'}
                 </button>
                 <button
                   onClick={signOut}
-                  className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-soft hover:text-ink transition-colors"
+                  className="hidden lg:inline text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-soft hover:text-ink transition-colors"
                 >
                   Sign out
                 </button>

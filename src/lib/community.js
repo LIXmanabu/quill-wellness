@@ -30,7 +30,7 @@ export async function getMyProfile(userId) {
   if (!userId) return ok(null)
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, display_name, avatar_url, bio, created_at')
+    .select('id, username, display_name, avatar_url, bio, created_at, badge_override')
     .eq('id', userId)
     .maybeSingle()
   return error ? err(error) : ok(data)

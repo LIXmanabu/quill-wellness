@@ -183,6 +183,10 @@
     @apply bg-cream-light text-ink border-ink/20;
   }
 
+  /* Hide the scrollbar on horizontal scrollers (modal tab bar / badge strip). */
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
   /* ─── Editorial dividers ───────────────────────────────────────── */
   .rule-ink {
     @apply border-t border-ink/15;
