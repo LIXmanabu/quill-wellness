@@ -21,6 +21,14 @@ const W = (path) => `https://upload.wikimedia.org/wikipedia/commons/${path}`
 // tier ranking, used to compare what the user has access to
 const tierRank = { free: 0, pro: 1, max: 2 }
 
+// iOS/iPadOS ignores programmatic <audio> volume (it's controlled by the
+// hardware buttons), so the in-app slider does nothing there — we hide it and
+// show a hint instead. iPadOS 13+ reports as "MacIntel" with touch points.
+const IS_IOS = typeof navigator !== 'undefined' && (
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+)
+
 const sounds = [
   // ─── Free (4) ────────────────────────────────────────────────
   { id: 'white',   tier: 'free', label: 'White noise',     cat: 'Sleep', desc: 'Pure broadband white noise, masks distractions',  url: W('9/98/White-noise-sound-20sec-mono-44100Hz.ogg'), accent: '#9B8E82' },
@@ -231,16 +239,22 @@ export default function AudioLibrary() {
           <div className="border border-ink/15 bg-bone p-4 mb-6 flex items-center gap-4 flex-wrap">
             <span className="editorial-label">Now playing</span>
             <span className="font-display text-lg text-ink">{sounds.find((s) => s.id === playingId).label}</span>
-            <div className="flex items-center gap-3 flex-1 min-w-[200px]">
-              <span className="text-xs text-ink-soft">Volume</span>
-              <input
-                type="range" min="0" max="1" step="0.05"
-                value={volume}
-                onChange={(e) => setVolume(Number(e.target.value))}
-                className="flex-1 accent-ink"
-              />
-              <span className="num-display text-xs text-ink-soft w-8 text-right">{Math.round(volume * 100)}</span>
-            </div>
+            {IS_IOS ? (
+              <span className="text-xs text-ink-softer flex-1 min-w-[180px]">
+                Use your device’s volume buttons to adjust.
+              </span>
+            ) : (
+              <div className="flex items-center gap-3 flex-1 min-w-[200px]">
+                <span className="text-xs text-ink-soft">Volume</span>
+                <input
+                  type="range" min="0" max="1" step="0.05"
+                  value={volume}
+                  onChange={(e) => setVolume(Number(e.target.value))}
+                  className="flex-1 accent-ink"
+                />
+                <span className="num-display text-xs text-ink-soft w-8 text-right">{Math.round(volume * 100)}</span>
+              </div>
+            )}
             <button onClick={() => stop()} className="text-xs text-ink-soft hover:text-clay display-italic">stop</button>
           </div>
         </Reveal>
