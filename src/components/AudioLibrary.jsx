@@ -106,8 +106,10 @@ export default function AudioLibrary() {
     setLoadingId(sound.id)
     setPlayingId(null)
 
+    // No crossOrigin: playback is plain (not fed to Web Audio), so we don't
+    // need CORS — and forcing it would make the load fail on CDNs that don't
+    // send CORS headers.
     const audio = new Audio(sound.url)
-    audio.crossOrigin = 'anonymous'
     audio.loop = true
     audio.preload = 'auto'
     audio.volume = 0

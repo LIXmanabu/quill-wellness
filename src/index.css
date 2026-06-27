@@ -781,6 +781,13 @@
     .cursor-dot, .cursor-trail, .cursor-label { display: none; }
   }
 
+  /* Touch devices can't hover, so controls revealed only on hover (delete /
+     remove actions in comments, family seats, skin journal, Joy, …) would be
+     invisible and untappable. On touch, always show them. */
+  @media (hover: none) {
+    .group-hover\:opacity-100 { opacity: 1 !important; }
+  }
+
   /* Hide default cursor on interactive elements when custom cursor active */
   @media (pointer: fine) {
     body { cursor: none; }

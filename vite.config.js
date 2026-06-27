@@ -22,6 +22,9 @@ const SUPABASE = 'https://eqmucfqyznbnvuyvrgpy.supabase.co'
 const SUPABASE_WS = 'wss://eqmucfqyznbnvuyvrgpy.supabase.co'
 const UMAMI = 'https://cloud.umami.is'
 const UMAMI_API = 'https://gateway.umami.is'   // Umami posts events here (script is on cloud.umami.is)
+// Ambient-sound CDNs used by the Audio Library (white noise, rain, ocean, …).
+const MEDIA_MIXKIT = 'https://assets.mixkit.co'
+const MEDIA_WIKIMEDIA = 'https://upload.wikimedia.org'
 
 // The CSP is assembled per-build so the inline-script hashes always match the
 // exact bytes Vite ships (it minifies inline scripts, so a hash precomputed
@@ -46,6 +49,10 @@ function buildCsp(scriptHashes) {
     // Network: own origin, Supabase (REST + Auth + Storage over https, Realtime
     // over wss) and the analytics endpoints. Nothing else can be contacted.
     `connect-src 'self' ${SUPABASE} ${SUPABASE_WS} ${UMAMI} ${UMAMI_API}`,
+    // Ambient audio streamed by the Audio Library. Without this, media falls back
+    // to default-src 'self' and every sound button (white noise, rain, …) is
+    // silently blocked in the production build.
+    `media-src 'self' data: blob: ${MEDIA_MIXKIT} ${MEDIA_WIKIMEDIA}`,
     "worker-src 'self' blob:",
     "manifest-src 'self'",
     "frame-src 'none'",
