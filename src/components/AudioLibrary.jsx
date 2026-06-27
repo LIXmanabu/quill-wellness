@@ -8,15 +8,14 @@ import TierBadge from './TierBadge.jsx'
  *
  * - Environmental loops (rain, ocean, fire, etc.): Mixkit free-sound-effects
  *   CDN. Royalty-free under the Mixkit Licence.
- * - White noise: Wikimedia Commons CC0 file (works in modern browsers
- *   including Safari 17+).
+ * - White noise: self-hosted WAV in public/sounds/ (generated, CC0). Self-
+ *   hosting avoids the Ogg format that iOS Safari can't decode.
  *
  * Plain HTMLAudioElement playback, no CORS preflight, no Web Audio
  * autoplay quirks.
  */
 
 const M = (id) => `https://assets.mixkit.co/active_storage/sfx/${id}/${id}-preview.mp3`
-const W = (path) => `https://upload.wikimedia.org/wikipedia/commons/${path}`
 
 // tier ranking, used to compare what the user has access to
 const tierRank = { free: 0, pro: 1, max: 2 }
@@ -31,7 +30,7 @@ const IS_IOS = typeof navigator !== 'undefined' && (
 
 const sounds = [
   // ─── Free (4) ────────────────────────────────────────────────
-  { id: 'white',   tier: 'free', label: 'White noise',     cat: 'Sleep', desc: 'Pure broadband white noise, masks distractions',  url: W('9/98/White-noise-sound-20sec-mono-44100Hz.ogg'), accent: '#9B8E82' },
+  { id: 'white',   tier: 'free', label: 'White noise',     cat: 'Sleep', desc: 'Pure broadband white noise, masks distractions',  url: `${import.meta.env.BASE_URL}sounds/white-noise.wav`, accent: '#9B8E82' },
   { id: 'crickets',tier: 'free', label: 'Night crickets',  cat: 'Sleep', desc: 'Summer crickets at night, countryside calm',       url: M(1789), accent: '#3D4A40' },
   { id: 'rain',    tier: 'free', label: 'Rain on roof',    cat: 'Sleep', desc: 'Light steady rain on a quiet street',               url: M(1253), accent: '#5A6B5D' },
   { id: 'wind',    tier: 'free', label: 'Wind in trees',   cat: 'Sleep', desc: 'Steady breeze through leaves',                      url: M(2658), accent: '#6BAEEF' },
