@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-dHsUY0INfMI/r6mYyynal9HcyBvQekvcu9KATFWuZ5c=' https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://eqmucfqyznbnvuyvrgpy.supabase.co wss://eqmucfqyznbnvuyvrgpy.supabase.co https://cloud.umami.is https://gateway.umami.is; media-src 'self' data: blob: https://assets.mixkit.co; worker-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta charset="UTF-8" />
+    <!-- Boot script (runs before first paint). The production build hashes this
+         automatically into the Content-Security-Policy (see vite.config.js), so
+         you can edit it freely, no hash to update by hand.
+         (1) apply the saved theme, so dark mode never flashes light;
+         (2) frame-buster: if the page is loaded inside someone else's iframe
+             (clickjacking), break back out to the top window, or blank the
+             page if a cross-origin frame won't let us. -->
+    <script>try{if(localStorage.getItem('quill.theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}if(window.top!==window.self){try{window.top.location=window.self.location}catch(e){document.documentElement.style.display='none'}}</script>
+    <link rel="icon" type="image/png" href="./quill-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Quill — Wellness & Beauty</title>
+
+    <!-- SEO + social share -->
+    <meta name="description" content="A calm, editorial wellness companion for body, movement, skincare, nutrition, and sleep. Gentle, evidence-based self-care that feels like a treat, not a chore." />
+    <link rel="canonical" href="https://lixmanabu.github.io/quill-wellness/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Quill" />
+    <meta property="og:title" content="Quill — Wellness, quietly." />
+    <meta property="og:description" content="A calm, editorial wellness companion: body, movement, skincare, nutrition, and sleep. Evidence-based self-care, no guilt, no noise." />
+    <meta property="og:url" content="https://lixmanabu.github.io/quill-wellness/" />
+    <meta property="og:image" content="https://lixmanabu.github.io/quill-wellness/icon-512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Quill — Wellness, quietly." />
+    <meta name="twitter:description" content="A calm, editorial wellness companion: body, movement, skincare, nutrition, and sleep. Evidence-based self-care, no guilt, no noise." />
+    <meta name="twitter:image" content="https://lixmanabu.github.io/quill-wellness/icon-512.png" />
+
+    <!-- Analytics: Umami (free, privacy-friendly, EU-hosted, no cookies / no
+         consent banner). Pageviews auto-tracked; SPA tab views sent from App.jsx. -->
+    <script defer src="https://cloud.umami.is/script.js"
+      data-website-id="eb173547-e35e-43af-a6e3-67abe08ace6b"></script>
+
+    <!-- PWA / installable app shell (relative paths → works at any URL sub-path) -->
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#F7F2EA" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Quill" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <!-- Trimmed to the weights actually used: Instrument Serif (display) +
+         Libre Franklin 400-700 (body) are the workhorses; Cormorant is only
+         used italic-400 (display-italic); Fraunces is barely used (1 spot),
+         kept light/regular as a serif fallback. Big cut to font payload. -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Instrument+Serif:ital@0;1&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="./assets/index-Cie51j9d.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CvKWcD9Z.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
