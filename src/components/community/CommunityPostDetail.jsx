@@ -79,7 +79,7 @@ export default function CommunityPostDetail({
               const text = typeof s === 'string' ? s : s?.text || ''
               return (
                 <li key={i} className="bg-cream-light p-4 sm:p-5 flex items-start gap-4">
-                  <span className="num-display text-clay text-lg leading-none w-7 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="num-display text-clay text-lg leading-none w-7 shrink-0">{i + 1}</span>
                   <p className="text-ink leading-relaxed">{text}</p>
                 </li>
               )

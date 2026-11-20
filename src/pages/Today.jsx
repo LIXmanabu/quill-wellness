@@ -33,9 +33,9 @@ const isEvening = () => new Date().getHours() >= 17
 // ── Cycle phase, replicates CycleTracker's pure logic so this page stays
 //    decoupled (reads the same localStorage key it writes). ──
 const phaseData = {
-  menstrual:  { label: 'Menstrual',  range: 'Days 1–5',   color: '#C8654A', advice: 'Energy is naturally lowest. Honour rest, magnesium-rich foods, and gentle movement over intensity.' },
+  menstrual:  { label: 'Menstrual',  range: 'Days 1–5',   color: '#B23A5E', advice: 'Energy is naturally lowest. Honour rest, magnesium-rich foods, and gentle movement over intensity.' },
   follicular: { label: 'Follicular', range: 'Days 6–13',  color: '#D4A744', advice: 'Estrogen rising, energy and mood climb. A good window for strength, new habits, and learning.' },
-  ovulatory:  { label: 'Ovulatory',  range: 'Days 14–16', color: '#5A6B5D', advice: 'Peak energy. Schedule your hardest workouts and the things that need confidence. Drink extra water.' },
+  ovulatory:  { label: 'Ovulatory',  range: 'Days 14–16', color: '#4F7465', advice: 'Peak energy. Schedule your hardest workouts and the things that need confidence. Drink extra water.' },
   luteal:     { label: 'Luteal',     range: 'Days 17–28', color: '#9B4423', advice: 'Progesterone dominant, slower recovery, real carb cravings. Cut afternoon caffeine, protect your sleep.' },
 }
 function getPhase(d) {
@@ -132,7 +132,6 @@ export default function Today({ onNavigate }) {
         <Reveal>
           <div className="flex items-center justify-between border-b border-ink/12 pb-3 mb-8">
             <span className="editorial-label">{today}</span>
-            <span className="editorial-label text-ink-softer hidden sm:inline">Vol. 01 · The Daily</span>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
@@ -141,7 +140,7 @@ export default function Today({ onNavigate }) {
               {timeGreeting()}{profile.name ? `, ${profile.name}` : ''}
             </span>
             <h1 className="font-display text-7xl sm:text-8xl lg:text-[8.5rem] text-ink leading-[0.85] mt-2">
-              Today, <span className="display-italic text-clay">gently.</span>
+              Today, <span className="display-italic">gently.</span>
             </h1>
           </Reveal>
           <Reveal delay={150} className="lg:col-span-4 lg:text-right">
@@ -167,7 +166,7 @@ export default function Today({ onNavigate }) {
                   <ul className="mt-3 space-y-2">
                     {routine.morning.map((s, i) => (
                       <li key={i} className="flex gap-3 text-sm text-ink leading-snug">
-                        <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="num-display text-ink-softer flex-shrink-0">{i + 1}</span>
                         <span>{s}</span>
                       </li>
                     ))}
@@ -178,7 +177,7 @@ export default function Today({ onNavigate }) {
                   <ul className="mt-3 space-y-2">
                     {routine.evening.map((s, i) => (
                       <li key={i} className="flex gap-3 text-sm text-ink leading-snug">
-                        <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="num-display text-ink-softer flex-shrink-0">{i + 1}</span>
                         <span>{s}</span>
                       </li>
                     ))}
@@ -196,7 +195,7 @@ export default function Today({ onNavigate }) {
                 </div>
               )}
               <button onClick={() => onNavigate('myquill')} className="btn-ghost link-underline mt-6">
-                See your full plan <span className="display-italic">→</span>
+                See your full plan
               </button>
             </SpotlightCard>
           </Reveal>
@@ -207,7 +206,6 @@ export default function Today({ onNavigate }) {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <Reveal>
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="editorial-num text-2xl text-clay">01</span>
             <span className="editorial-label">From the almanac</span>
           </div>
           <DailyTipCard onNavigateLibrary={() => onNavigate('tips')} />
@@ -218,7 +216,6 @@ export default function Today({ onNavigate }) {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <Reveal>
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="editorial-num text-2xl text-clay">02</span>
             <span className="editorial-label">A small check-in</span>
           </div>
         </Reveal>
@@ -228,7 +225,7 @@ export default function Today({ onNavigate }) {
           <Reveal>
             <div className="card-bone border border-ink/10 p-7 sm:p-10">
               <h3 className="font-display text-4xl sm:text-5xl text-ink leading-tight">
-                Before anything, <span className="display-italic text-clay">how are you, really?</span>
+                Before anything, <span className="display-italic">how are you, really?</span>
               </h3>
               <p className="text-sm text-ink-soft mt-3 max-w-md leading-relaxed">
                 Two taps. We'll suggest one kind thing that fits where you actually are today, not where you think you should be.
@@ -248,8 +245,8 @@ export default function Today({ onNavigate }) {
                           : 'bg-cream-light border-ink/15 hover:border-ink text-ink'
                       }`}
                     >
-                      <span className="font-display text-2xl sm:text-3xl leading-none">{o.label}</span>
-                      <span className={`block text-[11px] mt-1.5 leading-snug ${draft.energy === o.id ? 'text-cream/60' : 'text-ink-softer'}`}>{o.desc}</span>
+                      <span className="font-display text-xl sm:text-3xl leading-none">{o.label}</span>
+                      <span className={`block text-xs mt-1.5 leading-snug ${draft.energy === o.id ? 'text-cream/60' : 'text-ink-softer'}`}>{o.desc}</span>
                     </button>
                   ))}
                 </div>
@@ -269,8 +266,8 @@ export default function Today({ onNavigate }) {
                           : 'bg-cream-light border-ink/15 hover:border-ink text-ink'
                       }`}
                     >
-                      <span className="font-display text-2xl sm:text-3xl leading-none">{o.label}</span>
-                      <span className={`block text-[11px] mt-1.5 leading-snug ${draft.feeling === o.id ? 'text-cream/60' : 'text-ink-softer'}`}>{o.desc}</span>
+                      <span className="font-display text-xl sm:text-3xl leading-none">{o.label}</span>
+                      <span className={`block text-xs mt-1.5 leading-snug ${draft.feeling === o.id ? 'text-cream/60' : 'text-ink-softer'}`}>{o.desc}</span>
                     </button>
                   ))}
                 </div>
@@ -298,7 +295,7 @@ export default function Today({ onNavigate }) {
               <ol className="mt-6 space-y-2.5 max-w-xl">
                 {activity.steps.map((s, i) => (
                   <li key={i} className="flex gap-3 text-sm text-ink leading-relaxed">
-                    <span className="num-display text-clay flex-shrink-0 w-5">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="num-display text-clay flex-shrink-0 w-5">{i + 1}</span>
                     <span>{s}</span>
                   </li>
                 ))}
@@ -312,7 +309,7 @@ export default function Today({ onNavigate }) {
                   </button>
                 ) : (
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="chip chip-ink text-[11px]">✓ Done today</span>
+                    <span className="chip chip-ink text-xs">✓ Done today</span>
                     <span className="text-sm text-ink">
                       That’s{' '}
                       <span className="font-display text-3xl text-clay align-middle leading-none">{streak.total}</span>{' '}
@@ -333,7 +330,6 @@ export default function Today({ onNavigate }) {
                     className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-clay transition-colors"
                   >
                     <span className="link-underline">{activity.chapterLabel}</span>
-                    <span className="display-italic">→</span>
                   </button>
                 )}
                 <button
@@ -353,7 +349,6 @@ export default function Today({ onNavigate }) {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <Reveal>
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="editorial-num text-2xl text-clay">03</span>
             <span className="editorial-label flex items-center gap-2">Your rhythm <TierBadge /></span>
           </div>
 
@@ -364,7 +359,7 @@ export default function Today({ onNavigate }) {
                 <div className="lg:col-span-8">
                   <span className="editorial-label text-gold-dark">Pro &amp; Max edition</span>
                   <h3 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-tight">
-                    Track your <span className="display-italic text-clay">cycle</span>
+                    Track your <span className="display-italic">cycle</span>
                   </h3>
                   <p className="text-sm text-ink-soft mt-4 max-w-lg leading-relaxed">
                     Log your last period once, and Today shows your phase each day, with what tends to feel
@@ -373,7 +368,7 @@ export default function Today({ onNavigate }) {
                 </div>
                 <div className="lg:col-span-4 lg:text-right">
                   <button onClick={() => onNavigate('pro')} className="btn-ink">
-                    Unlock with Pro <span className="display-italic">→</span>
+                    Unlock with Pro
                   </button>
                 </div>
               </div>
@@ -399,19 +394,17 @@ export default function Today({ onNavigate }) {
                   <p className="text-sm text-ink-soft leading-relaxed">{cycle.phase.advice}</p>
                   <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-ink group-hover:text-clay transition-colors">
                     <span className="link-underline">Open cycle tracker</span>
-                    <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </span>
                 </div>
               </div>
             ) : (
               <div className="card-blush -m-7 sm:-m-9 p-7 sm:p-9 border-0">
-                <h3 className="font-display text-4xl sm:text-5xl text-ink leading-none">Track your <span className="display-italic text-clay">cycle</span></h3>
+                <h3 className="font-display text-4xl sm:text-5xl text-ink leading-none">Track your <span className="display-italic">cycle</span></h3>
                 <p className="text-sm text-ink-soft mt-4 leading-relaxed max-w-md">
                   Set your last period once, and Today will show your phase and what tends to feel good in it, energy, training, food, rest.
                 </p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink group-hover:text-clay transition-colors">
                   <span className="link-underline">Set it up</span>
-                  <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </span>
               </div>
             )}
@@ -426,7 +419,6 @@ export default function Today({ onNavigate }) {
           <Reveal>
             <div className="flex items-baseline justify-between gap-3 mb-4">
               <div className="flex items-baseline gap-3">
-                <span className="editorial-num text-2xl text-clay">04</span>
                 <span className="editorial-label">{isEvening() ? 'Tonight' : 'Later tonight'}</span>
               </div>
               <button onClick={hideWindDown} className="editorial-label text-ink-softer hover:text-clay transition-colors">
@@ -447,7 +439,6 @@ export default function Today({ onNavigate }) {
                   <p className="display-italic text-2xl sm:text-3xl text-cream leading-snug max-w-2xl">{windDown}</p>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-gold group-hover:text-gold-light transition-colors">
                     <span className="link-underline">More ways to rest</span>
-                    <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </span>
                 </div>
               </div>
@@ -468,7 +459,7 @@ export default function Today({ onNavigate }) {
                 </button>
               )}
               <button onClick={() => onNavigate('home')} className="btn-ghost link-underline">
-                Browse all six chapters →
+                Browse all six chapters
               </button>
             </div>
           </div>

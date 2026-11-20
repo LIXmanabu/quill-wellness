@@ -36,6 +36,14 @@ function getTimeGreeting() {
   return 'Good evening'
 }
 
+// The edition follows the real season (northern-hemisphere months), so the
+// cover never says "Spring" in November.
+function seasonEdition(d = new Date()) {
+  const m = d.getMonth()
+  const season = m <= 1 || m === 11 ? 'Winter' : m <= 4 ? 'Spring' : m <= 7 ? 'Summer' : 'Autumn'
+  return `${season} edition`
+}
+
 export default function Home({ onNavigate, onOpenOnboarding }) {
   const { profile } = useUser()
   const { isPro } = usePro()
@@ -68,19 +76,19 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(115% 80% at 82% -12%, rgba(200,101,74,0.11), transparent 58%)' }}
+          style={{ background: 'radial-gradient(115% 80% at 82% -12%, rgba(178,58,94,0.11), transparent 58%)' }}
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16 sm:pb-20">
 
           {/* Top kicker */}
           <div className="flex items-center justify-between border-b border-ink/10 pb-3 mb-10 sm:mb-14">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-soft font-sans">
+            <span className="text-xs font-semibold text-ink-soft font-sans">
               {isReturning
                 ? `${getTimeGreeting()}${profile.name ? `, ${profile.name}` : ''}`
                 : 'A wellness companion'}
             </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-softer font-sans hidden sm:inline">
-              Vol. 01 · Spring Edition
+            <span className="text-xs font-semibold text-ink-softer font-sans hidden sm:inline">
+              {seasonEdition()}
             </span>
           </div>
 
@@ -92,7 +100,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               <h1 className="font-display text-[clamp(2.6rem,12.5vw,4.75rem)] sm:text-[13vw] lg:text-[10.5vw] xl:text-[9.5vw] text-ink leading-[0.9] sm:leading-[0.88] tracking-tight">
                 <SplitText byChar stagger={28}>Feel good,</SplitText>
                 <br />
-                <span className="display-italic text-clay">
+                <span className="display-italic">
                   <SplitText byChar stagger={28} startDelay={400}>from the inside</SplitText>
                 </span>
                 <br />
@@ -107,19 +115,19 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               </Reveal>
               <Reveal delay={1600} className="mt-8 flex flex-wrap items-center gap-3">
                 <MagneticButton onClick={() => onNavigate(greeting?.primary || 'body')} className="btn-ink">
-                  {greeting?.primaryLabel || 'Open the Atlas'} <span className="display-italic">→</span>
+                  {greeting?.primaryLabel || 'Open the Atlas'}
                 </MagneticButton>
                 <button
                   onClick={() => onNavigate('today')}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-ink/25 text-ink text-sm font-medium tracking-wide transition-all duration-300 hover:border-ink hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-ink/25 text-ink text-sm font-medium transition-all duration-300 hover:border-ink hover:-translate-y-0.5"
                 >
-                  Start with Today <span className="display-italic">→</span>
+                  Start with Today
                 </button>
                 <button
                   onClick={() => onNavigate(isPro ? 'tips' : 'wellness')}
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline"
                 >
-                  Or, browse {isPro ? 'today\'s tips' : 'wellness'} <span className="display-italic">→</span>
+                  Or, browse {isPro ? 'today\'s tips' : 'wellness'}
                 </button>
               </Reveal>
             </div>
@@ -127,7 +135,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
             {/* Right column: Index */}
             <Reveal delay={400} direction="right" className="lg:col-span-4 lg:pt-4">
               <div className="border-t border-ink/12 pt-5">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-softer font-sans mb-4">
+                <p className="text-xs font-semibold text-ink-softer font-sans mb-4">
                   In this issue
                 </p>
                 <ol className="space-y-2.5">
@@ -143,7 +151,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                         <span className="font-display text-xl text-ink-soft group-hover:text-ink transition-colors duration-200">
                           {s.label}
                         </span>
-                        <span className="display-italic text-sm text-ink-softer ml-auto group-hover:text-clay transition-colors duration-200">
+                        <span className="display-italic text-sm text-ink-softer ml-auto transition-colors duration-200">
                           {s.kicker}
                         </span>
                       </button>
@@ -179,7 +187,6 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                     <span className="editorial-label text-clay block">Pick up where you left off</span>
                     <span className="font-display text-2xl text-ink">{PAGE_LABEL[lastPage]}</span>
                   </span>
-                  <span className="display-italic text-clay transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </button>
               </Reveal>
             )}
@@ -191,7 +198,6 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                     <span className="editorial-label text-clay block">You keep saving</span>
                     <span className="font-display text-2xl text-ink">{favInsight.label}</span>
                   </span>
-                  <span className="display-italic text-clay transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </button>
               </Reveal>
             )}
@@ -208,12 +214,12 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                 <div>
                   <span className="editorial-label">Made for you{profile.name ? `, ${profile.name}` : ''}</span>
                   <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
-                    Because you <span className="display-italic text-clay">told us.</span>
+                    Because you <span className="display-italic">told us.</span>
                   </h2>
                 </div>
                 {onOpenOnboarding && (
                   <button onClick={onOpenOnboarding} className="text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline self-start sm:self-end">
-                    Edit your answers <span className="display-italic">→</span>
+                    Edit your answers
                   </button>
                 )}
               </div>
@@ -249,7 +255,6 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                           <span className="font-display text-lg text-ink block leading-tight">{f.label}</span>
                           <span className="text-sm text-ink-soft leading-snug">{f.line}</span>
                         </span>
-                        <span className="display-italic text-clay flex-shrink-0 transition-transform duration-300 group-hover:translate-x-1">→</span>
                       </button>
                     ))}
                   </div>
@@ -258,7 +263,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
             )}
             <Reveal>
               <button onClick={() => onNavigate('myquill')} className="btn-ink mt-8">
-                See your full plan <span className="display-italic">→</span>
+                See your full plan
               </button>
             </Reveal>
           </>
@@ -266,18 +271,18 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
           <Reveal>
             <SpotlightCard className="card-paper p-8 sm:p-12 text-center relative overflow-hidden">
               <div aria-hidden="true" className="pointer-events-none absolute inset-0"
-                style={{ background: 'radial-gradient(80% 80% at 50% 0%, rgba(200,101,74,0.10), transparent 60%)' }} />
+                style={{ background: 'radial-gradient(80% 80% at 50% 0%, rgba(178,58,94,0.10), transparent 60%)' }} />
               <div className="relative">
                 <span className="editorial-label text-clay">Make Quill yours</span>
                 <h2 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight max-w-2xl mx-auto">
-                  Answer three quick questions, get a home <span className="display-italic text-clay">made for you.</span>
+                  Answer three quick questions, get a home <span className="display-italic">made for you.</span>
                 </h2>
                 <p className="text-ink-soft mt-3 max-w-md mx-auto leading-relaxed">
                   Your skin type, what you care about, and how much time you have. One minute, change it anytime.
                 </p>
                 {onOpenOnboarding && (
                   <button onClick={onOpenOnboarding} className="btn-ink mt-6">
-                    Take the 1-minute quiz <span className="display-italic">→</span>
+                    Take the 1-minute quiz
                   </button>
                 )}
               </div>
@@ -311,13 +316,13 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
           <Reveal className="lg:col-span-7">
             <span className="editorial-label">Today, in your almanac</span>
             <h2 className="font-display text-6xl sm:text-7xl text-ink mt-2 leading-none">
-              Tip of the <span className="display-italic text-clay">day</span>
+              Tip of the <span className="display-italic">day</span>
             </h2>
           </Reveal>
           <Reveal delay={150} className="lg:col-span-5 lg:text-right">
             <button onClick={() => onNavigate('tips')}
               className="inline-flex items-center gap-1.5 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline">
-              Browse all 60 tips <span className="display-italic">→</span>
+              Browse all 60 tips
             </button>
           </Reveal>
         </div>
@@ -334,7 +339,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               <span className="editorial-label">The index</span>
               <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
                 Six chapters,<br />
-                <span className="display-italic text-clay">one quiet life.</span>
+                <span className="display-italic">one quiet life.</span>
               </h2>
             </div>
             <p className="text-sm text-ink-soft max-w-xs sm:text-right">
@@ -379,7 +384,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                       {s.num}
                     </span>
                     {isRecommended ? (
-                      <span className="chip chip-ink text-[9px] flex-shrink-0">
+                      <span className="chip chip-ink text-xs flex-shrink-0">
                         For you
                       </span>
                     ) : (
@@ -400,7 +405,6 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
                     <span className="editorial-label text-clay">{s.stat}</span>
                     <span className="flex items-center gap-2 text-sm font-medium text-ink group-hover:text-clay transition-colors duration-300">
                       <span className="link-underline">Read chapter</span>
-                      <span className="display-italic transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </span>
                   </div>
                 </SpotlightCard>
@@ -425,7 +429,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               </p>
               <div className="mt-8 flex items-center justify-center gap-4">
                 <span className="w-16 h-px bg-ink/20" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-soft font-sans">A Quill principle</span>
+                <span className="text-xs font-semibold text-ink-soft font-sans">A Quill principle</span>
                 <span className="w-16 h-px bg-ink/20" />
               </div>
             </div>
@@ -441,7 +445,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               <div className="lg:col-span-8">
                 <span className="editorial-label text-gold-dark">Quill, Pro Edition</span>
                 <h3 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-tight">
-                  Want the <span className="display-italic text-clay">unabridged</span> version?
+                  Want the <span className="display-italic">unabridged</span> version?
                 </h3>
                 <p className="text-ink-soft mt-4 max-w-lg">
                   Sixty tips uncapped. Ingredient deep-dives. Three-week progression plans. Guided breathing. Seven-day meal templates. Unlimited favorites. All the depth a real practice needs.
@@ -449,7 +453,7 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               </div>
               <div className="lg:col-span-4 lg:text-right">
                 <MagneticButton onClick={() => onNavigate('pro')} className="btn-ink">
-                  See Pro, free preview <span className="display-italic">→</span>
+                  See Pro, free preview
                 </MagneticButton>
               </div>
             </SpotlightCard>
@@ -484,8 +488,8 @@ export default function Home({ onNavigate, onOpenOnboarding }) {
               </ul>
             </div>
           </div>
-          <div className="mt-10 pt-6 border-t border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] num-display text-ink-softer uppercase tracking-[0.25em]">
-            <span>Quill · Vol. 01 · 2026</span>
+          <div className="mt-10 pt-6 border-t border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs num-display text-ink-softer">
+            <span>Quill, {new Date().getFullYear()}</span>
             <FooterBar onNavigate={onNavigate} />
             <span className="hidden lg:inline">Made with attention, not algorithms</span>
           </div>

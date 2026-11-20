@@ -91,7 +91,7 @@ export default function MediaUploader({ userId, value = [], onChange, disabled =
 
         {uploading.map((u) => (
           <div key={u.id} className="w-20 h-20 rounded-sm border border-ink/15 bg-bone flex flex-col items-center justify-center gap-1">
-            <span className="text-[10px] text-ink-soft">{u.pct}%</span>
+            <span className="text-xs text-ink-soft">{u.pct}%</span>
             <span className="block w-12 h-1 bg-ink/10 rounded-full overflow-hidden">
               <span className="block h-full bg-clay transition-all" style={{ width: `${u.pct}%` }} />
             </span>
@@ -102,7 +102,7 @@ export default function MediaUploader({ userId, value = [], onChange, disabled =
           <button type="button" onClick={() => fileRef.current?.click()}
             className="w-20 h-20 rounded-sm border border-dashed border-ink/30 text-ink-soft hover:border-ink hover:text-ink transition-colors flex flex-col items-center justify-center gap-1">
             <span className="text-xl leading-none">+</span>
-            <span className="text-[10px]">Add</span>
+            <span className="text-xs">Add</span>
           </button>
         )}
       </div>
@@ -111,7 +111,7 @@ export default function MediaUploader({ userId, value = [], onChange, disabled =
         accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm"
         onChange={onPick} className="hidden" />
 
-      <p className="text-[11px] text-ink-softer mt-2">
+      <p className="text-xs text-ink-softer mt-2">
         Up to {MEDIA_LIMITS.maxImages} images (5 MB each) or 1 video (50 MB). JPG, PNG, WebP, MP4, MOV, WebM.
       </p>
       {error && <p className="text-xs text-clay mt-1">{error}</p>}

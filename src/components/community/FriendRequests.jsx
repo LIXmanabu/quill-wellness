@@ -78,7 +78,7 @@ export default function FriendRequests({ myId, onOpenProfile }) {
             <div>
               <span className="block editorial-label text-ink-softer mb-1">Yours</span>
               <button onClick={copyCode} title="Copy your code"
-                className="font-mono text-xl sm:text-2xl tracking-[0.18em] text-ink bg-cream border border-ink/15 px-3 py-1.5 hover:border-ink/40 transition-colors">
+                className="font-mono text-xl sm:text-2xl text-ink bg-cream border border-ink/15 px-3 py-1.5 hover:border-ink/40 transition-colors">
                 {pretty(myCode) || '········'}
               </button>
             </div>
@@ -140,7 +140,7 @@ function Section({ title, count, children }) {
     <section>
       <div className="flex items-center justify-between mb-3 pb-2 border-b border-ink/15">
         <span className="editorial-label">{title}</span>
-        <span className="text-[10px] num-display text-ink-softer">{count}</span>
+        <span className="text-xs num-display text-ink-softer">{count}</span>
       </div>
       {children}
     </section>
@@ -186,7 +186,7 @@ function AddByCode({ onAdded, onOpenProfile, myCode }) {
         placeholder="e.g. ABCD-EFGH"
         maxLength={9}
         autoCapitalize="characters" autoCorrect="off" spellCheck={false}
-        className="input-line font-mono tracking-[0.12em] uppercase flex-1 min-w-[10rem]"
+        className="input-line font-mono flex-1 min-w-[10rem]"
         aria-label="Friend code"
       />
       <button type="submit" disabled={busy} className="btn-clay disabled:opacity-50">

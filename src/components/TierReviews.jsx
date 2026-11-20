@@ -56,7 +56,7 @@ export default function TierReviews({ onNavigate }) {
           <div>
             <span className="editorial-label">Letters from readers</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              What readers <span className="display-italic text-clay">are saying.</span>
+              What readers <span className="display-italic">are saying.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               {isPro
@@ -69,7 +69,7 @@ export default function TierReviews({ onNavigate }) {
             <p className="num-display text-3xl text-clay mt-1 leading-none flex items-center gap-1 justify-end">
               {stat.rating} <span className="text-gold text-base">★</span>
             </p>
-            <p className="text-[10px] text-ink-softer mt-1">{stat.count} {stat.label}</p>
+            <p className="text-xs text-ink-softer mt-1">{stat.count} {stat.label}</p>
           </div>
         </div>
       </Reveal>
@@ -81,7 +81,7 @@ export default function TierReviews({ onNavigate }) {
             <SpotlightCard className="bg-cream-light p-6 h-full flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <Stars n={r.stars} />
-                <span className={`inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide border ${
+                <span className={`inline-flex items-center px-2 py-0.5 text-xs font-bold   border ${
                   r.tier === 'max' ? 'bg-gold-paler text-gold-dark border-gold/30' : 'bg-bone text-ink-soft border-ink/20'
                 }`}>
                   {r.tier}
@@ -93,7 +93,7 @@ export default function TierReviews({ onNavigate }) {
               <div className="mt-5 pt-4 border-t border-ink/10 flex items-baseline justify-between">
                 <div>
                   <p className="font-medium text-sm text-ink">{r.name}, {r.age}</p>
-                  <p className="text-[11px] text-ink-soft">{r.role}</p>
+                  <p className="text-xs text-ink-soft">{r.role}</p>
                 </div>
                 <span className="editorial-label text-clay">{r.highlight}</span>
               </div>
@@ -110,7 +110,7 @@ export default function TierReviews({ onNavigate }) {
               Join {stat.count.split(' ')[0]} readers on {ctaTier}
             </span>
             <h3 className={`font-display text-3xl sm:text-4xl mt-2 leading-tight ${ctaTier === 'Max' ? 'text-ink' : ''}`}>
-              Try Quill {ctaTier}, <span className="display-italic text-clay">free first month.</span>
+              Try Quill {ctaTier}, <span className="display-italic">free first month.</span>
             </h3>
             <p className={`mt-3 leading-relaxed text-sm max-w-lg ${ctaTier === 'Max' ? 'text-ink-soft' : 'text-cream/70'}`}>
               {ctaSub} Cancel any time from My Quill, no questions, no friction.
@@ -119,20 +119,20 @@ export default function TierReviews({ onNavigate }) {
           <div className="lg:col-span-3 lg:text-right">
             <MagneticButton
               onClick={() => onNavigate?.('pro')}
-              className={`inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium tracking-wide transition-all ${
+              className={`inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium  transition-all ${
                 ctaTier === 'Max'
                   ? 'bg-gold text-ink hover:bg-gold-light'
                   : 'bg-cream text-ink hover:bg-cream-light'
               }`}
             >
-              See {ctaTier} <span className="display-italic">→</span>
+              See {ctaTier}
             </MagneticButton>
           </div>
         </SpotlightCard>
       </Reveal>
 
       <Reveal>
-        <p className="text-[10px] text-ink-softer italic mt-3 text-center">
+        <p className="text-xs text-ink-softer italic mt-3 text-center">
           Reviews shown are illustrative, Quill is a prototype with no real subscribers (yet).
         </p>
       </Reveal>

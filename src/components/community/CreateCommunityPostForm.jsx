@@ -80,7 +80,7 @@ export default function CreateCommunityPostForm({ userId, onBack, onCreate, init
 
       <p className="editorial-label text-clay">Share with the community</p>
       <h1 className="font-display text-[clamp(2rem,7vw,3rem)] text-ink leading-[0.96] tracking-tight mt-2">
-        Share a <span className="display-italic text-clay">routine</span>
+        Share a <span className="display-italic">routine</span>
       </h1>
 
       {initial && (
@@ -130,7 +130,7 @@ export default function CreateCommunityPostForm({ userId, onBack, onCreate, init
           <div className="space-y-2">
             {steps.map((s, i) => (
               <div key={i} className="flex items-center gap-2">
-                <span className="num-display text-clay text-sm w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                <span className="num-display text-clay text-sm w-6 shrink-0">{i + 1}</span>
                 <input value={s} onChange={(e) => setStep(i, e.target.value)} placeholder={`Step ${i + 1}`} className="input-line flex-1" />
                 <button type="button" onClick={() => removeStep(i)} aria-label="Remove step"
                   className="text-ink-softer hover:text-clay w-8 h-8 flex items-center justify-center shrink-0">✕</button>
@@ -176,7 +176,7 @@ export default function CreateCommunityPostForm({ userId, onBack, onCreate, init
         <div className="flex items-center justify-end gap-3 pt-2">
           <button type="button" onClick={handleBack} className="btn-ghost">Cancel</button>
           <button type="submit" disabled={submitting} className="btn-clay disabled:opacity-50">
-            {submitting ? 'Sharing…' : willReview ? 'Submit for review' : 'Share routine'} <span className="display-italic">→</span>
+            {submitting ? 'Sharing…' : willReview ? 'Submit for review' : 'Share routine'}
           </button>
         </div>
       </form>

@@ -251,7 +251,7 @@ export default function ProfileOverviewModal({ onNavigate }) {
                     {data?.profile.displayName || 'My Quill Profile'}
                   </h2>
                   {data?.profile.visibility && (
-                    <span className="chip chip-cream text-[10px] py-0.5 inline-flex items-center gap-1">
+                    <span className="chip chip-cream text-xs py-0.5 inline-flex items-center gap-1">
                       <VisibilityIcon visibility={data.profile.visibility} showLabel />
                     </span>
                   )}
@@ -269,7 +269,7 @@ export default function ProfileOverviewModal({ onNavigate }) {
             {data?.profile.bio && <p className="text-ink-soft text-sm mt-2.5 leading-relaxed max-w-2xl">{data.profile.bio}</p>}
             {data?.profile.tags?.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-2.5">
-                {data.profile.tags.map((t) => <span key={t} className="chip chip-cream text-[11px] py-0.5">{t}</span>)}
+                {data.profile.tags.map((t) => <span key={t} className="chip chip-cream text-xs py-0.5">{t}</span>)}
               </div>
             )}
           </div>
@@ -373,7 +373,7 @@ function Section({ title, action, children }) {
     <section>
       <div className="flex items-center justify-between gap-3 mb-2.5">
         <span className="editorial-label text-clay">{title}</span>
-        {action && <button onClick={action.onClick} className="btn-ghost text-xs">{action.label} →</button>}
+        {action && <button onClick={action.onClick} className="btn-ghost text-xs">{action.label}</button>}
       </div>
       {children}
     </section>
@@ -393,7 +393,7 @@ function BadgesPreview({ totalLikes }) {
               className={`h-12 w-auto rounded-md ${earned ? 'shadow-soft' : 'grayscale opacity-35'}`}
               loading="lazy"
             />
-            <span className={`text-[9px] font-bold uppercase tracking-[0.08em] leading-tight ${earned ? '' : 'text-ink-softer'}`}
+            <span className={`text-xs font-bold   leading-tight ${earned ? '' : 'text-ink-softer'}`}
               style={earned ? { color: b.accent } : undefined}>{b.label}</span>
           </div>
         )

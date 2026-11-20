@@ -26,9 +26,6 @@ export default function WellnessCard({ data, delay = 0, num }) {
           <ul className="space-y-2.5 mb-4 border-t border-ink/10 pt-4">
             {data.suggestions.map((suggestion, i) => (
               <li key={i} className="flex items-baseline gap-3">
-                <span className="text-xs num-display text-clay w-5 flex-shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
                 <p className="text-sm text-ink-soft leading-relaxed">{suggestion}</p>
               </li>
             ))}

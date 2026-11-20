@@ -305,8 +305,8 @@ export default function Community() {
               <p className="editorial-label text-clay">Quill Community</p>
               <h1 className="font-display text-[clamp(2.2rem,8vw,3.6rem)] text-ink leading-[0.95] tracking-tight mt-2">
                 {mode === 'qa'
-                  ? <>Ask &amp; <span className="display-italic text-clay">answer.</span></>
-                  : <>Routines, <span className="display-italic text-clay">shared.</span></>}
+                  ? <>Ask &amp; <span className="display-italic">answer.</span></>
+                  : <>Routines, <span className="display-italic">shared.</span></>}
               </h1>
               <p className="text-ink-soft mt-3 max-w-lg leading-relaxed">
                 {mode === 'qa'
@@ -326,7 +326,7 @@ export default function Community() {
               <div className="inline-flex border border-ink/15 bg-cream p-0.5">
                 {[['routines', 'Routines'], ['qa', 'Q&A']].map(([m, label]) => (
                   <button key={m} onClick={() => { setMode(m); setTab('foryou'); setCategory(null); setView('feed') }}
-                    className={`px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.1em] transition-colors ${
+                    className={`px-4 py-1.5 text-sm font-semibold   transition-colors ${
                       mode === m ? 'bg-ink text-cream' : 'text-ink-soft hover:text-ink'
                     }`}>
                     {label}
@@ -344,7 +344,7 @@ export default function Community() {
                   <path d="M10.3 20a2 2 0 0 0 3.4 0" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {pendingRequests > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] num-display bg-clay text-cream rounded-full animate-pop-in">
+                  <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-xs num-display bg-clay text-cream rounded-full animate-pop-in">
                     {pendingRequests > 9 ? '9+' : pendingRequests}
                   </span>
                 )}
@@ -367,7 +367,7 @@ export default function Community() {
               <button onClick={() => setView('friends')} className="chip chip-cream hover:border-ink/40 transition-colors inline-flex items-center gap-1.5">
                 Friends &amp; requests
                 {pendingRequests > 0 && (
-                  <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] num-display bg-clay text-cream rounded-full">
+                  <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-xs num-display bg-clay text-cream rounded-full">
                     {pendingRequests > 9 ? '9+' : pendingRequests}
                   </span>
                 )}
@@ -389,7 +389,7 @@ export default function Community() {
               <p className="text-sm text-ink flex-1 min-w-[14rem] leading-snug">
                 <span className="font-semibold">Pick a username</span> so people can find and friend you — and so your shared routines show your name.
               </p>
-              <button onClick={() => setView('friends')} className="btn-clay shrink-0">Set username →</button>
+              <button onClick={() => setView('friends')} className="btn-clay shrink-0">Set username</button>
             </div>
           )}
         </div>
@@ -565,7 +565,7 @@ function MyPostsDashboard({ posts, onOpen }) {
     <span className="flex items-baseline gap-1.5">
       {icon}
       <span className="num-display text-3xl text-ink leading-none">{n}</span>
-      <span className="text-xs text-ink-softer uppercase tracking-[0.12em]">{label}</span>
+      <span className="text-xs text-ink-softer">{label}</span>
     </span>
   )
 
@@ -627,7 +627,7 @@ function CommunityPulse({ posts, myId, myPostCount, onShare }) {
       </p>
       {myId && (
         <button onClick={onShare} className="ml-auto btn-clay text-sm py-1.5 px-4">
-          {isNewPoster ? 'Share your first routine' : 'Share a routine'} <span className="display-italic">→</span>
+          {isNewPoster ? 'Share your first routine' : 'Share a routine'}
         </button>
       )}
     </div>
@@ -642,7 +642,7 @@ function ShareTile({ onShare }) {
       className="card-clay card-paper-hover aspect-[4/5] flex flex-col items-center justify-center text-center p-5 group">
       <span className="editorial-num text-5xl text-clay/50">✶</span>
       <span className="font-display text-xl text-ink leading-snug mt-2">Your routine could be here</span>
-      <span className="editorial-label text-clay mt-3 group-hover:opacity-70 transition-opacity">Share yours →</span>
+      <span className="editorial-label text-clay mt-3 group-hover:opacity-70 transition-opacity">Share yours</span>
     </button>
   )
 }
@@ -674,7 +674,7 @@ function Feed({ posts, loading, interactions, myId, tab, onOpen, onLike, onSave,
         <p className="font-display text-2xl sm:text-3xl text-ink mt-3">{msg.t}</p>
         <p className="text-ink-soft mt-2 max-w-sm mx-auto leading-relaxed">{msg.s}</p>
         {myId && (tab === 'mine' || tab === 'foryou') && (
-          <button onClick={onShare} className="btn-clay mt-6">Share a routine <span className="display-italic">→</span></button>
+          <button onClick={onShare} className="btn-clay mt-6">Share a routine</button>
         )}
       </div>
     )
@@ -797,7 +797,7 @@ function ProfileSetup({ myId, seedName, onDone, onBack }) {
         </div>
         {error && <p className="text-sm text-clay">{error}</p>}
         <button type="submit" disabled={saving || status === 'taken'} className="btn-clay w-full justify-center disabled:opacity-50">
-          {saving ? 'Saving…' : 'Continue'} <span className="display-italic">→</span>
+          {saving ? 'Saving…' : 'Continue'}
         </button>
       </form>
     </div>

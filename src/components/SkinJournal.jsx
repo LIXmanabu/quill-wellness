@@ -18,8 +18,8 @@ const MAX_ENTRIES = 12
 const THUMB_SIZE = 240
 
 const conditions = [
-  { id: 'smooth',    label: 'Smooth',    color: '#5A6B5D', desc: 'Clear, even, comfortable' },
-  { id: 'dry',       label: 'Dry',       color: '#C8654A', desc: 'Tight, flaky, parched' },
+  { id: 'smooth',    label: 'Smooth',    color: '#4F7465', desc: 'Clear, even, comfortable' },
+  { id: 'dry',       label: 'Dry',       color: '#B23A5E', desc: 'Tight, flaky, parched' },
   { id: 'oily',      label: 'Oily',      color: '#D4A744', desc: 'Shiny, slick to touch' },
   { id: 'red',       label: 'Red',       color: '#9B4423', desc: 'Inflamed, flushed, visible vessels' },
   { id: 'breakout',  label: 'Breakout',  color: '#6B2D1A', desc: 'Spots, congestion, blackheads' },
@@ -185,14 +185,14 @@ export default function SkinJournal() {
           <div>
             <span className="editorial-label">Skin journal</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Your skin, <span className="display-italic text-clay">your own data.</span>
+              Your skin, <span className="display-italic">your own data.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Take a photo, tap the zones, log what you notice. Quill remembers, so over weeks you see how <em>your</em> skin actually changes. No comparisons, no scoring, no sharing. Everything stays on this device.
             </p>
           </div>
           {store.entries.length > 0 && (
-            <ConfirmButton onConfirm={clearAll} question={`Delete all ${store.entries.length} entries?`} confirm="Delete all" className="text-xs text-ink-soft hover:text-clay transition-colors display-italic">
+            <ConfirmButton onConfirm={clearAll} question={`Delete all ${store.entries.length} entries?`} confirm="Delete all" className="text-xs text-ink-soft transition-colors display-italic">
               clear all data
             </ConfirmButton>
           )}
@@ -235,13 +235,13 @@ export default function SkinJournal() {
                   {thumb && (
                     <button
                       onClick={() => setThumb(null)}
-                      className="px-3 py-2 text-xs text-ink-soft hover:text-clay transition-colors display-italic"
+                      className="px-3 py-2 text-xs text-ink-soft transition-colors display-italic"
                     >
                       ✕
                     </button>
                   )}
                 </div>
-                <p className="text-[10px] text-ink-softer mt-2 italic leading-relaxed">
+                <p className="text-xs text-ink-softer mt-2 italic leading-relaxed">
                   Stays on this device. Scaled to {THUMB_SIZE}×{THUMB_SIZE} before save.
                 </p>
               </div>
@@ -252,11 +252,11 @@ export default function SkinJournal() {
                 <div className="relative aspect-[3/4] bg-bone border border-ink/15">
                   {/* Face silhouette */}
                   <svg viewBox="0 0 100 130" className="absolute inset-0 w-full h-full" aria-hidden="true">
-                    <ellipse cx="50" cy="55" rx="32" ry="44" fill="none" stroke="#1A1410" strokeWidth="0.5" strokeOpacity="0.3" />
-                    <path d="M 30 38 q 4 -4 8 0" fill="none" stroke="#1A1410" strokeWidth="0.4" strokeOpacity="0.25" />
-                    <path d="M 62 38 q 4 -4 8 0" fill="none" stroke="#1A1410" strokeWidth="0.4" strokeOpacity="0.25" />
-                    <path d="M 48 48 q 2 6 0 10 q -2 2 4 2" fill="none" stroke="#1A1410" strokeWidth="0.4" strokeOpacity="0.25" />
-                    <path d="M 42 72 q 8 4 16 0" fill="none" stroke="#1A1410" strokeWidth="0.4" strokeOpacity="0.25" />
+                    <ellipse cx="50" cy="55" rx="32" ry="44" fill="none" stroke="#1D2440" strokeWidth="0.5" strokeOpacity="0.3" />
+                    <path d="M 30 38 q 4 -4 8 0" fill="none" stroke="#1D2440" strokeWidth="0.4" strokeOpacity="0.25" />
+                    <path d="M 62 38 q 4 -4 8 0" fill="none" stroke="#1D2440" strokeWidth="0.4" strokeOpacity="0.25" />
+                    <path d="M 48 48 q 2 6 0 10 q -2 2 4 2" fill="none" stroke="#1D2440" strokeWidth="0.4" strokeOpacity="0.25" />
+                    <path d="M 42 72 q 8 4 16 0" fill="none" stroke="#1D2440" strokeWidth="0.4" strokeOpacity="0.25" />
                   </svg>
                   {/* Zone dots */}
                   {zones.map((z) => {
@@ -267,7 +267,7 @@ export default function SkinJournal() {
                         key={z.id}
                         onClick={() => setActiveZone(active ? null : z.id)}
                         style={{ left: `${z.x}%`, top: `${z.y}%` }}
-                        className={`absolute -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-2 flex items-center justify-center text-[10px] font-bold transition-all ${
+                        className={`absolute -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all ${
                           active
                             ? 'bg-ink text-cream border-ink scale-110'
                             : taggedHere > 0
@@ -281,7 +281,7 @@ export default function SkinJournal() {
                     )
                   })}
                 </div>
-                <div className="mt-3 flex flex-wrap gap-1 text-[10px]">
+                <div className="mt-3 flex flex-wrap gap-1 text-xs">
                   {zones.map((z) => (
                     <button
                       key={z.id}
@@ -302,7 +302,7 @@ export default function SkinJournal() {
                   <span className="editorial-label">
                     Tag conditions on <span className="text-clay">{zones.find((z) => z.id === activeZone).label}</span>
                   </span>
-                  <button onClick={() => setActiveZone(null)} className="text-xs text-ink-soft hover:text-clay display-italic">done</button>
+                  <button onClick={() => setActiveZone(null)} className="text-xs text-ink-soft display-italic">done</button>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {conditions.map((c) => {
@@ -317,9 +317,9 @@ export default function SkinJournal() {
                         <div className="flex items-center gap-2">
                           <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: c.color }} />
                           <span className="font-medium text-sm">{c.label}</span>
-                          {on && <span className="ml-auto text-clay display-italic">✓</span>}
+                          {on && <span className="ml-auto display-italic">✓</span>}
                         </div>
-                        <p className="text-[10px] text-ink-softer mt-1 leading-snug">{c.desc}</p>
+                        <p className="text-xs text-ink-softer mt-1 leading-snug">{c.desc}</p>
                       </button>
                     )
                   })}
@@ -347,13 +347,13 @@ export default function SkinJournal() {
                   placeholder="What changed today? Any new product, food, stress?"
                   className="w-full bg-cream border border-ink/20 px-3 py-2 text-sm focus:outline-none focus:border-ink"
                 />
-                <p className="text-[10px] text-ink-softer mt-1 text-right">{notes.length}/240</p>
+                <p className="text-xs text-ink-softer mt-1 text-right">{notes.length}/240</p>
               </div>
               <div className="flex items-center gap-3">
                 <button onClick={save} className="btn-ink flex-1 justify-center" data-cursor-label="save entry">
-                  Save entry <span className="display-italic">→</span>
+                  Save entry
                 </button>
-                <button onClick={reset} className="text-xs text-ink-soft hover:text-clay display-italic">
+                <button onClick={reset} className="text-xs text-ink-soft display-italic">
                   reset
                 </button>
               </div>
@@ -371,21 +371,21 @@ export default function SkinJournal() {
                 <div className="mt-4 grid grid-cols-2 gap-4">
                   {insights.topCondition && (
                     <div>
-                      <p className="text-[10px] text-cream/60 uppercase tracking-[0.15em]">Most tagged</p>
+                      <p className="text-xs text-cream/60">Most tagged</p>
                       <p className="font-display text-xl mt-1">{conditions.find((c) => c.id === insights.topCondition.id)?.label}</p>
-                      <p className="text-[10px] text-cream/60 mt-0.5">{insights.topCondition.count} times</p>
+                      <p className="text-xs text-cream/60 mt-0.5">{insights.topCondition.count} times</p>
                     </div>
                   )}
                   {insights.topZone && (
                     <div>
-                      <p className="text-[10px] text-cream/60 uppercase tracking-[0.15em]">Most-affected zone</p>
+                      <p className="text-xs text-cream/60">Most-affected zone</p>
                       <p className="font-display text-xl mt-1">{zones.find((z) => z.id === insights.topZone.id)?.label}</p>
-                      <p className="text-[10px] text-cream/60 mt-0.5">{insights.topZone.count} tags</p>
+                      <p className="text-xs text-cream/60 mt-0.5">{insights.topZone.count} tags</p>
                     </div>
                   )}
                   {insights.avgSleep != null && (
                     <div>
-                      <p className="text-[10px] text-cream/60 uppercase tracking-[0.15em]">Avg sleep</p>
+                      <p className="text-xs text-cream/60">Avg sleep</p>
                       <p className="num-display text-2xl mt-1 text-gold">{insights.avgSleep}/10</p>
                     </div>
                   )}
@@ -429,19 +429,19 @@ export default function SkinJournal() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline justify-between gap-2">
                             <p className="font-medium text-sm text-ink">{dayLabel(e.date)}</p>
-                            <p className="text-[10px] text-ink-softer">{daysAgo(e.date)} · sleep {e.sleep}/10</p>
+                            <p className="text-xs text-ink-softer">{daysAgo(e.date)} · sleep {e.sleep}/10</p>
                           </div>
                           {allTags.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-1.5">
                               {allTags.slice(0, 6).map((t, i) => {
                                 const c = conditions.find((x) => x.id === t.cond)
                                 return (
-                                  <span key={i} className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 border" style={{ borderColor: c?.color, color: c?.color }}>
+                                  <span key={i} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 border" style={{ borderColor: c?.color, color: c?.color }}>
                                     {c?.label}
                                   </span>
                                 )
                               })}
-                              {allTags.length > 6 && <span className="text-[10px] text-ink-softer">+{allTags.length - 6}</span>}
+                              {allTags.length > 6 && <span className="text-xs text-ink-softer">+{allTags.length - 6}</span>}
                             </div>
                           )}
                           {e.notes && (
@@ -453,7 +453,7 @@ export default function SkinJournal() {
                           question="Delete?"
                           confirm="Delete"
                           aria-label="Delete entry"
-                          className="opacity-0 group-hover:opacity-100 text-xs text-ink-softer hover:text-clay transition-all display-italic self-start"
+                          className="opacity-0 group-hover:opacity-100 text-xs text-ink-softer transition-all display-italic self-start"
                           armedClassName="self-start"
                         >
                           ✕
@@ -466,7 +466,7 @@ export default function SkinJournal() {
             </div>
           </Reveal>
 
-          <p className="text-[10px] text-ink-softer italic leading-relaxed">
+          <p className="text-xs text-ink-softer italic leading-relaxed">
             This is a personal mirror, not a diagnosis. Persistent changes or anything painful → see a dermatologist.
           </p>
         </div>

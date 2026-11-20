@@ -145,7 +145,7 @@ export default function CommentsSection({
                         <span className="font-medium text-ink text-sm truncate">
                           {c.author.displayName || c.author.username || 'Someone'}
                         </span>
-                        <span className="text-[11px] text-ink-softer shrink-0">{timeAgo(c.createdAt)}</span>
+                        <span className="text-xs text-ink-softer shrink-0">{timeAgo(c.createdAt)}</span>
                       </div>
                       <p className="text-ink-soft leading-relaxed mt-0.5 whitespace-pre-wrap break-words">{c.body}</p>
                       {/* Like a comment */}

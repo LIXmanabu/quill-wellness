@@ -89,7 +89,7 @@ function celebrate() {
     confetti({
       particleCount: 45, spread: 55, startVelocity: 32, scalar: 0.9,
       origin: { y: 0.7 }, disableForReducedMotion: true,
-      colors: ['#C8654A', '#D4A744', '#5A6B5D', '#E8B4B8', '#9B4423'],
+      colors: ['#B23A5E', '#D4A744', '#4F7465', '#E8B4B8', '#9B4423'],
     })
   } catch {}
 }
@@ -192,7 +192,7 @@ export default function Joy() {
           <p className="editorial-label text-clay">A jar of good days</p>
           <h1 className="font-display text-[clamp(2.6rem,9vw,4.5rem)] text-ink leading-[0.92] tracking-tight mt-3">
             <SplitText byChar stagger={26}>Collect the</SplitText>{' '}
-            <span className="display-italic text-clay"><SplitText byChar stagger={26} startDelay={350}>small joys.</SplitText></span>
+            <span className="display-italic"><SplitText byChar stagger={26} startDelay={350}>small joys.</SplitText></span>
           </h1>
           <p className="text-lg text-ink-soft leading-relaxed mt-6 max-w-xl">
             Save the little things that made today lighter. Weeks or months from now,
@@ -226,7 +226,7 @@ export default function Joy() {
                 onClick={() => setQuoteIdx((i) => i + 1)}
                 className="mt-7 inline-flex items-center gap-2 text-xs font-medium text-clay hover:text-clay-dark transition-colors link-underline"
               >
-                Another <span className="display-italic">→</span>
+                Another
               </button>
             </div>
           </SpotlightCard>
@@ -254,7 +254,7 @@ export default function Joy() {
                     onClick={() => setMemoryIdx((i) => i + 1)}
                     className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline"
                   >
-                    Show me another <span className="display-italic">→</span>
+                    Show me another
                   </button>
                 )}
               </div>
@@ -277,7 +277,7 @@ export default function Joy() {
         <Reveal>
           <SpotlightCard className="card-paper p-8 sm:p-12">
             <h2 className="font-display text-3xl sm:text-4xl text-ink leading-tight">
-              What made you <span className="display-italic text-clay">smile</span> today?
+              What made you <span className="display-italic">smile</span> today?
             </h2>
             <p className="text-sm text-ink-soft mt-2">{nudge} Even something tiny counts.</p>
 
@@ -296,7 +296,7 @@ export default function Joy() {
                     key={p}
                     type="button"
                     onClick={() => setText(p)}
-                    className="chip chip-cream text-[11px] hover:border-ink/40 transition-colors"
+                    className="chip chip-cream text-xs hover:border-ink/40 transition-colors"
                   >
                     {p}
                   </button>
@@ -305,9 +305,9 @@ export default function Joy() {
               <div className="mt-6 flex items-center gap-4">
                 <button type="submit" disabled={!text.trim()}
                   className="btn-ink disabled:opacity-40 disabled:cursor-not-allowed">
-                  Keep this moment <span className="display-italic">→</span>
+                  Keep this moment
                 </button>
-                {justSaved && <span className="text-sm text-sage-dark display-italic animate-fade-in">Saved. See you again, later.</span>}
+                {justSaved && <span className="text-sm display-italic animate-fade-in">Saved. See you again, later.</span>}
               </div>
             </form>
           </SpotlightCard>
@@ -319,7 +319,7 @@ export default function Joy() {
         <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <div className="flex items-end justify-between gap-4 mb-6 pb-3 border-b border-ink/15">
             <span className="editorial-label">Your collection</span>
-            <span className="text-[10px] num-display text-ink-softer uppercase tracking-[0.2em]">
+            <span className="text-xs num-display text-ink-softer">
               {items.length} {items.length === 1 ? 'moment' : 'moments'}
             </span>
           </div>
@@ -352,7 +352,7 @@ export default function Joy() {
             This isn't about forcing a smile, just noticing the small good when it's there. If things
             feel really dark, please reach out to someone you trust or a professional. You deserve real care.
           </p>
-          <p className="text-[10px] num-display text-ink-softer uppercase tracking-[0.2em] mt-4">
+          <p className="text-xs num-display text-ink-softer mt-4">
             Saved privately on this device · nothing is shared
           </p>
         </div>

@@ -173,14 +173,14 @@ export default function SleepAnalyzer() {
               Sleep schedule analysis <TierBadge />
             </span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Seven nights, <span className="display-italic text-clay">honest data.</span>
+              Seven nights, <span className="display-italic">honest data.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Log your bedtime and wake time for the last seven nights. Quill calculates duration, consistency, sleep debt, and weekend jetlag, and tells you the one thing to change first.
             </p>
           </div>
           {Object.keys(log).length > 0 && (
-            <ConfirmButton onConfirm={clearAll} question="Clear all sleep data?" confirm="Clear" className="text-xs text-ink-soft hover:text-clay transition-colors display-italic">
+            <ConfirmButton onConfirm={clearAll} question="Clear all sleep data?" confirm="Clear" className="text-xs text-ink-soft transition-colors display-italic">
               clear data
             </ConfirmButton>
           )}
@@ -200,10 +200,10 @@ export default function SleepAnalyzer() {
                 <div key={n.key} className="px-6 py-3 grid grid-cols-[60px_1fr_1fr_60px] gap-3 items-center text-sm">
                   <div>
                     <p className="font-display text-base text-ink leading-none">{dayLabel(n.date)}</p>
-                    <p className="text-[10px] text-ink-softer mt-0.5">{dayDate(n.date)}</p>
+                    <p className="text-xs text-ink-softer mt-0.5">{dayDate(n.date)}</p>
                   </div>
                   <label className="block">
-                    <span className="editorial-label block text-[9px]">Bed</span>
+                    <span className="editorial-label block text-xs">Bed</span>
                     <input
                       type="time"
                       value={n.bed || ''}
@@ -212,7 +212,7 @@ export default function SleepAnalyzer() {
                     />
                   </label>
                   <label className="block">
-                    <span className="editorial-label block text-[9px]">Wake</span>
+                    <span className="editorial-label block text-xs">Wake</span>
                     <input
                       type="time"
                       value={n.wake || ''}
@@ -245,7 +245,7 @@ export default function SleepAnalyzer() {
               <div className="flex items-end justify-between gap-2 px-2" style={{ minHeight: `${maxBarHeight + 30}px` }}>
                 {stats.nights.map((n) => (
                   <div key={n.key} className="flex-1 flex flex-col items-center">
-                    <div className="text-[10px] text-ink-soft num-display mb-1">
+                    <div className="text-xs text-ink-soft num-display mb-1">
                       {n.hours != null ? `${n.hours}` : ''}
                     </div>
                     <div className="w-full flex justify-center" style={{ height: `${maxBarHeight}px` }}>
@@ -255,21 +255,21 @@ export default function SleepAnalyzer() {
                           height: n.hours != null ? `${barScale(n.hours)}px` : '0px',
                           marginTop: 'auto',
                           background: n.hours == null
-                            ? '#E8DFD0'
+                            ? '#E4E6DD'
                             : n.hours < 7
-                              ? '#C8654A'
+                              ? '#B23A5E'
                               : n.hours < 9
-                                ? '#5A6B5D'
+                                ? '#4F7465'
                                 : '#D4A744',
                         }}
                       />
                     </div>
-                    <div className="text-[10px] text-ink-softer mt-1">{dayLabel(n.date).slice(0, 1)}</div>
+                    <div className="text-xs text-ink-softer mt-1">{dayLabel(n.date).slice(0, 1)}</div>
                   </div>
                 ))}
                 {/* Target line, 8h */}
               </div>
-              <div className="mt-4 flex items-center gap-4 text-[10px] text-ink-soft editorial-label">
+              <div className="mt-4 flex items-center gap-4 text-xs text-ink-soft editorial-label">
                 <span className="flex items-center gap-1"><span className="w-2 h-2 bg-clay inline-block" /> under 7h</span>
                 <span className="flex items-center gap-1"><span className="w-2 h-2 bg-sage inline-block" /> 7–9h</span>
                 <span className="flex items-center gap-1"><span className="w-2 h-2 bg-gold inline-block" /> over 9h</span>
@@ -306,7 +306,7 @@ function Stat({ label, value, sub, colored = false }) {
     <div className="bg-cream-light p-5">
       <span className="editorial-label">{label}</span>
       <p className={`num-display text-4xl mt-2 leading-none ${colored ? 'text-clay' : 'text-ink'}`}>{value}</p>
-      <p className="text-[10px] text-ink-softer mt-1">{sub}</p>
+      <p className="text-xs text-ink-softer mt-1">{sub}</p>
     </div>
   )
 }

@@ -111,7 +111,7 @@ export default function SearchOverlay({ onClose, onNavigate }) {
             aria-label="Close search"
             className="shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center text-ink-soft hover:text-ink focus-visible:ring-2 focus-visible:ring-clay rounded"
           >
-            <span className="text-sm font-medium uppercase tracking-[0.15em]">Esc</span>
+            <span className="text-sm font-medium">Esc</span>
           </button>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function SearchOverlay({ onClose, onNavigate }) {
                   }`}
                 >
                   <span className="text-base w-6 shrink-0" aria-hidden="true">
-                    {r.type === 'tip' ? r.icon : <span className="num-display text-[11px] text-clay">{String(i + 1).padStart(2, '0')}</span>}
+                    {r.type === 'tip' ? r.icon : null}
                   </span>
                   <span className="min-w-0">
                     <span className="flex items-center gap-2">

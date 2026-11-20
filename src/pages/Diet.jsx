@@ -122,8 +122,8 @@ const diets = [
 
 /* ─── Ideal plate ─── */
 const plateSlices = [
-  { id: 'veg', label: 'Vegetables', percent: 35, color: '#5A6B5D', soft: '#D5DDD6', examples: 'Leafy greens, broccoli, peppers, carrots, tomatoes', tip: 'The more variety + colour, the better. Potatoes do not count.' },
-  { id: 'fruit', label: 'Fruit', percent: 15, color: '#C8654A', soft: '#F5E1D8', examples: 'Berries, apple, banana, citrus, kiwi, grapes', tip: 'Whole fruit beats juice. Aim for two portions a day.' },
+  { id: 'veg', label: 'Vegetables', percent: 35, color: '#4F7465', soft: '#D5DDD6', examples: 'Leafy greens, broccoli, peppers, carrots, tomatoes', tip: 'The more variety + colour, the better. Potatoes do not count.' },
+  { id: 'fruit', label: 'Fruit', percent: 15, color: '#B23A5E', soft: '#F5E1D8', examples: 'Berries, apple, banana, citrus, kiwi, grapes', tip: 'Whole fruit beats juice. Aim for two portions a day.' },
   { id: 'grains', label: 'Whole grains', percent: 25, color: '#B08A2E', soft: '#F5EBD0', examples: 'Oats, brown rice, quinoa, wholemeal bread or pasta', tip: 'Brown over white. Limit refined grains and sugar.' },
   { id: 'protein', label: 'Healthy protein', percent: 25, color: '#3D4A40', soft: '#EAEFEA', examples: 'Fish, chicken, eggs, tofu, beans, lentils, nuts', tip: 'Limit red meat. Avoid bacon, sausage, deli meats.' },
 ]
@@ -158,7 +158,7 @@ function IdealPlate() {
         <div className="mb-10 pb-4 border-b border-ink/15">
           <span className="editorial-label">What&apos;s on your plate</span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            Your ideal <span className="display-italic text-clay">plate.</span>
+            Your ideal <span className="display-italic">plate.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-2xl">
             A rule of thumb based on the Harvard Healthy Eating Plate, half veg and fruit, a quarter whole grains, a quarter healthy protein. Works for almost any goal.
@@ -170,11 +170,11 @@ function IdealPlate() {
         <Reveal>
           <div className="bg-cream-light p-8 flex justify-center">
             <svg viewBox="0 0 320 380" className="w-full max-w-[320px]">
-              <ellipse cx={cx} cy={cy + 6} rx={r + 16} ry={r + 6} fill="#1A1410" opacity="0.06" />
-              <circle cx={cx} cy={cy} r={r + 12} fill="#FBF7F0" stroke="#1A1410" strokeWidth="1.5" strokeOpacity="0.15" />
-              <circle cx={cx} cy={cy} r={r + 4} fill="#F7F2EA" stroke="#1A1410" strokeWidth="1" strokeOpacity="0.10" />
+              <ellipse cx={cx} cy={cy + 6} rx={r + 16} ry={r + 6} fill="#1D2440" opacity="0.06" />
+              <circle cx={cx} cy={cy} r={r + 12} fill="#FAFAF6" stroke="#1D2440" strokeWidth="1.5" strokeOpacity="0.15" />
+              <circle cx={cx} cy={cy} r={r + 4} fill="#F1F2EC" stroke="#1D2440" strokeWidth="1" strokeOpacity="0.10" />
               {slices.map((s) => (
-                <path key={s.id} d={slicePath(cx, cy, r, s.start, s.end)} fill={s.soft} stroke="#FBF7F0" strokeWidth="3" />
+                <path key={s.id} d={slicePath(cx, cy, r, s.start, s.end)} fill={s.soft} stroke="#FAFAF6" strokeWidth="3" />
               ))}
               {slices.map((s) => (
                 <g key={`label-${s.id}`}>
@@ -273,7 +273,7 @@ function PHScale() {
         <div className="mb-10 pb-4 border-b border-ink/15">
           <span className="editorial-label">Self check-in</span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            The pH <span className="display-italic text-clay">mirror.</span>
+            The pH <span className="display-italic">mirror.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-2xl">
             Drag the slider to where you feel your body is right now. This is a wellness mirror, not a medical test.
@@ -316,7 +316,7 @@ function PHScale() {
               <ul className="space-y-2 mt-4">
                 {current[col.key].map((item, j) => (
                   <li key={j} className="flex items-baseline gap-3 text-sm">
-                    <span className="num-display text-xs text-clay w-5 flex-shrink-0">{String(j + 1).padStart(2, '0')}</span>
+                    <span className="num-display text-xs text-clay w-5 flex-shrink-0">{j + 1}</span>
                     <span className="text-ink-soft leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -418,7 +418,7 @@ function ProMealPlans() {
             Meal plans <TierBadge />
           </span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            Seven-day <span className="display-italic text-clay">templates.</span>
+            Seven-day <span className="display-italic">templates.</span>
           </h2>
         </div>
       </Reveal>
@@ -428,7 +428,7 @@ function ProMealPlans() {
           <button
             key={key}
             onClick={() => setSelected(key)}
-            className={`px-4 py-2 text-xs font-medium tracking-wide transition-all border ${
+            className={`px-4 py-2 text-xs font-medium  transition-all border ${
               selected === key
                 ? 'bg-ink text-cream border-ink'
                 : 'border-ink/20 text-ink-soft hover:border-ink hover:text-ink bg-cream-light'
@@ -449,7 +449,7 @@ function ProMealPlans() {
             <Reveal key={i} delay={i * 30}>
               <div className="grid grid-cols-[120px_1fr] sm:grid-cols-[160px_1fr] gap-4 sm:gap-6 px-2 py-4 bg-cream-light hover:bg-bone transition-colors">
                 <div>
-                  <span className="num-display text-xs text-clay">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="num-display text-xs text-clay">{i + 1}</span>
                   <p className="font-display text-lg text-ink mt-0.5">{m.time}</p>
                 </div>
                 <p className="text-sm text-ink-soft leading-relaxed self-center">{m.item}</p>
@@ -477,7 +477,7 @@ function DietCard({ diet, delay, num }) {
 
         <div className="flex flex-wrap gap-1.5 mt-4">
           {diet.targets.map((t) => (
-            <span key={t} className="text-[10px] font-medium bg-bone text-ink-soft px-2.5 py-1 border border-ink/10">
+            <span key={t} className="text-xs font-medium bg-bone text-ink-soft px-2.5 py-1 border border-ink/10">
               {t}
             </span>
           ))}
@@ -542,7 +542,7 @@ export default function Diet({ onNavigate }) {
             <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
               <SplitText byChar stagger={28}>Eat for</SplitText>
               <br />
-              <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={400}>the goal you have.</SplitText></span>
+              <span className="display-italic"><SplitText byChar stagger={28} startDelay={400}>the goal you have.</SplitText></span>
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
@@ -566,7 +566,7 @@ export default function Diet({ onNavigate }) {
               <div className="lg:col-span-9">
                 <span className="editorial-label text-gold-dark">Pro Edition · the tool people love</span>
                 <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                  Track your day. Get the <span className="display-italic text-clay">next bite.</span>
+                  Track your day. Get the <span className="display-italic">next bite.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
                   A live diet tracker that learns from what you ate today and suggests your next snack or meal, closing protein, fibre and calorie gaps against your goal. Plus seven-day meal templates for every goal.
@@ -580,7 +580,7 @@ export default function Diet({ onNavigate }) {
               </div>
               <div className="lg:col-span-3 lg:text-right">
                 <button onClick={() => onNavigate?.('pro')} className="btn-ink">
-                  Unlock <span className="display-italic">→</span>
+                  Unlock
                 </button>
               </div>
             </SpotlightCard>
@@ -605,7 +605,7 @@ export default function Diet({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">Six diets</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              By the <span className="display-italic text-clay">goal.</span>
+              By the <span className="display-italic">goal.</span>
             </h2>
           </div>
         </Reveal>

@@ -111,7 +111,7 @@ export default function Pro({ onNavigate }) {
       {/* ════════════════════════════════════════ HERO ════════════════════════════════════════ */}
       <section style={{ viewTransitionName: 'hero-pro' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16">
         <div className="border-b border-ink/15 pb-3 mb-12 flex items-center justify-between">
-          <span className="editorial-label">Pro Edition · Issue 01</span>
+          <span className="editorial-label">Pro edition</span>
           <span className="editorial-label">{isMax ? 'Quill Max · active' : isPro ? 'Quill Pro · active' : 'Free reader'}</span>
         </div>
 
@@ -140,7 +140,7 @@ export default function Pro({ onNavigate }) {
               ) : isPro ? (
                 <>
                   <MagneticButton onClick={() => openCheckout('max')} className="inline-flex items-center gap-2 px-6 py-3.5 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
-                    Upgrade to Max <span className="display-italic">→</span>
+                    Upgrade to Max
                   </MagneticButton>
                   <button onClick={() => setTier('free')} className="btn-ghost link-underline">
                     Switch back to Free
@@ -149,10 +149,10 @@ export default function Pro({ onNavigate }) {
               ) : (
                 <>
                   <MagneticButton onClick={() => openCheckout('pro')} className="btn-ink">
-                    Start Pro, $5/mo <span className="display-italic">→</span>
+                    Start Pro, $5/mo
                   </MagneticButton>
                   <MagneticButton onClick={() => openCheckout('max')} className="inline-flex items-center gap-2 px-6 py-3.5 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
-                    Or go Max, $13/mo <span className="display-italic">→</span>
+                    Or go Max, $13/mo
                   </MagneticButton>
                   <button onClick={() => onNavigate?.('home')} className="btn-ghost link-underline">
                     Or, stay on Free
@@ -195,7 +195,7 @@ export default function Pro({ onNavigate }) {
         <Reveal>
           <div className="flex flex-col sm:flex-row items-baseline justify-between gap-4 mb-10 pb-4 border-b border-ink/15">
             <h2 className="font-display text-5xl sm:text-6xl text-ink leading-none">
-              The three <span className="display-italic text-clay">editions.</span>
+              The three <span className="display-italic">editions.</span>
             </h2>
             <p className="editorial-label">Cancel anytime, no commitment.</p>
           </div>
@@ -213,7 +213,7 @@ export default function Pro({ onNavigate }) {
                 }`}>
                   <div className="flex items-baseline justify-between mb-6">
                     <p className={`editorial-label ${isInk ? 'text-gold' : isGold ? 'text-gold-dark' : ''}`}>
-                      Edition {String(i + 1).padStart(2, '0')}, {t.label}
+                      {t.label}
                     </p>
                     <span className={`editorial-num text-2xl ${isInk ? 'text-cream/40' : 'text-ink-softer'}`}>
                       0{i + 1}
@@ -268,11 +268,11 @@ export default function Pro({ onNavigate }) {
                     ) : (
                       <MagneticButton
                         onClick={() => openCheckout(t.key)}
-                        className={`w-full justify-center inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium tracking-wide transition-all ${
+                        className={`w-full justify-center inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium  transition-all ${
                           isGold ? 'bg-gold text-ink hover:bg-gold-light' : 'bg-gold text-ink hover:bg-gold-light'
                         }`}
                       >
-                        {t.key === 'pro' ? 'Start Pro' : 'Go Max'} <span className="display-italic">→</span>
+                        {t.key === 'pro' ? 'Start Pro' : 'Go Max'}
                       </MagneticButton>
                     )}
                   </div>
@@ -292,7 +292,7 @@ export default function Pro({ onNavigate }) {
           <div className="mb-8 pb-4 border-b border-ink/15">
             <span className="editorial-label">Specifications</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              The <span className="display-italic text-clay">complete list.</span>
+              The <span className="display-italic">complete list.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Honest about what's live versus planned. "Live" features work today; "preview" rows are on the Max roadmap.
@@ -320,7 +320,7 @@ export default function Pro({ onNavigate }) {
                     <span className="font-medium text-ink">{f.title}</span>
                   </div>
                   <div className="text-center">
-                    <span className={`inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide border ${
+                    <span className={`inline-block px-2 py-0.5 text-xs font-bold   border ${
                       f.status === 'live' ? 'bg-sage-pale text-sage-dark border-sage/30' : 'bg-gold-pale text-gold-dark border-gold/30'
                     }`}>
                       {f.status}
@@ -344,7 +344,7 @@ export default function Pro({ onNavigate }) {
                   <span className="num-display text-lg text-ink-softer">{f.num}</span>
                   <span className="text-base text-clay">{f.icon}</span>
                   <span className="font-medium text-ink text-sm flex-1">{f.title}</span>
-                  <span className={`inline-block px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide border flex-shrink-0 ${
+                  <span className={`inline-block px-2 py-0.5 text-xs font-bold   border flex-shrink-0 ${
                     f.status === 'live' ? 'bg-sage-pale text-sage-dark border-sage/30' : 'bg-gold-pale text-gold-dark border-gold/30'
                   }`}>
                     {f.status}
@@ -376,7 +376,7 @@ export default function Pro({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">Letters from readers</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              What they're <span className="display-italic text-clay">saying.</span>
+              What they're <span className="display-italic">saying.</span>
             </h2>
           </div>
         </Reveal>
@@ -405,7 +405,7 @@ export default function Pro({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">Frequently asked</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Honest <span className="display-italic text-clay">answers.</span>
+              Honest <span className="display-italic">answers.</span>
             </h2>
           </div>
         </Reveal>

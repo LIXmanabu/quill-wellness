@@ -21,7 +21,7 @@ export default function DailyTipCard({ onNavigateLibrary }) {
         <div className="lg:col-span-3">
           <p className="editorial-label text-clay text-balance">{today}</p>
           <p className="font-display text-2xl mt-2 leading-tight text-ink">Tip of the day</p>
-          <span className="chip chip-ink mt-4 text-[10px]">{meta.label}</span>
+          <span className="chip chip-ink mt-4 text-xs">{meta.label}</span>
         </div>
 
         {/* Tip content */}
@@ -38,7 +38,7 @@ export default function DailyTipCard({ onNavigateLibrary }) {
               onClick={onNavigateLibrary}
               className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline"
             >
-              Browse all tips <span className="display-italic">→</span>
+              Browse all tips
             </button>
           )}
         </div>

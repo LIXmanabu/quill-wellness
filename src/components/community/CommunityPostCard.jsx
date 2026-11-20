@@ -32,7 +32,7 @@ export default function CommunityPostCard({ post, liked, saved, onOpen, onLike, 
         )}
         <span className="absolute top-2.5 left-2.5"><CategoryBadge category={post.category} /></span>
         {post.media.length > 1 && (
-          <span className="absolute top-2.5 right-2.5 chip bg-ink/70 text-cream border-transparent text-[10px] py-0.5">
+          <span className="absolute top-2.5 right-2.5 chip bg-ink/70 text-cream border-transparent text-xs py-0.5">
             1/{post.media.length}
           </span>
         )}
@@ -53,7 +53,7 @@ export default function CommunityPostCard({ post, liked, saved, onOpen, onLike, 
               <span className="block text-xs font-medium text-ink truncate group-hover/author:text-clay transition-colors">
                 {post.author.displayName || post.author.username || 'Someone'}
               </span>
-              <span className="block text-[10px] text-ink-softer">{timeAgo(post.createdAt)}</span>
+              <span className="block text-xs text-ink-softer">{timeAgo(post.createdAt)}</span>
             </span>
           </button>
           <span className="ml-auto flex items-center gap-1.5">

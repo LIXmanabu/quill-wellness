@@ -64,7 +64,7 @@ export default function AdminModerationQueue({ onOpenPost }) {
                 <li key={r.id} className="card-paper p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="chip card-clay text-[10px] py-0.5">{r.reason}</p>
+                      <p className="chip card-clay text-xs py-0.5">{r.reason}</p>
                       {r.details && <p className="text-sm text-ink-soft mt-2">{r.details}</p>}
                       {r.post && (
                         <p className="text-sm text-ink mt-2">
@@ -91,7 +91,7 @@ export default function AdminModerationQueue({ onOpenPost }) {
                     <CategoryBadge category={p.category} />
                     <VisibilityIcon visibility={p.visibility} showLabel />
                     <StatusPill status={p.status} />
-                    {p.reportsCount > 0 && <span className="chip card-clay text-[10px] py-0.5">{p.reportsCount} reports</span>}
+                    {p.reportsCount > 0 && <span className="chip card-clay text-xs py-0.5">{p.reportsCount} reports</span>}
                   </div>
                   <button onClick={() => onOpenPost(p.id)} className="block text-left mt-2">
                     <h3 className="font-display text-xl text-ink leading-snug link-underline inline">{p.title}</h3>

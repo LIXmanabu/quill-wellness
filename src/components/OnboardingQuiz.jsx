@@ -104,9 +104,6 @@ export default function OnboardingQuiz({ onClose }) {
                 data.skinType === s.id ? 'bg-ink text-cream' : 'bg-cream-light text-ink hover:bg-bone'
               }`}
             >
-              <span className={`editorial-num text-2xl ${data.skinType === s.id ? 'text-gold' : 'text-clay'}`}>
-                {String(i + 1).padStart(2, '0')}
-              </span>
               <p className="font-display text-2xl mt-1 leading-tight">{s.label}</p>
               <p className={`text-xs mt-1 leading-snug ${data.skinType === s.id ? 'text-cream/70' : 'text-ink-soft'}`}>{s.desc}</p>
             </button>
@@ -131,11 +128,7 @@ export default function OnboardingQuiz({ onClose }) {
                 data.goal === g.id ? 'bg-ink text-cream' : 'bg-cream-light text-ink hover:bg-bone'
               }`}
             >
-              <span className={`num-display text-xl flex-shrink-0 ${data.goal === g.id ? 'text-gold' : 'text-clay'}`}>
-                {String(i + 1).padStart(2, '0')}
-              </span>
               <span className="font-display text-xl">{g.label}</span>
-              <span className={`ml-auto display-italic transition-transform ${data.goal === g.id ? 'translate-x-2 text-gold' : ''}`}>→</span>
             </button>
           ))}
         </div>
@@ -186,9 +179,6 @@ export default function OnboardingQuiz({ onClose }) {
               }`}
             >
               <span className="flex items-baseline gap-5">
-                <span className={`num-display text-xl ${data.timePerDay === t.id ? 'text-gold' : 'text-clay'}`}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
                 <span className="font-display text-xl">{t.label}</span>
               </span>
               <span className={`text-xs ${data.timePerDay === t.id ? 'text-cream/70' : 'text-ink-softer'}`}>{t.desc}</span>
@@ -230,7 +220,7 @@ export default function OnboardingQuiz({ onClose }) {
         {/* Progress */}
         <div className="mb-8 pr-12">
           <div className="flex items-center justify-between mb-2">
-            <span className="editorial-label">Step {String(step + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}</span>
+            <span className="editorial-label">Step {step + 1} of {steps.length}</span>
             <button onClick={handleSkip} className="editorial-label hover:text-clay transition-colors">Skip for now</button>
           </div>
           <div className="h-px bg-ink/15 relative">
@@ -255,7 +245,7 @@ export default function OnboardingQuiz({ onClose }) {
               disabled={!data.name.trim()}
               className="btn-ink disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              Continue <span className="display-italic">→</span>
+              Continue
             </button>
           </div>
         )}
@@ -267,7 +257,7 @@ export default function OnboardingQuiz({ onClose }) {
             </button>
             {current.kicker === '04 · Focus' && (
               <button onClick={() => setStep(step + 1)} className="btn-ink">
-                Continue <span className="display-italic">→</span>
+                Continue
               </button>
             )}
           </div>

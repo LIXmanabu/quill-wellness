@@ -83,7 +83,7 @@ export default function PlansSection({ onNavigate }) {
           <div>
             <span className="editorial-label">Your plans</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Make it <span className="display-italic text-clay">yours.</span>
+              Make it <span className="display-italic">yours.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Build your own routine step by step, or let Quill draft one from what you told us. Plans are private to you — share one to the Community whenever you like.
@@ -129,7 +129,7 @@ function PlanCard({ plan, onEdit, onDelete, onShare }) {
   return (
     <div className="card-paper card-paper-hover p-6 h-full flex flex-col">
       <div className="flex items-center justify-between gap-2">
-        <span className="chip chip-cream text-[10px] py-0.5">{categoryLabel(plan.category)}</span>
+        <span className="chip chip-cream text-xs py-0.5">{categoryLabel(plan.category)}</span>
         {plan.source === 'guided' && <span className="editorial-label text-clay">✦ Guided</span>}
       </div>
       {cover && (
@@ -138,7 +138,7 @@ function PlanCard({ plan, onEdit, onDelete, onShare }) {
             ? <video src={cover.url} className="w-full h-full object-cover" muted />
             : <img src={cover.url} alt="" className="w-full h-full object-cover" />}
           {(plan.media.length > 1 || cover.type === 'video') && (
-            <span className="absolute bottom-1.5 right-1.5 chip bg-ink/70 text-cream border-transparent text-[10px] py-0.5">
+            <span className="absolute bottom-1.5 right-1.5 chip bg-ink/70 text-cream border-transparent text-xs py-0.5">
               {cover.type === 'video' ? '▶ video' : `${plan.media.length} photos`}
             </span>
           )}
@@ -150,7 +150,7 @@ function PlanCard({ plan, onEdit, onDelete, onShare }) {
       <ol className="mt-4 space-y-1.5 flex-1">
         {plan.steps.slice(0, 4).map((s, i) => (
           <li key={i} className="flex items-baseline gap-2.5 text-sm text-ink leading-snug">
-            <span className="num-display text-xs text-clay w-5 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+            <span className="num-display text-xs text-clay w-5 shrink-0">{i + 1}</span>
             <span className="line-clamp-1">{s}</span>
           </li>
         ))}
@@ -180,7 +180,7 @@ function BlueprintPicker({ profile, onPick, onTailored, onCancel }) {
       <button onClick={onCancel} className="btn-ghost mb-5"><span className="display-italic text-base">←</span> Back to plans</button>
       <span className="editorial-label text-clay">Start from a blueprint</span>
       <h2 className="font-display text-4xl sm:text-5xl text-ink leading-[0.98] mt-2">
-        Pick a <span className="display-italic text-clay">starting point.</span>
+        Pick a <span className="display-italic">starting point.</span>
       </h2>
       <p className="text-sm text-ink-soft mt-3 max-w-xl leading-relaxed">
         Each blueprint knows its craft — the right order, and the tips people miss (like a hydrating layer under makeup). Pick one and edit it to make it yours.
@@ -194,7 +194,6 @@ function BlueprintPicker({ profile, onPick, onTailored, onCancel }) {
             <span className="block font-display text-2xl text-ink mt-1 leading-tight">Build it from your answers</span>
             <span className="block text-sm text-ink-soft mt-1">Uses your goal{profile.skinType ? ' and skin type' : ''} and the time you have.</span>
           </span>
-          <span className="display-italic text-3xl text-ink-softer">→</span>
         </button>
       )}
 
@@ -209,7 +208,7 @@ function BlueprintPicker({ profile, onPick, onTailored, onCancel }) {
               <span className="block font-display text-2xl text-ink mt-1 leading-tight">{c.label}</span>
               <span className="block text-sm text-ink-soft mt-2 leading-relaxed flex-1">{bp.tip}</span>
               <span className="inline-flex items-center gap-1 text-xs font-medium text-clay mt-4">
-                Use this blueprint <span className="display-italic">→</span>
+                Use this blueprint
               </span>
             </button>
           )
@@ -268,7 +267,7 @@ function PlanEditor({ plan, userId, onSave, onSaveAndShare, onCancel }) {
       <span className="editorial-label text-clay">{plan.source === 'guided' ? 'Guided draft · edit freely' : 'New plan'}</span>
       <h2 className="font-display text-4xl sm:text-5xl text-ink leading-[0.98] mt-2">
         {plan.source === 'guided' ? 'Quill drafted this' : 'Build your plan'}
-        <span className="display-italic text-clay">.</span>
+        <span className="display-italic">.</span>
       </h2>
       {plan.source === 'guided' && (
         <p className="text-sm text-ink-soft mt-3 max-w-lg leading-relaxed">
@@ -303,7 +302,7 @@ function PlanEditor({ plan, userId, onSave, onSaveAndShare, onCancel }) {
           <div className="space-y-2">
             {steps.map((s, i) => (
               <div key={i} className="flex items-center gap-2">
-                <span className="num-display text-clay text-sm w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                <span className="num-display text-clay text-sm w-6 shrink-0">{i + 1}</span>
                 <input value={s} onChange={(e) => setStep(i, e.target.value)} placeholder={`Step ${i + 1}`} className="input-line flex-1" />
                 <button type="button" onClick={() => removeStep(i)} aria-label="Remove step"
                   className="text-ink-softer hover:text-clay w-8 h-8 flex items-center justify-center shrink-0">✕</button>
@@ -344,7 +343,7 @@ function PlanEditor({ plan, userId, onSave, onSaveAndShare, onCancel }) {
           <button type="button" onClick={saveAndShare} className="btn-cream" title="Save this plan and share it to the Community">
             Save &amp; share to Community ↗
           </button>
-          <button type="button" onClick={save} className="btn-clay">Save plan <span className="display-italic">→</span></button>
+          <button type="button" onClick={save} className="btn-clay">Save plan</button>
         </div>
       </div>
     </div>

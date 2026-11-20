@@ -196,7 +196,7 @@ function Stat({ n, label, heart = false }) {
         </svg>
       )}
       <span className="num-display text-2xl text-ink leading-none">{n}</span>
-      <span className="text-xs text-ink-softer uppercase tracking-[0.12em]">{label}</span>
+      <span className="text-xs text-ink-softer">{label}</span>
     </span>
   )
 }

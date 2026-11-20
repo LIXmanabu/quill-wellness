@@ -49,7 +49,7 @@ const tools = [
 ]
 
 function Visual({ kind }) {
-  const palette = { bar: '#5A6B5D', cal: '#C8654A', met: '#D4A744', grid: '#3D4A40', ava: '#9B4423' }
+  const palette = { bar: '#4F7465', cal: '#B23A5E', met: '#D4A744', grid: '#3D4A40', ava: '#9B4423' }
   if (kind === 'bar-chart') {
     const heights = [40, 65, 55, 80, 70, 45, 90]
     return (
@@ -64,7 +64,7 @@ function Visual({ kind }) {
     return (
       <div className="grid grid-cols-10 gap-0.5 mt-3">
         {[...Array(20)].map((_, i) => {
-          const phase = i < 5 ? '#C8654A' : i < 13 ? '#D4A744' : i < 16 ? '#5A6B5D' : '#9B4423'
+          const phase = i < 5 ? '#B23A5E' : i < 13 ? '#D4A744' : i < 16 ? '#4F7465' : '#9B4423'
           return <span key={i} className="aspect-square" style={{ background: phase, opacity: 0.5 }} />
         })}
       </div>
@@ -89,20 +89,20 @@ function Visual({ kind }) {
       <div className="grid grid-cols-7 gap-0.5 mt-3">
         {[...Array(14)].map((_, i) => {
           const done = [0, 1, 2, 4, 5, 6, 8, 9, 10, 11].includes(i)
-          return <span key={i} className="aspect-square" style={{ background: done ? palette.grid : '#E8DFD0' }} />
+          return <span key={i} className="aspect-square" style={{ background: done ? palette.grid : '#E4E6DD' }} />
         })}
       </div>
     )
   }
   if (kind === 'avatars') {
     const init = ['JM', 'AL', 'SK', 'EM']
-    const colors = ['#C8654A', '#5A6B5D', '#D4A744', '#9B4423']
+    const colors = ['#B23A5E', '#4F7465', '#D4A744', '#9B4423']
     return (
       <div className="flex gap-2 mt-3">
         {init.map((i, idx) => (
           <span
             key={idx}
-            className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] text-cream font-display"
+            className="w-7 h-7 rounded-full flex items-center justify-center text-xs text-cream font-display"
             style={{ background: colors[idx] }}
           >
             {i}
@@ -124,12 +124,12 @@ export default function MaxToolsPreview({ onNavigate }) {
         <div className="mb-10 pb-4 border-b border-ink/15">
           <span className="editorial-label flex items-center gap-2">
             The Max toolkit
-            <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide border bg-gold-paler text-gold-dark border-gold/30">
+            <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold border bg-gold-paler text-gold-dark border-gold/30">
               Max only
             </span>
           </span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            Five tools, <span className="display-italic text-clay">already built.</span>
+            Five tools, <span className="display-italic">already built.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
             Locked behind Max, but you can see exactly what you'd get. Every one of these is a working tool, not a roadmap promise.
@@ -142,7 +142,7 @@ export default function MaxToolsPreview({ onNavigate }) {
           <Reveal key={t.id} delay={i * 60}>
             <SpotlightCard className="bg-bone/60 p-6 h-full flex flex-col relative">
               {/* Lock icon top-right */}
-              <span className="absolute top-4 right-4 inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide border bg-gold-paler text-gold-dark border-gold/30">
+              <span className="absolute top-4 right-4 inline-flex items-center px-2 py-0.5 text-xs font-bold border bg-gold-paler text-gold-dark border-gold/30">
                 Max
               </span>
               <span className="num-display text-3xl text-clay leading-none">{t.icon}</span>
@@ -160,7 +160,7 @@ export default function MaxToolsPreview({ onNavigate }) {
           <div className="flex-1 min-w-[200px]">
             <span className="editorial-label text-gold-dark">Unlock all five</span>
             <p className="font-display text-2xl text-ink mt-1 leading-tight">
-              All Max tools for <span className="display-italic text-clay">$13 / month.</span>
+              All Max tools for <span className="display-italic">$13 / month.</span>
             </p>
             <p className="text-xs text-ink-soft mt-1">{isPro ? 'You\'re on Pro, upgrade for the toolkit + rainbow theme.' : 'Includes the full Pro library plus everything here.'}</p>
           </div>
@@ -168,7 +168,7 @@ export default function MaxToolsPreview({ onNavigate }) {
             onClick={() => onNavigate?.('pro')}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors"
           >
-            See Max <span className="display-italic">→</span>
+            See Max
           </MagneticButton>
         </SpotlightCard>
       </Reveal>

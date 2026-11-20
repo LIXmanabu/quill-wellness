@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import confetti from 'canvas-confetti'
 
-const brandColors = ['#C8654A', '#D4A744', '#5A6B5D', '#6BAEEF', '#C9B3E8', '#E8B4B8', '#9B4423', '#3D4A40']
+const brandColors = ['#B23A5E', '#D4A744', '#4F7465', '#6BAEEF', '#C9B3E8', '#E8B4B8', '#9B4423', '#3D4A40']
 
 // ─── "Your routine just hit N likes!" celebratory toast ───────────────────
 // Fires a quick confetti burst on mount, then auto-dismisses. Tapping it opens

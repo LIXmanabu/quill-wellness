@@ -8,7 +8,7 @@ const planData = {
     sub: 'Everything in Free, plus the depth.',
     price: 5,
     period: 'month',
-    color: '#1A1410',
+    color: '#1D2440',
     bullets: [
       'Unlimited favorites + collections',
       'All 60 wellness tips',
@@ -87,7 +87,7 @@ export default function CheckoutModal({ plan, onClose }) {
           </button>
           <span className="editorial-label">Subscribe to</span>
           <h2 className="font-display text-5xl text-ink mt-1 leading-none">
-            Quill <span className="display-italic text-clay">{p.label}</span>
+            Quill <span className="display-italic">{p.label}</span>
           </h2>
           <p className="text-sm text-ink-soft mt-2 leading-relaxed">{p.sub}</p>
 
@@ -116,7 +116,7 @@ export default function CheckoutModal({ plan, onClose }) {
             </ul>
           </div>
 
-          <p className="text-[10px] text-ink-softer mt-6 leading-relaxed italic">
+          <p className="text-xs text-ink-softer mt-6 leading-relaxed italic">
             Free beta, no payment is taken and no card details are ever requested or collected.
           </p>
         </aside>
@@ -163,11 +163,11 @@ export default function CheckoutModal({ plan, onClose }) {
                     <span className="num-display animate-pulse">●</span> Unlocking…
                   </span>
                 ) : (
-                  <>Unlock {p.label} for the beta <span className="display-italic">→</span></>
+                  <>Unlock {p.label} for the beta</>
                 )}
               </button>
 
-              <p className="text-[10px] text-ink-softer text-center mt-3 leading-relaxed">
+              <p className="text-xs text-ink-softer text-center mt-3 leading-relaxed">
                 No charge, no card stored. Real billing arrives after the beta.
               </p>
             </>

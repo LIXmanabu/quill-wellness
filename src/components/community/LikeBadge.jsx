@@ -19,14 +19,14 @@ export default function LikeBadge({ totalLikes, showProgress = false, size = 'md
         loading="lazy"
       />
       <span className="flex flex-col leading-tight">
-        <span className="font-bold uppercase tracking-[0.14em] text-xs" style={{ color: badge.accent }}>
+        <span className="font-bold text-xs" style={{ color: badge.accent }}>
           {badge.label}
         </span>
-        <span className="text-[10px] text-ink-softer">
+        <span className="text-xs text-ink-softer">
           {(totalLikes || 0).toLocaleString('en-GB')} likes earned
         </span>
         {next && (
-          <span className="text-[10px] text-ink-softer/80">
+          <span className="text-xs text-ink-softer/80">
             {next.remaining.toLocaleString('en-GB')} to {next.label}
           </span>
         )}

@@ -48,7 +48,7 @@ export default function AskQuestionForm({ onCreate, onBack }) {
             value={title} onChange={(e) => setTitle(e.target.value)} maxLength={140} autoFocus
             placeholder="e.g. How do I stop my moisturiser pilling under SPF?"
             className="input-line py-2.5 w-full" />
-          <p className="text-[11px] text-ink-softer mt-1">
+          <p className="text-xs text-ink-softer mt-1">
             {title.trim().length < 8 ? 'A few more words…' : `${140 - title.length} characters left`}
           </p>
         </div>

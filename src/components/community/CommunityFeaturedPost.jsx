@@ -57,7 +57,7 @@ export default function CommunityFeaturedPost({ post, liked, saved, onOpen, onLi
               <span className="block text-sm font-medium text-ink group-hover/author:text-clay transition-colors">
                 {post.author.displayName || post.author.username || 'Someone'}
               </span>
-              <span className="block text-[11px] text-ink-softer">{timeAgo(post.createdAt)}</span>
+              <span className="block text-xs text-ink-softer">{timeAgo(post.createdAt)}</span>
             </span>
           </button>
 

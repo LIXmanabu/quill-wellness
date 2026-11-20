@@ -23,7 +23,7 @@ export default function BadgeLegend({ totalLikes = null }) {
                 loading="lazy"
               />
               <div className="min-w-0 flex-1">
-                <p className="font-bold uppercase tracking-[0.14em] text-sm" style={{ color: b.accent }}>
+                <p className="font-bold text-sm" style={{ color: b.accent }}>
                   {b.label}
                 </p>
                 <p className="num-display text-2xl text-ink leading-none mt-0.5">

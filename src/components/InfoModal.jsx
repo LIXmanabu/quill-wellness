@@ -47,11 +47,11 @@ export default function InfoModal({ data, onClose }) {
               {data.exercises.map((ex, i) => (
                 <li key={i} className="flex items-start gap-4 p-4 bg-cream border border-ink/10">
                   <span className="num-display text-2xl text-clay leading-none">
-                    {String(i + 1).padStart(2, '0')}
+                    {i + 1}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="font-display text-lg text-ink leading-tight">{ex.name}</p>
-                    <p className="display-italic text-sm text-clay mt-1">{ex.reps}</p>
+                    <p className="display-italic text-sm mt-1">{ex.reps}</p>
                     <p className="text-xs text-ink-soft mt-2 leading-relaxed">{ex.tip}</p>
                   </div>
                 </li>
@@ -74,7 +74,7 @@ export default function InfoModal({ data, onClose }) {
           )}
 
           <button onClick={onClose} className="btn-ink w-full justify-center">
-            Done <span className="display-italic">→</span>
+            Done
           </button>
         </div>
       </div>

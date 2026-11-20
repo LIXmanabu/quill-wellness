@@ -13,8 +13,6 @@ import AuthModal from './components/AuthModal.jsx'
 import UpdatePasswordModal from './components/UpdatePasswordModal.jsx'
 import TesterBadge from './components/TesterBadge.jsx'
 import ProfileOverviewModal from './components/profile/ProfileOverviewModal.jsx'
-import CustomCursor from './components/interactive/CustomCursor.jsx'
-import NoiseOverlay from './components/interactive/NoiseOverlay.jsx'
 import Home from './pages/Home.jsx'
 import { ProProvider } from './context/ProContext.jsx'
 import { UserProvider, useUser } from './context/UserContext.jsx'
@@ -75,7 +73,7 @@ function AppShell() {
   // screen reappears on each fresh load until the visitor makes a real account.
   const [guestMode,      setGuestMode]      = useState(false)
   const { profile, loaded: profileLoaded, updateProfile } = useUser()
-  const { tier, isMax, setTier, devUnlocked, isTester } = usePro()
+  const { isMax, devUnlocked } = usePro()
   const { user, loading: authLoading, recovery } = useAuth()
 
   // However onboarding is dismissed (skip, ✕, escape, or completion),
@@ -141,6 +139,11 @@ function AppShell() {
     const t = document.startViewTransition(() => { flushSync(() => setActivePage(key)) })
     const done = () => { vtActive.current = false }
     t.finished.then(done, done)
+    // On phones the browser chrome (address bar) resizing the viewport aborts
+    // the transition; `ready` then rejects. That's benign: swallow it so it
+    // doesn't surface as an unhandled error.
+    t.ready?.catch(() => {})
+    t.updateCallbackDone?.catch(() => {})
   }, [])
 
   // Public navigate: changes the page AND pushes a history entry, so the
@@ -226,8 +229,6 @@ function AppShell() {
           <div className="max-rainbow-bar max-rainbow-bar--bottom" aria-hidden="true" />
         </>
       )}
-      <NoiseOverlay />
-      <CustomCursor />
       <ConnectionStatus />
       <InstallPrompt />
       <Navbar activePage={activePage} onNavigate={handleNavigate} onOpenSearch={openSearch} />
@@ -244,7 +245,7 @@ function AppShell() {
       {activePage !== 'home' && (
         <footer className="border-t border-ink/10 mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-[calc(env(safe-area-inset-bottom)+6rem)] lg:pb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <span className="editorial-label text-ink-soft">Quill · Vol. 01</span>
+            <span className="editorial-label text-ink-soft">Quill</span>
             <p className="text-xs text-ink-soft leading-relaxed max-w-md sm:text-right order-last sm:order-none">
               As a guest, your progress lives only in this browser, and clearing it erases everything.
               With a free account it syncs privately across your devices. Either way, your data is
@@ -278,31 +279,13 @@ function AppShell() {
       {/* Beta tester pill + feedback (bottom-left); renders only for testers. */}
       <TesterBadge />
 
-      {/* Floating tier switcher for admins (dev) and beta testers, so they can
-          preview every version. Lives here, not in the navbar, so it never
-          crowds or crops the header on desktop. */}
-      {(devUnlocked || isTester) && (
-        <div className="fixed right-4 z-[55] bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-6 bg-cream-light/95 backdrop-blur-sm border border-ink/15 shadow-soft-lg p-2">
-          <ProToggle mode={devUnlocked ? 'dev' : 'tester'} />
-        </div>
-      )}
-
-      {/* Always-visible "exit upgraded tier" button, bottom-right, every page.
-          Hidden for admins/testers — they switch tiers with the control above. */}
-      {tier !== 'free' && !devUnlocked && !isTester && (
-        <button
-          onClick={() => setTier('free')}
-          className={`fixed right-4 z-[55] px-4 py-2.5 text-xs font-bold uppercase tracking-[0.18em] shadow-soft-lg transition-all border-2 bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-6 ${
-            isMax
-              ? 'bg-cream text-ink border-gold hover:bg-gold hover:text-ink'
-              : 'bg-ink text-cream border-ink hover:bg-clay hover:border-clay'
-          }`}
-          aria-label="Switch back to Free mode"
-          data-cursor-label="back to free"
-        >
-          <span className="display-italic text-base mr-1">←</span> Back to Free
-        </button>
-      )}
+      {/* Floating tier switcher, open to EVERYONE (guests included) so anyone
+          can try Free, Pro and Max at no cost. Admins get the Dev lock badge;
+          everybody else gets a plain "Try" label. Lives here, not in the
+          navbar, so it never crowds or crops the header on desktop. */}
+      <div className="tier-switcher fixed right-4 z-[55] bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-6 bg-cream-light/95 backdrop-blur-sm border border-ink/15 shadow-soft-lg p-2">
+        <ProToggle mode={devUnlocked ? 'dev' : 'open'} />
+      </div>
     </div>
   )
 }

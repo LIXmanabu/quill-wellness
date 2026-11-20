@@ -5,10 +5,10 @@ const tiers = ['free', 'pro', 'max']
 const labels = { free: 'Free', pro: 'Pro', max: 'Max' }
 
 /**
- * Tier switcher (Free / Pro / Max). Rendered for admins (mode="dev") and beta
- * testers (mode="tester") so they can preview every version.
- *  • dev mode shows a clickable DEV badge that locks the switcher away again.
- *  • tester mode shows a static BETA label (testers can't lock dev mode).
+ * Tier switcher (Free / Pro / Max), shown to every visitor (guests included)
+ * so anyone can try every version for free.
+ *  • mode="dev" (admins) shows a clickable DEV badge that resets to Free.
+ *  • mode="open" (everyone else) shows a static TRY label.
  */
 export default function ProToggle({ mode = 'dev' }) {
   const { tier, setTier, setDevUnlocked } = usePro()
@@ -25,29 +25,29 @@ export default function ProToggle({ mode = 'dev' }) {
 
   return (
     <div className="inline-flex items-center gap-2">
-      {/* DEV badge (admins) / BETA label (testers) */}
+      {/* DEV badge (admins) / TRY label (everyone else) */}
       {mode === 'dev' ? (
         <span
           onClick={() => (armed ? lock() : setArmed(true))}
           onMouseLeave={() => setArmed(false)}
           title={armed ? 'Click again to lock developer mode' : 'Click to lock developer mode'}
-          className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] border border-clay text-clay bg-clay-paler cursor-pointer hover:bg-clay hover:text-cream transition-colors"
+          className="inline-flex items-center px-1.5 py-0.5 text-xs font-bold border border-clay text-clay bg-clay-paler cursor-pointer hover:bg-clay hover:text-cream transition-colors"
         >
           {armed ? 'Lock?' : 'Dev'}
         </span>
       ) : (
         <span
-          title="Beta testers can preview every version"
-          className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] border border-clay text-clay bg-clay-paler"
+          title="Every version is free to try — switch any time"
+          className="inline-flex items-center px-1.5 py-0.5 text-xs font-bold border border-clay text-clay bg-clay-paler"
         >
-          Beta
+          Try
         </span>
       )}
 
       {/* Tier slider */}
       <div
         role="radiogroup"
-        aria-label="Plan tier (dev override)"
+        aria-label="Try a Quill version"
         className={`relative inline-flex items-center select-none border transition-all duration-300 ${
           tier === 'max'
             ? 'bg-cream-light border-gold-dark'
@@ -71,7 +71,7 @@ export default function ProToggle({ mode = 'dev' }) {
                 role="radio"
                 aria-checked={active}
                 onClick={() => setTier(t)}
-                className={`relative z-10 w-[45px] h-8 text-center text-[10px] font-bold uppercase tracking-[0.2em] transition-colors ${
+                className={`relative z-10 w-[45px] h-8 text-center text-xs font-bold   transition-colors ${
                   active
                     ? t === 'pro' || t === 'max' ? 'text-ink' : 'text-ink'
                     : tier === 'pro' ? 'text-cream/40' : 'text-ink-softer'

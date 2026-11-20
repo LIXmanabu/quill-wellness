@@ -31,7 +31,7 @@ export default function ConcernPanel({ region, data, onClose }) {
             <button
               key={i}
               onClick={() => setOpenConcern(i)}
-              className={`px-3 py-1.5 text-xs font-medium tracking-wide border transition-all ${
+              className={`px-3 py-1.5 text-xs font-medium  border transition-all ${
                 openConcern === i
                   ? 'bg-ink text-cream border-ink'
                   : 'bg-cream-light text-ink-soft border-ink/15 hover:border-ink'
@@ -51,9 +51,6 @@ export default function ConcernPanel({ region, data, onClose }) {
           <ul className="space-y-3">
             {concern.suggestions.map((suggestion, i) => (
               <li key={i} className="flex items-baseline gap-3">
-                <span className="num-display text-xs text-clay w-5 flex-shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
                 <p className="text-sm text-ink-soft leading-relaxed">{suggestion}</p>
               </li>
             ))}

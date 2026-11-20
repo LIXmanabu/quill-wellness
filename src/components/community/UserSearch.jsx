@@ -48,7 +48,6 @@ export default function UserSearch({ myId, onOpenProfile }) {
               <span className="block font-medium text-ink truncate">{u.display_name || u.username}</span>
               <span className="block text-xs text-ink-softer truncate">@{u.username}{u.bio ? ` · ${u.bio}` : ''}</span>
             </span>
-            <span className="ml-auto text-ink-softer display-italic">→</span>
           </button>
         ))}
       </div>

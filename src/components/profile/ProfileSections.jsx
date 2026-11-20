@@ -35,7 +35,7 @@ export function GlowScoreCard({ score, toNext, nextLabel, helper }) {
             style={{ width: `${pct}%` }}
           />
         </div>
-        <p className="text-[11px] text-ink-softer mt-2.5">{helper}</p>
+        <p className="text-xs text-ink-softer mt-2.5">{helper}</p>
       </div>
     </div>
   )
@@ -63,7 +63,7 @@ export function StatsGrid({ stats, onStat }) {
             className={`card-bone p-3 text-center w-full ${Tag === 'button' ? 'hover:border-clay/40 border border-transparent transition-colors' : ''}`}
           >
             <p className="num-display text-2xl text-ink leading-none">{nf(it.value)}</p>
-            <p className="text-[10px] uppercase tracking-[0.12em] text-ink-softer mt-1.5 leading-tight">{it.label}</p>
+            <p className="text-xs text-ink-softer mt-1.5 leading-tight">{it.label}</p>
           </Tag>
         )
       })}
@@ -96,9 +96,9 @@ export function PlanCard({ plan, onOpen }) {
       <div className="h-24 bg-clay/10 relative flex items-center justify-center overflow-hidden">
         {cover
           ? <img src={cover.url} alt="" className="w-full h-full object-cover" loading="lazy" />
-          : <span className="display-italic text-3xl text-clay/30">❀</span>}
+          : <span className="display-italic text-3xl">❀</span>}
         {plan.status && (
-          <span className={`absolute top-2 left-2 chip text-[10px] py-0.5 border-transparent ${STATUS_STYLES[plan.status] || 'bg-ink/10 text-ink-soft'}`}>
+          <span className={`absolute top-2 left-2 chip text-xs py-0.5 border-transparent ${STATUS_STYLES[plan.status] || 'bg-ink/10 text-ink-soft'}`}>
             {plan.status}
           </span>
         )}
@@ -110,7 +110,7 @@ export function PlanCard({ plan, onOpen }) {
         </div>
         <h4 className="font-display text-lg text-ink leading-snug mt-2 group-hover:text-clay transition-colors">{plan.title}</h4>
         {plan.description && <p className="text-xs text-ink-soft mt-1 line-clamp-2 leading-relaxed">{plan.description}</p>}
-        <div className="flex items-center gap-3.5 mt-3 text-[11px] text-ink-softer">
+        <div className="flex items-center gap-3.5 mt-3 text-xs text-ink-softer">
           <span>♥ {nf(plan.likesCount)}</span>
           <span>⤓ {nf(plan.savesCount)}</span>
           <span>💬 {nf(plan.commentsCount)}</span>
@@ -124,14 +124,14 @@ export function PlanCard({ plan, onOpen }) {
 export function SavedPlanCard({ plan, onOpen }) {
   return (
     <div className="card-bone p-3.5 flex items-start gap-3">
-      <span className="display-italic text-2xl text-clay/30 shrink-0 mt-0.5">❀</span>
+      <span className="display-italic text-2xl shrink-0 mt-0.5">❀</span>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
           <CategoryBadge category={plan.category} />
-          <span className="text-[11px] text-ink-softer">saved {fmtDate(plan.savedAt)}</span>
+          <span className="text-xs text-ink-softer">saved {fmtDate(plan.savedAt)}</span>
         </div>
         <h4 className="font-display text-lg text-ink leading-snug mt-1.5 truncate">{plan.title}</h4>
-        <p className="text-[11px] text-ink-softer">by @{plan.author?.username || 'someone'}</p>
+        <p className="text-xs text-ink-softer">by @{plan.author?.username || 'someone'}</p>
         {plan.description && <p className="text-xs text-ink-soft mt-1 line-clamp-2 leading-relaxed">{plan.description}</p>}
       </div>
       <button onClick={onOpen} className="btn-ghost text-xs shrink-0 self-center">Open</button>
@@ -154,7 +154,7 @@ export function ActivityTimeline({ items }) {
             {ACTIVITY_ICON[a.kind] || '•'}
           </span>
           <p className="text-sm text-ink leading-snug">{a.text}</p>
-          <p className="text-[11px] text-ink-softer mt-0.5">{a.at}</p>
+          <p className="text-xs text-ink-softer mt-0.5">{a.at}</p>
         </li>
       ))}
     </ol>
@@ -187,10 +187,10 @@ export function BadgesSection({ totalLikes, isSelf, isAdmin, override, onSetOver
                 loading="lazy"
               />
               <div className="min-w-0 flex-1">
-                <p className="font-bold uppercase tracking-[0.12em] text-xs" style={got ? { color: b.accent } : undefined}>{b.label}</p>
+                <p className="font-bold text-xs" style={got ? { color: b.accent } : undefined}>{b.label}</p>
                 <p className="text-xs text-ink-soft">Earned at {nf(b.min)} likes</p>
               </div>
-              <span className={`chip text-[10px] py-0.5 border-transparent ${got ? 'bg-sage/20 text-sage-dark' : 'bg-ink/10 text-ink-soft'}`}>
+              <span className={`chip text-xs py-0.5 border-transparent ${got ? 'bg-sage/20 text-sage-dark' : 'bg-ink/10 text-ink-soft'}`}>
                 {got ? 'Earned' : 'Locked'}
               </span>
             </div>
@@ -229,7 +229,7 @@ function Toggle({ label, hint, checked, onChange }) {
     >
       <span className="min-w-0">
         <span className="text-sm text-ink block">{label}</span>
-        {hint && <span className="text-[11px] text-ink-softer block leading-snug">{hint}</span>}
+        {hint && <span className="text-xs text-ink-softer block leading-snug">{hint}</span>}
       </span>
       <span className={`shrink-0 w-10 h-6 rounded-full transition-colors relative ${checked ? 'bg-clay' : 'bg-ink/20'}`}>
         <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-cream shadow-soft transition-all ${checked ? 'left-[18px]' : 'left-0.5'}`} />
@@ -274,23 +274,23 @@ export function SettingsPanel({ profile, prefs: prefsProp, email, isDemo, onSave
       <div className="card-bone p-4">
         <span className="editorial-label text-clay">Edit profile</span>
         <label className="block mt-3">
-          <span className="text-[11px] uppercase tracking-[0.12em] text-ink-softer">Display name</span>
+          <span className="text-xs text-ink-softer">Display name</span>
           <input className="input-line mt-1 w-full" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
         </label>
         <label className="block mt-3">
-          <span className="text-[11px] uppercase tracking-[0.12em] text-ink-softer">Bio</span>
+          <span className="text-xs text-ink-softer">Bio</span>
           <textarea className="input-line mt-1 w-full resize-none" rows={3} value={bio} onChange={(e) => setBio(e.target.value)} placeholder="A line about your glow…" />
         </label>
         <button onClick={saveProfile} disabled={saving || isDemo} className="btn-clay mt-3 disabled:opacity-50">
           {saving ? 'Saving…' : saved ? '✓ Saved' : 'Save changes'}
         </button>
-        {isDemo && <p className="text-[11px] text-ink-softer mt-2">Sign in to edit your real profile.</p>}
+        {isDemo && <p className="text-xs text-ink-softer mt-2">Sign in to edit your real profile.</p>}
       </div>
 
       {/* Privacy */}
       <div className="card-bone p-4">
         <span className="editorial-label text-clay">Privacy</span>
-        <p className="text-[11px] text-ink-softer mt-0.5 mb-2">
+        <p className="text-xs text-ink-softer mt-0.5 mb-2">
           {isDemo ? 'Saved on this device for the demo.' : 'Synced to your account and enforced across devices.'}
         </p>
         <div className="mb-2">

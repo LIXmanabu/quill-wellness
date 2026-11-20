@@ -67,7 +67,7 @@ export default function SkinCare({ onNavigate }) {
             <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
               <SplitText byChar stagger={28}>Simple rituals,</SplitText>
               <br />
-              <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={500}>real skin.</SplitText></span>
+              <span className="display-italic"><SplitText byChar stagger={28} startDelay={500}>real skin.</SplitText></span>
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
@@ -116,7 +116,7 @@ export default function SkinCare({ onNavigate }) {
             <div className="mb-8 pb-4 border-b border-ink/15">
               <span className="editorial-label">For your skin type</span>
               <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
-                What your <span className="display-italic text-clay">{skinPlan.label.replace(/ skin$/i, '')}</span> skin needs.
+                What your <span className="display-italic">{skinPlan.label.replace(/ skin$/i, '')}</span> skin needs.
               </h2>
               <p className="text-sm text-ink-soft mt-3 max-w-xl">{skinPlan.why}</p>
             </div>
@@ -153,7 +153,7 @@ export default function SkinCare({ onNavigate }) {
                 <ol className="mt-4 space-y-2.5">
                   {skinPlan.steps.map((s, i) => (
                     <li key={i} className="flex gap-3 text-ink leading-snug">
-                      <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="num-display text-ink-softer flex-shrink-0">{i + 1}</span>
                       <span>{s}</span>
                     </li>
                   ))}
@@ -184,13 +184,13 @@ export default function SkinCare({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">Daily</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Morning & <span className="display-italic text-clay">evening.</span>
+              Morning & <span className="display-italic">evening.</span>
             </h2>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {dailyRoutines.map((r, i) => (
-            <RoutineCard key={r.id} data={r} delay={i * 80} num={String(i + 1).padStart(2, '0')} />
+            <RoutineCard key={r.id} data={r} delay={i * 80} num={i + 1} />
           ))}
         </div>
       </section>
@@ -201,13 +201,13 @@ export default function SkinCare({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">By skin type</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Tuned to <span className="display-italic text-clay">your skin.</span>
+              Tuned to <span className="display-italic">your skin.</span>
             </h2>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {skinTypeRoutines.map((r, i) => (
-            <RoutineCard key={r.id} data={r} delay={i * 80} num={String(i + 3).padStart(2, '0')} />
+            <RoutineCard key={r.id} data={r} delay={i * 80} />
           ))}
         </div>
       </section>
@@ -222,7 +222,7 @@ export default function SkinCare({ onNavigate }) {
                   Ingredients <TierBadge />
                 </span>
                 <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                  The <span className="display-italic text-clay">active list.</span>
+                  The <span className="display-italic">active list.</span>
                 </h2>
               </div>
             </Reveal>
@@ -231,7 +231,7 @@ export default function SkinCare({ onNavigate }) {
                 <Reveal key={ing.name} delay={i * 50}>
                   <SpotlightCard className="bg-cream-light p-6 h-full">
                     <div className="flex items-baseline justify-between mb-2">
-                      <span className="editorial-num text-2xl text-clay">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="editorial-num text-2xl text-clay">{i + 1}</span>
                       <span className="editorial-label">{ing.strength}</span>
                     </div>
                     <h3 className="font-display text-2xl text-ink leading-tight">{ing.name}</h3>
@@ -252,7 +252,7 @@ export default function SkinCare({ onNavigate }) {
                   Weekly plan <TierBadge />
                 </span>
                 <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                  Your seven <span className="display-italic text-clay">days.</span>
+                  Your seven <span className="display-italic">days.</span>
                 </h2>
                 {profile.skinType && profile.skinType !== 'unsure' && (
                   <p className="text-sm text-ink-soft mt-3">Tuned for <span className="font-medium text-ink">{profile.skinType}</span> skin.</p>
@@ -283,7 +283,7 @@ export default function SkinCare({ onNavigate }) {
               <div className="lg:col-span-9">
                 <span className="editorial-label text-gold-dark">Pro Edition</span>
                 <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                  Ingredients & a <span className="display-italic text-clay">weekly plan.</span>
+                  Ingredients & a <span className="display-italic">weekly plan.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
                   Niacinamide, retinoids, vitamin C, BHA, what they target, when to use them, how to layer them. Plus a 7-day rotation tuned to your skin type.
@@ -291,7 +291,7 @@ export default function SkinCare({ onNavigate }) {
               </div>
               <div className="lg:col-span-3 lg:text-right">
                 <button onClick={() => onNavigate?.('pro')} className="btn-ink">
-                  Unlock <span className="display-italic">→</span>
+                  Unlock
                 </button>
               </div>
             </SpotlightCard>

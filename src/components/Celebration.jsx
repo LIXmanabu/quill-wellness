@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import confetti from 'canvas-confetti'
 
-const brandColors = ['#C8654A', '#D4A744', '#5A6B5D', '#6BAEEF', '#C9B3E8', '#E8B4B8', '#9B4423', '#3D4A40']
+const brandColors = ['#B23A5E', '#D4A744', '#4F7465', '#6BAEEF', '#C9B3E8', '#E8B4B8', '#9B4423', '#3D4A40']
 
 /**
  * Full-screen celebration overlay shown on successful tier upgrade.
@@ -99,19 +99,19 @@ export default function Celebration({ tier, onDone }) {
     <div className="fixed inset-0 z-[110] pointer-events-none flex items-center justify-center p-6">
       <div className={`text-center ${isMax ? 'animate-pop-in' : 'animate-fade-up'}`}>
         <div className="inline-block">
-          <p className="editorial-label" style={{ color: isMax ? '#9B4423' : '#1A1410' }}>
+          <p className="editorial-label" style={{ color: isMax ? '#9B4423' : '#1D2440' }}>
             Welcome to
           </p>
           <h2
             className="font-display text-[16vw] sm:text-[12vw] lg:text-[10vw] leading-[0.9] mt-2"
             style={isMax ? {
-              background: 'linear-gradient(120deg, #C8654A, #D4A744, #5A6B5D, #6BAEEF, #C9B3E8, #E8B4B8, #C8654A)',
+              background: 'linear-gradient(120deg, #B23A5E, #D4A744, #4F7465, #6BAEEF, #C9B3E8, #E8B4B8, #B23A5E)',
               backgroundSize: '300% 300%',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               animation: 'gradient-shift 3s ease infinite',
-            } : { color: '#1A1410' }}
+            } : { color: '#1D2440' }}
           >
             Quill {isMax ? 'Max' : 'Pro'}
           </h2>

@@ -9,7 +9,7 @@ const phaseData = {
   menstrual: {
     label: 'Menstrual',
     range: 'Days 1–5',
-    color: '#C8654A',
+    color: '#B23A5E',
     bg: '#F5E1D8',
     advice: 'Energy is naturally lowest. Honour rest, magnesium-rich foods (dark chocolate, leafy greens), and gentle yoga or walking over intense training.',
   },
@@ -23,7 +23,7 @@ const phaseData = {
   ovulatory: {
     label: 'Ovulatory',
     range: 'Days 14–16',
-    color: '#5A6B5D',
+    color: '#4F7465',
     bg: '#D5DDD6',
     advice: 'Peak energy, peak performance. Schedule social plans, important presentations, your hardest workouts. Drink extra water, body temp rises ~0.3°C.',
   },
@@ -117,7 +117,7 @@ export default function CycleTracker() {
             Cycle tracking <TierBadge />
           </span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            Your cycle, <span className="display-italic text-clay">your map.</span>
+            Your cycle, <span className="display-italic">your map.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
             Log your last period; Quill predicts your phases and tells you what to do in each. Energy, training, food, all flex with your hormones.
@@ -166,7 +166,7 @@ export default function CycleTracker() {
               </div>
             </div>
             <div className="pt-4 border-t border-ink/10">
-              <p className="text-[11px] text-ink-softer italic leading-relaxed">
+              <p className="text-xs text-ink-softer italic leading-relaxed">
                 Cycle length normal range: 21–35 days. Predictions improve once you've logged 2–3 cycles. Not a substitute for medical advice or contraception.
               </p>
             </div>
@@ -189,7 +189,7 @@ export default function CycleTracker() {
                       <p className="num-display text-5xl leading-none" style={{ color: phase.color }}>
                         Day {stats.dayOfCycle}
                       </p>
-                      <p className="text-[11px] text-ink-soft mt-1">of your {stats.cycleLen}-day cycle</p>
+                      <p className="text-xs text-ink-soft mt-1">of your {stats.cycleLen}-day cycle</p>
                     </div>
                   </div>
                   <p className="display-italic text-lg text-ink-soft leading-relaxed">
@@ -213,11 +213,11 @@ export default function CycleTracker() {
                       return (
                         <div
                           key={i}
-                          className={`aspect-square flex items-center justify-center text-[10px] num-display border ${
+                          className={`aspect-square flex items-center justify-center text-xs num-display border ${
                             d.isToday ? 'border-ink border-2 font-bold' : 'border-transparent'
                           } ${d.isPast ? 'opacity-50' : ''}`}
                           style={{
-                            background: p ? p.bg : '#FBF7F0',
+                            background: p ? p.bg : '#FAFAF6',
                             color: p ? p.color : '#9B8E82',
                           }}
                           title={`${d.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}${p ? ` · ${p.label}` : ''}`}
@@ -227,7 +227,7 @@ export default function CycleTracker() {
                       )
                     })}
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-3 text-[10px]">
+                  <div className="mt-4 flex flex-wrap gap-3 text-xs">
                     {Object.entries(phaseData).map(([k, p]) => (
                       <span key={k} className="flex items-center gap-1.5 text-ink-soft">
                         <span className="w-3 h-3 inline-block" style={{ background: p.bg, border: `1.5px solid ${p.color}` }} />

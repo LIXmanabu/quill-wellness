@@ -38,7 +38,7 @@ export default function ExerciseCard({ data, delay = 0, num }) {
           <ul className="space-y-2 border-t border-ink/10 pt-3">
             {data.exercises.slice(0, 3).map((ex, i) => (
               <li key={i} className="flex items-baseline gap-3 text-sm">
-                <span className="text-xs num-display text-clay w-5 flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-xs num-display text-clay w-5 flex-shrink-0">{i + 1}</span>
                 <span className="text-ink font-medium">{ex.name}</span>
                 <span className="text-xs text-ink-softer ml-auto flex-shrink-0">{ex.reps}</span>
               </li>
@@ -50,7 +50,7 @@ export default function ExerciseCard({ data, delay = 0, num }) {
             onClick={() => setModalOpen(true)}
             className="mt-auto pt-3 text-sm font-medium text-ink hover:text-clay transition-colors flex items-center gap-1.5 link-underline self-start"
           >
-            Read the full routine <span className="display-italic transition-transform group-hover:translate-x-1">→</span>
+            Read the full routine
           </button>
         </SpotlightCard>
       </Reveal>

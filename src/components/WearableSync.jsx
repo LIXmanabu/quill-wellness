@@ -125,7 +125,7 @@ export default function WearableSync() {
             Wearable sync <TierBadge />
           </span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            Your body, <span className="display-italic text-clay">in numbers.</span>
+            Your body, <span className="display-italic">in numbers.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
             Connect a wearable or log manually. Quill reads your HRV, resting heart rate, sleep, and steps, and weighs them as one signal of readiness.
@@ -138,7 +138,7 @@ export default function WearableSync() {
         <Reveal>
           <button
             onClick={disconnect}
-            className="mb-4 inline-flex items-center gap-2 px-4 py-2 bg-cream-light border border-ink/20 hover:border-ink hover:bg-bone text-sm font-medium tracking-wide transition-all"
+            className="mb-4 inline-flex items-center gap-2 px-4 py-2 bg-cream-light border border-ink/20 hover:border-ink hover:bg-bone text-sm font-medium transition-all"
             data-cursor-label="change device"
           >
             <span className="display-italic text-lg leading-none">←</span> Back to all devices
@@ -168,7 +168,7 @@ export default function WearableSync() {
                 <div className="p-4">
                   <p className="font-display text-xl text-ink leading-tight">{d.name}</p>
                   <p className="text-xs text-ink-soft mt-1">{d.tagline}</p>
-                  <p className="display-italic text-xs text-clay mt-2 link-underline">Connect →</p>
+                  <p className="display-italic text-xs mt-2 link-underline">Connect</p>
                 </div>
               </button>
             </Reveal>
@@ -207,7 +207,7 @@ export default function WearableSync() {
                 unit="ms"
                 trend={trends.hrv}
                 onLog={(v) => logToday('hrv', v)}
-                color="#5A6B5D"
+                color="#4F7465"
                 hint={todayMetrics.hrv > 50 ? 'Good recovery' : 'Push gently today'}
               />
               <Metric
@@ -216,7 +216,7 @@ export default function WearableSync() {
                 unit="bpm"
                 trend={trends.rhr}
                 onLog={(v) => logToday('rhr', v)}
-                color="#C8654A"
+                color="#B23A5E"
                 hint={todayMetrics.rhr < 60 ? 'Healthy baseline' : 'Slightly elevated'}
                 inverse
               />
@@ -309,7 +309,7 @@ function Metric({ label, value, unit, trend, decimals = 0, onLog, color, hint, i
         <span className="editorial-label">{label}</span>
         <button
           onClick={() => { setDraft(String(value)); setEditing((v) => !v) }}
-          className="text-[10px] text-ink-softer hover:text-clay transition-colors display-italic"
+          className="text-xs text-ink-softer transition-colors display-italic"
         >
           {editing ? 'cancel' : 'log'}
         </button>
@@ -349,7 +349,7 @@ function Metric({ label, value, unit, trend, decimals = 0, onLog, color, hint, i
           )
         })}
       </div>
-      <p className="text-[10px] text-ink-softer italic mt-2">{hint}</p>
+      <p className="text-xs text-ink-softer italic mt-2">{hint}</p>
     </div>
   )
 }

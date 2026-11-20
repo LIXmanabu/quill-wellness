@@ -91,7 +91,7 @@ export default function HabitStreaks() {
             Daily habit streaks <TierBadge />
           </span>
           <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-            Small things, <span className="display-italic text-clay">stacked daily.</span>
+            Small things, <span className="display-italic">stacked daily.</span>
           </h2>
           <p className="text-sm text-ink-soft mt-3 max-w-xl">
             Pick the habits that matter. Tap the dot for today's check-in. Watch the streak, and the 14-day pattern, build.
@@ -144,14 +144,14 @@ export default function HabitStreaks() {
                         title={d.key + (d.done ? ' ✓' : '')}
                         className="w-3 h-6"
                         style={{
-                          background: d.done ? '#5A6B5D' : '#E8DFD0',
+                          background: d.done ? '#4F7465' : '#E4E6DD',
                         }}
                       />
                     ))}
                   </div>
                   <button
                     onClick={() => toggleHabit(h.id)}
-                    className="text-[10px] text-ink-soft hover:text-clay transition-colors display-italic"
+                    className="text-xs text-ink-soft transition-colors display-italic"
                     aria-label={`Remove ${h.label}`}
                   >
                     remove

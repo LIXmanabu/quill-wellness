@@ -91,13 +91,22 @@ export default function InstallPrompt() {
     }
   }
 
-  if (dismissed) return null
-  if (!deferredPrompt && !showIosHint) return null
+  const visible = !dismissed && (!!deferredPrompt || showIosHint)
+
+  // Flag the page while the banner is up so the floating tier switcher (which
+  // shares this bottom-right slot on phones) can lift itself above it.
+  useEffect(() => {
+    const root = document.documentElement
+    if (visible) root.setAttribute('data-install-prompt', '')
+    else root.removeAttribute('data-install-prompt')
+    return () => root.removeAttribute('data-install-prompt')
+  }, [visible])
+
+  if (!visible) return null
 
   return (
     <div
-      className="fixed left-0 right-0 z-[70] flex justify-center px-3 pointer-events-none
-                 bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-4"
+      className="fixed left-0 right-0 z-[70] flex justify-center px-3 pointer-events-none bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-4"
       role="dialog"
       aria-label="Install Quill"
     >
@@ -108,7 +117,7 @@ export default function InstallPrompt() {
             <span className="text-sm leading-snug">Install Quill as an app on your device.</span>
             <button
               onClick={install}
-              className="ml-auto shrink-0 text-xs font-bold uppercase tracking-[0.15em] underline underline-offset-2 hover:text-gold focus-visible:ring-2 focus-visible:ring-gold rounded px-1 min-h-[36px]"
+              className="ml-auto shrink-0 text-xs font-bold underline underline-offset-2 hover:text-gold focus-visible:ring-2 focus-visible:ring-gold rounded px-1 min-h-[36px]"
             >
               Install
             </button>

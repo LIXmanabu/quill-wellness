@@ -8,32 +8,34 @@
      :root = light (the original look). .dark = the optional dark theme,
      applied by adding the `dark` class to <html> (see ThemeContext). */
   :root {
-    --c-cream: 247 242 234;
-    --c-cream-light: 251 247 240;
-    --c-cream-dark: 237 228 211;
-    --c-cream-deeper: 224 212 189;
-    --c-ink: 26 20 16;
-    --c-ink-light: 61 51 43;
-    --c-ink-soft: 107 93 82;
-    --c-ink-softer: 155 142 130;
-    --c-bone: 232 223 208;
-    --c-scroll-track: 247 242 234;
-    --c-scroll-thumb: 200 184 162;
-    --c-scroll-thumb-hover: 139 126 110;
+    /* Paper: unbleached cotton, cool rather than cream. */
+    --c-cream: 241 242 236;
+    --c-cream-light: 250 250 246;
+    --c-cream-dark: 228 230 221;
+    --c-cream-deeper: 211 214 202;
+    /* Ink: iron-gall blue-black, the colour a quill actually writes in. */
+    --c-ink: 29 36 64;
+    --c-ink-light: 57 64 92;
+    --c-ink-soft: 88 95 120;
+    --c-ink-softer: 128 134 156;
+    --c-bone: 231 233 224;
+    --c-scroll-track: 241 242 236;
+    --c-scroll-thumb: 196 200 188;
+    --c-scroll-thumb-hover: 128 134 156;
   }
   .dark {
-    --c-cream: 26 21 16;        /* main background, warm near-black */
-    --c-cream-light: 36 32 25;  /* cards / raised surfaces */
-    --c-cream-dark: 48 43 33;   /* hover surfaces */
-    --c-cream-deeper: 60 54 42;
-    --c-ink: 242 236 225;       /* primary text, warm off-white */
-    --c-ink-light: 221 211 197;
-    --c-ink-soft: 178 166 150;
-    --c-ink-softer: 138 126 110;
-    --c-bone: 42 38 31;
-    --c-scroll-track: 26 21 16;
-    --c-scroll-thumb: 74 67 55;
-    --c-scroll-thumb-hover: 107 96 80;
+    --c-cream: 17 22 40;        /* main background: the ink well at night */
+    --c-cream-light: 26 32 54;  /* cards / raised surfaces */
+    --c-cream-dark: 37 44 70;   /* hover surfaces */
+    --c-cream-deeper: 50 58 88;
+    --c-ink: 234 236 242;       /* primary text, paper white */
+    --c-ink-light: 206 210 224;
+    --c-ink-soft: 164 170 192;
+    --c-ink-softer: 124 130 154;
+    --c-bone: 30 37 62;
+    --c-scroll-track: 17 22 40;
+    --c-scroll-thumb: 50 58 88;
+    --c-scroll-thumb-hover: 88 96 128;
     color-scheme: dark;         /* themes native controls / form widgets */
   }
 
@@ -70,97 +72,100 @@
 
 @layer components {
   /* ─── Editorial typography ─────────────────────────────────────── */
+  /* Young Serif has one weight and no italic, deliberately: headlines speak
+     in one voice instead of accenting a single word. */
   .font-display {
-    font-family: 'Instrument Serif', Fraunces, Georgia, serif;
+    font-family: 'Young Serif', Georgia, serif;
     font-weight: 400;
     font-style: normal;
+    font-synthesis: none;
   }
+  /* Legacy hook from the old italic-accent style; now just continues the
+     surrounding headline in the same face. */
   .display-italic {
-    font-family: 'Cormorant Garamond', 'Instrument Serif', Fraunces, Georgia, serif;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-family: inherit;
+    font-style: normal;
+    font-weight: inherit;
+    font-synthesis: none;
   }
+  /* Labels: plain sentence case in the body face, no tracked capitals. */
   .editorial-label {
-    @apply text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-soft font-sans;
+    @apply text-[13px] font-bold normal-case tracking-normal text-ink-soft font-sans leading-snug;
   }
   .editorial-num {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Young Serif', Georgia, serif;
     @apply text-ink-soft font-normal;
   }
 
   /* ─── Cards ────────────────────────────────────────────────────── */
   .card-paper {
-    @apply bg-cream-light border border-ink/10 transition-all duration-300;
-    box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.85);
+    @apply bg-cream-light border border-ink/10 transition-colors duration-200 rounded-[18px];
   }
   .card-paper-hover {
     @apply hover:border-ink/30 hover:shadow-ink;
   }
   .card-ink {
-    @apply bg-ink text-cream border border-ink;
+    @apply bg-ink text-cream border border-ink rounded-[18px];
   }
   .card-bone {
-    @apply bg-bone border border-ink/10;
+    @apply bg-bone border border-ink/10 rounded-[18px];
   }
   .card-sage {
-    @apply bg-sage-pale border border-sage/20;
+    @apply bg-sage-pale border border-sage/20 rounded-[18px];
   }
   .card-clay {
-    @apply bg-clay-pale border border-clay/20;
+    @apply bg-clay-pale border border-clay/20 rounded-[18px];
   }
   .card-blush {
-    @apply bg-blush-pale border border-blush/30;
+    @apply bg-blush-pale border border-blush/30 rounded-[18px];
   }
   .card-gold {
-    @apply bg-gold-pale border border-gold/30;
+    @apply bg-gold-pale border border-gold/30 rounded-[18px];
   }
 
   /* Dark mode: pale accent fills become soft translucent tints so they sit
      on the dark surface instead of glaring. Neutral cards already adapt via
      the CSS variables; these are just the coloured accent cards. */
-  .dark .card-sage  { background-color: rgba(143, 166, 148, 0.14); border-color: rgba(143, 166, 148, 0.22); }
-  .dark .card-clay  { background-color: rgba(224, 133, 112, 0.14); border-color: rgba(224, 133, 112, 0.24); }
+  .dark .card-sage  { background-color: rgba(127, 160, 144, 0.14); border-color: rgba(127, 160, 144, 0.24); }
+  .dark .card-clay  { background-color: rgba(207, 99, 131, 0.14); border-color: rgba(207, 99, 131, 0.26); }
   .dark .card-blush { background-color: rgba(232, 180, 184, 0.12); border-color: rgba(232, 180, 184, 0.24); }
   .dark .card-gold  { background-color: rgba(226, 189, 106, 0.13); border-color: rgba(226, 189, 106, 0.26); }
-  .dark .card-paper { box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.04); }
 
   /* `.rainbow-frame` cards have a hardcoded dark fill, so they stay dark in
      both themes. Keep "cream" meaning light *inside* them so their text and
      borders (text-cream, border-cream/…) stay readable in dark mode. */
   .dark .rainbow-frame {
-    --c-cream: 247 242 234;
-    --c-cream-light: 251 247 240;
+    --c-cream: 241 242 236;
+    --c-cream-light: 250 250 246;
   }
 
   /* An intentionally dark section that stays dark in BOTH themes (instead of
      inverting to a bright slab at night). Cream/ink tokens are pinned to their
      light-mode values inside so content authored for a dark surface, light
      text, cream buttons, stays readable in dark mode too. */
-  .surface-dark { background-color: #1A1510; }
+  .surface-dark { background-color: #1D2440; }
   .dark .surface-dark {
-    --c-cream: 247 242 234;
-    --c-cream-light: 251 247 240;
-    --c-ink: 26 20 16;
+    --c-cream: 241 242 236;
+    --c-cream-light: 250 250 246;
+    --c-ink: 29 36 64;
   }
 
   /* ─── Buttons ──────────────────────────────────────────────────── */
   .btn-ink {
-    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-ink text-cream text-sm font-medium tracking-wide transition-all duration-200 hover:bg-ink-light hover:-translate-y-px;
+    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-ink text-cream text-[15px] font-bold rounded-full transition-colors duration-150 hover:bg-ink-light;
   }
-  .btn-ink:hover { box-shadow: 0 4px 14px rgba(26, 20, 16, 0.22); }
-  .btn-ink:active { transform: translateY(0); box-shadow: none; transition-duration: 80ms; }
-  .btn-ink:focus-visible { outline: 2px solid oklch(25% 0.02 60); outline-offset: 3px; }
+  .btn-ink:active { transform: scale(0.98); transition-duration: 80ms; }
+  .btn-ink:focus-visible { outline: 2px solid oklch(30% 0.06 270); outline-offset: 3px; }
   .btn-cream {
-    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-cream-light text-ink border border-ink/20 text-sm font-medium tracking-wide transition-all duration-300 hover:border-ink hover:-translate-y-0.5;
+    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-cream-light text-ink border border-ink/25 text-[15px] font-bold rounded-full transition-colors duration-150 hover:border-ink;
   }
-  .btn-cream:active { transform: translateY(0) !important; transition-duration: 80ms; }
-  .btn-cream:focus-visible { outline: 2px solid oklch(25% 0.02 60); outline-offset: 3px; }
+  .btn-cream:active { transform: scale(0.98) !important; transition-duration: 80ms; }
+  .btn-cream:focus-visible { outline: 2px solid oklch(30% 0.06 270); outline-offset: 3px; }
   .btn-clay {
-    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-clay text-cream text-sm font-medium tracking-wide transition-all duration-300 hover:bg-clay-dark;
+    @apply inline-flex items-center gap-2 px-6 py-3.5 bg-clay text-cream text-[15px] font-bold rounded-full transition-colors duration-150 hover:bg-clay-dark;
   }
   .btn-clay:active { transform: translateY(1px); transition-duration: 80ms; }
-  .btn-clay:focus-visible { outline: 2px solid oklch(48% 0.12 35); outline-offset: 3px; }
+  .btn-clay:focus-visible { outline: 2px solid oklch(48% 0.14 360); outline-offset: 3px; }
   .btn-ghost {
     @apply inline-flex items-center gap-1.5 text-sm font-medium text-ink hover:text-clay transition-colors;
   }
@@ -169,7 +174,7 @@
 
   /* ─── Form inputs ──────────────────────────────────────────────── */
   .input-line {
-    @apply w-full border border-ink/20 bg-cream px-3.5 py-2.5 text-base font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors;
+    @apply w-full border border-ink/20 bg-cream px-3.5 py-2.5 text-base font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors rounded-xl;
   }
 
   /* ─── Pills / chips ────────────────────────────────────────────── */
@@ -192,14 +197,14 @@
     @apply border-t border-ink/15;
   }
   .rule-double {
-    border-top: 1px solid rgba(26,20,16,0.15);
-    border-bottom: 1px solid rgba(26,20,16,0.15);
+    border-top: 1px solid rgba(29,36,64,0.15);
+    border-bottom: 1px solid rgba(29,36,64,0.15);
     height: 5px;
   }
 
   /* ─── Section heading patterns ─────────────────────────────────── */
   .section-heading {
-    @apply font-serif text-3xl sm:text-4xl text-ink leading-tight tracking-tight font-light;
+    @apply font-serif text-3xl sm:text-4xl text-ink leading-tight font-normal;
   }
   .section-sub {
     @apply text-ink-soft text-base sm:text-lg leading-relaxed font-sans font-normal mt-2 mb-8;
@@ -226,7 +231,7 @@
 
   /* ─── State badges ─────────────────────────────────────────────── */
   .badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em];
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold rounded-full;
   }
   .badge-success { background: oklch(91% 0.07 148); color: oklch(38% 0.14 148); }
   .badge-error   { background: oklch(92% 0.06 25);  color: oklch(40% 0.16 25);  }
@@ -395,7 +400,7 @@
   .max-mode .card-paper {
     border-color: transparent !important;
     background:
-      linear-gradient(#FBF7F0, #FBF7F0) padding-box,
+      linear-gradient(#FAFAF6, #FAFAF6) padding-box,
       linear-gradient(120deg, #C8654A33, #A67C1A33, #5A6B5D33, #9173C033) border-box;
   }
 
@@ -421,7 +426,7 @@
   /* Quill logo wordmark, parent animates, descendants inherit */
   .max-mode .font-display.text-3xl.text-ink,
   .max-mode .font-display.md\:text-4xl.text-ink {
-    background: linear-gradient(120deg, #1A1410, #C8654A, #A67C1A, #5A6B5D, #9173C0, #1A1410);
+    background: linear-gradient(120deg, #1D2440, #C8654A, #A67C1A, #5A6B5D, #9173C0, #1D2440);
     background-size: 400% 400%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -476,7 +481,7 @@
     background:
       radial-gradient(circle at 10% 10%, rgba(232, 180, 184, 0.10), transparent 40%),
       radial-gradient(circle at 90% 30%, rgba(212, 167, 68, 0.10), transparent 45%),
-      #F7F2EA;
+      #F1F2EC;
   }
   /* Keep Max mode dark when dark theme is on. */
   .dark .max-mode {
@@ -497,17 +502,17 @@
   .max-mode .chip {
     border: 1.5px solid transparent;
     background:
-      linear-gradient(#FBF7F0, #FBF7F0) padding-box,
+      linear-gradient(#FAFAF6, #FAFAF6) padding-box,
       linear-gradient(120deg, #C8654A, #A67C1A, #5A6B5D, #9173C0, #C8654A) border-box;
     background-size: 100% 100%, 300% 300%;
     animation: gradient-shift 10s ease infinite;
-    color: #1A1410;
-    -webkit-text-fill-color: #1A1410;
+    color: #1D2440;
+    -webkit-text-fill-color: #1D2440;
   }
 
   /* Buttons (btn-ink) get a subtle gold-to-clay shimmer on hover */
   .max-mode .btn-ink:hover {
-    background: linear-gradient(120deg, #1A1410, #9B4423, #B08A2E, #1A1410);
+    background: linear-gradient(120deg, #1D2440, #9B4423, #B08A2E, #1D2440);
     background-size: 300% 300%;
     animation: gradient-shift 4s ease infinite;
   }
@@ -536,7 +541,7 @@
     background: linear-gradient(120deg, #C8654A 0%, #A67C1A 25%, #5A6B5D 50%, #9173C0 75%, #C8654A 100%) !important;
     background-size: 300% 300% !important;
     animation: gradient-shift 3s ease infinite !important;
-    color: #1A1410 !important;
+    color: #1D2440 !important;
     font-weight: 700;
   }
 
@@ -595,10 +600,10 @@
     animation: gradient-shift 10s ease infinite;
   }
   .pro-badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em];
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold rounded-full;
     background: linear-gradient(120deg, #A67C1A 0%, #C8654A 100%);
     background-size: 200% 200%;
-    color: #FBF7F0;
+    color: #FAFAF6;
     animation: gradient-shift 6s ease infinite;
   }
   .text-gradient-pro {
@@ -617,40 +622,16 @@
   .rainbow-frame {
     border: 2px solid transparent;
     background:
-      linear-gradient(#1A1410, #1A1410) padding-box,
+      linear-gradient(#1D2440, #1D2440) padding-box,
       linear-gradient(135deg, #C8654A 0%, #A67C1A 20%, #5A6B5D 40%, #3F7CB0 60%, #9173C0 80%, #C8654A 100%) border-box;
     background-size: 100% 100%, 200% 100%;
     animation: rainbow-flow 8s linear infinite;
   }
 
-  /* ─── Scroll reveal ────────────────────────────────────────────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-slide-left {
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .reveal-slide-left.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .reveal-slide-right {
-    opacity: 0;
-    transform: translateX(20px);
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .reveal-slide-right.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  /* ─── Scroll reveal (retired) ─────────────────────────────────────
+     Sections used to fade/slide in on scroll. Content now just sits on the
+     page; motion is reserved for things the reader does. */
+  .reveal, .reveal-slide-left, .reveal-slide-right { opacity: 1; transform: none; }
 
   /* ─── Underline animation ──────────────────────────────────────── */
   .link-underline {
@@ -680,7 +661,7 @@
     pointer-events: none;
   }
   .spotlight-card:hover::before {
-    opacity: 1;
+    opacity: 0;   /* retired: no cursor-following glow on cards */
   }
 
   /* ─── Noise overlay ────────────────────────────────────────────── */
@@ -697,7 +678,7 @@
   /* ─── Checkout form inputs ─────────────────────────────────────── */
   .checkout-field input,
   .checkout-field select {
-    @apply w-full bg-cream border border-ink/20 px-3 py-2.5 text-sm text-ink placeholder-ink-softer focus:outline-none focus:border-ink transition-colors;
+    @apply w-full bg-cream border border-ink/20 px-3 py-2.5 text-sm text-ink placeholder-ink-softer focus:outline-none focus:border-ink transition-colors rounded-xl;
     font-family: inherit;
   }
   .checkout-field input:disabled,
@@ -707,7 +688,7 @@
 
   /* ─── Magazine masthead ────────────────────────────────────────── */
   .masthead {
-    @apply flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.25em] text-ink-soft border-b border-ink/15 py-2;
+    @apply flex items-center justify-between text-[13px] font-bold text-ink-soft border-b border-ink/15 py-2;
   }
 
   /* ─── Custom cursor, warm amber default, purple on interactive ──
@@ -761,7 +742,7 @@
     left: 0;
     pointer-events: none;
     z-index: 9999;
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Young Serif', Georgia, serif;
     font-style: italic;
     font-size: 13px;
     color: #8B6BB8;
@@ -788,11 +769,6 @@
     .group-hover\:opacity-100 { opacity: 1 !important; }
   }
 
-  /* Hide default cursor on interactive elements when custom cursor active */
-  @media (pointer: fine) {
-    body { cursor: none; }
-    a, button, [role="button"], input, label, [data-cursor-hover] { cursor: none; }
-  }
 
   /* ─── Marquee container ────────────────────────────────────────── */
   .marquee-track {
@@ -859,7 +835,7 @@
   .text-pretty { text-wrap: pretty; }
   /* Decorative numbers */
   .num-display {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Young Serif', Georgia, serif;
     font-feature-settings: 'lnum';
   }
 }
@@ -891,7 +867,7 @@
 /* Scrollbar styling for concern panels */
 .panel-scroll::-webkit-scrollbar { width: 4px; }
 .panel-scroll::-webkit-scrollbar-track { background: transparent; }
-.panel-scroll::-webkit-scrollbar-thumb { background: #C8B8A2; border-radius: 2px; }
+.panel-scroll::-webkit-scrollbar-thumb { background: #C4C8BC; border-radius: 2px; }
 
 /* ── Keyboard focus ─────────────────────────────────────────────────
    A visible focus ring for keyboard / assistive-tech users. :focus-visible
@@ -899,9 +875,9 @@
    undisturbed for pointer users while keyboard users can always see where
    they are. */
 :focus-visible {
-  outline: 2px solid #C8654A; /* clay */
+  outline: 2px solid #B23A5E; /* hibiscus */
   outline-offset: 2px;
-  border-radius: 1px;
+  border-radius: 4px;
 }
 /* Programmatic focus on non-interactive containers shouldn't flash a ring. */
 [tabindex="-1"]:focus { outline: none; }
@@ -945,4 +921,38 @@
      decorative cursor is hidden so it can't mask the system cursor. */
   body { cursor: auto !important; }
   .cursor-dot, .cursor-trail, .cursor-label { display: none !important; }
+}
+
+/* Phones/tablets: the install banner sits in the same slot above the tab bar
+   as the floating tier switcher. While it's showing, lift the switcher above it. */
+@media (max-width: 1023.98px) {
+  html[data-install-prompt] .tier-switcher {
+    bottom: calc(env(safe-area-inset-bottom) + 10.5rem);
+  }
+}
+
+/* ── Corner scale ──────────────────────────────────────────────────────
+   One radius per level instead of one radius (or none) everywhere:
+   containers 18px (.card-*), framed panels & tiles 14px, form fields 12px,
+   buttons and chips fully round (.btn-*, .chip). Framed panels across the
+   app are authored as "border + paper fill"; this rounds them in one place. */
+@layer components {
+  .border.bg-cream-light,
+  .border.bg-cream,
+  .border.bg-bone,
+  .border-2.bg-cream-light { border-radius: 14px; }
+  .pro-card, .max-card, .rainbow-frame { border-radius: 18px; }
+}
+@layer base {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea { border-radius: 12px; }
+}
+
+/* Dark mode: hibiscus and moss text lift to lighter tints so they keep AA
+   contrast on the night background (fills like bg-clay are unaffected). */
+@layer utilities {
+  .dark .text-clay { color: #E7839F; }
+  .dark .text-clay-dark { color: #F0A3B8; }
+  .dark .text-sage { color: #8FB5A2; }
 }

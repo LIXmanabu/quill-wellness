@@ -18,7 +18,7 @@ const goalLabels = {
 const relationships = ['Partner', 'Parent', 'Sibling', 'Child', 'Housemate', 'Friend']
 
 // Seat colour palette, each member gets a distinct brand colour
-const seatColors = ['#C8654A', '#5A6B5D', '#D4A744', '#9B4423']
+const seatColors = ['#B23A5E', '#4F7465', '#D4A744', '#9B4423']
 
 function initials(name) {
   if (!name) return '·'
@@ -88,7 +88,7 @@ export default function FamilySeats() {
               Family seats <TierBadge />
             </span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Practice <span className="display-italic text-clay">together.</span>
+              Practice <span className="display-italic">together.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Quill Max includes four seats, one per household member, each with their own goal and routine. They get the full Pro experience under your plan.
@@ -110,7 +110,7 @@ export default function FamilySeats() {
                   onConfirm={() => remove(member.id)}
                   question="Remove?"
                   confirm="Remove"
-                  className="absolute top-3 right-3 text-[10px] text-ink-softer hover:text-clay opacity-0 group-hover:opacity-100 transition-all display-italic"
+                  className="absolute top-3 right-3 text-xs text-ink-softer opacity-0 group-hover:opacity-100 transition-all display-italic"
                   armedClassName="absolute top-3 right-3 bg-cream-light/95 px-1"
                   aria-label="Remove member"
                 >
@@ -125,11 +125,11 @@ export default function FamilySeats() {
                 </div>
                 <p className="font-display text-2xl text-ink leading-tight">{member.name}</p>
                 <p className="editorial-label mt-1">{member.relationship}</p>
-                <p className="display-italic text-sm text-clay mt-4">{goalLabels[member.goal] || 'No goal set'}</p>
+                <p className="display-italic text-sm mt-4">{goalLabels[member.goal] || 'No goal set'}</p>
                 {member.email && (
                   <p className="text-xs text-ink-soft mt-2 truncate" title={member.email}>{member.email}</p>
                 )}
-                <div className="mt-auto pt-4 border-t border-ink/10 flex items-center justify-between text-[11px] text-ink-softer">
+                <div className="mt-auto pt-4 border-t border-ink/10 flex items-center justify-between text-xs text-ink-softer">
                   <span>Joined {daysAgo(member.joinedAt)}</span>
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-sage" /> active
@@ -142,7 +142,7 @@ export default function FamilySeats() {
                 className="w-full h-full min-h-[240px] border-2 border-dashed border-ink/20 hover:border-ink hover:bg-cream-light p-6 flex flex-col items-center justify-center text-center transition-all group"
                 data-cursor-label="invite"
               >
-                <span className="w-16 h-16 rounded-full border-2 border-dashed border-ink/30 group-hover:border-ink flex items-center justify-center text-2xl text-ink-softer group-hover:text-clay display-italic transition-colors mb-4">
+                <span className="w-16 h-16 rounded-full border-2 border-dashed border-ink/30 group-hover:border-ink flex items-center justify-center text-2xl text-ink-softer display-italic transition-colors mb-4">
                   +
                 </span>
                 <p className="font-display text-xl text-ink-softer group-hover:text-ink transition-colors">Empty seat</p>
@@ -225,9 +225,9 @@ export default function FamilySeats() {
               disabled={!form.name.trim()}
               className="btn-ink w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed mt-2"
             >
-              Send invite <span className="display-italic">→</span>
+              Send invite
             </button>
-            <p className="text-[10px] text-ink-softer text-center italic leading-relaxed">
+            <p className="text-xs text-ink-softer text-center italic leading-relaxed">
               Prototype mockup, no email is actually sent. Member is added immediately.
             </p>
           </form>

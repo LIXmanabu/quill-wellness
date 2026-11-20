@@ -30,13 +30,13 @@ export default function RoutineCard({ data, delay = 0, num }) {
               {data.steps.map((step) => (
                 <li key={step.step} className="flex items-start gap-4 border-t border-ink/10 pt-3 first:border-t-0 first:pt-0">
                   <span className="flex-shrink-0 num-display text-xl text-clay leading-none">
-                    {String(step.step).padStart(2, '0')}
+                    {step.step}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-ink text-sm">{step.name}</p>
                     <p className="text-sm text-ink-soft mt-0.5 leading-relaxed">{step.description}</p>
                     {step.productType && (
-                      <span className="inline-block mt-2 chip chip-cream text-[10px]">
+                      <span className="inline-block mt-2 chip chip-cream text-xs">
                         {step.productType}
                       </span>
                     )}

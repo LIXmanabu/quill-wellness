@@ -112,7 +112,7 @@ export default function AuthModal({ onGuest }) {
             <p className="editorial-label text-clay mb-2">Quill</p>
             <h2 className="font-display text-4xl text-ink leading-tight mb-3">
               Your wellness,<br />
-              <span className="display-italic text-clay">remembered.</span>
+              <span className="display-italic">remembered.</span>
             </h2>
             <p className="text-sm text-ink-soft mb-8 leading-relaxed max-w-xs">
               Make a free account and Quill will remember you, your routine, favorites, and progress are here every time you return.
@@ -124,7 +124,7 @@ export default function AuthModal({ onGuest }) {
               </button>
               <button
                 onClick={() => go('signin')}
-                className="w-full border border-ink/20 px-4 py-2.5 text-sm font-semibold uppercase tracking-[0.12em] text-ink hover:bg-cream-dark transition-colors"
+                className="w-full border border-ink/20 px-4 py-2.5 text-sm font-semibold text-ink hover:bg-cream-dark transition-colors"
               >
                 Sign in
               </button>
@@ -278,7 +278,7 @@ export default function AuthModal({ onGuest }) {
 
               {/* Live password requirements */}
               {password.length > 0 && (
-                <ul className="text-[11px] space-y-1 pt-1">
+                <ul className="text-xs space-y-1 pt-1">
                   {[
                     ['At least 8 characters', pwChecks.length],
                     ['A letter', pwChecks.letter],
@@ -311,7 +311,7 @@ export default function AuthModal({ onGuest }) {
 
         {/* ── Data notice (matches the active backend) ─────────── */}
         <div className="mt-8 pt-5 border-t border-ink/10">
-          <p className="text-[10px] leading-relaxed text-ink-softer">
+          <p className="text-xs leading-relaxed text-ink-softer">
             {SUPABASE_ENABLED ? (
               <>
                 <span className="font-semibold text-ink-soft">Your account syncs securely.</span>{' '}

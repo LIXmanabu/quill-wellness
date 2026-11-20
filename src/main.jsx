@@ -1,5 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// Self-hosted type (bundled, cached by the service worker, works offline,
+// no request to Google): Young Serif for headlines, Atkinson Hyperlegible for body.
+import '@fontsource/young-serif/latin-400.css'
+import '@fontsource/atkinson-hyperlegible/latin-400.css'
+import '@fontsource/atkinson-hyperlegible/latin-400-italic.css'
+import '@fontsource/atkinson-hyperlegible/latin-700.css'
 import './index.css'
 import App from './App.jsx'
 

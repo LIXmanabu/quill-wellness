@@ -36,8 +36,7 @@ export default function ConnectionStatus() {
 
   return (
     <div
-      className="fixed left-0 right-0 z-[70] flex flex-col items-center gap-2 px-3 pointer-events-none
-                 bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-4"
+      className="fixed left-0 right-0 z-[70] flex flex-col items-center gap-2 px-3 pointer-events-none bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] lg:bottom-4"
       role="status"
       aria-live="polite"
     >
@@ -46,7 +45,7 @@ export default function ConnectionStatus() {
           <span className="text-sm">A new version of Quill is ready.</span>
           <button
             onClick={applyUpdate}
-            className="ml-auto text-xs font-bold uppercase tracking-[0.15em] underline underline-offset-2 hover:text-gold focus-visible:ring-2 focus-visible:ring-gold rounded px-1 min-h-[36px]"
+            className="ml-auto text-xs font-bold underline underline-offset-2 hover:text-gold focus-visible:ring-2 focus-visible:ring-gold rounded px-1 min-h-[36px]"
           >
             Update
           </button>

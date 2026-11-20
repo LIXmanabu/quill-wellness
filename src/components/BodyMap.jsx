@@ -81,8 +81,8 @@ const BACK_REGIONS = [
 ]
 
 function RegionShape({ region, isSelected }) {
-  const fill    = isSelected ? '#C8654A' : '#1A1410'
-  const stroke  = isSelected ? '#1A1410' : '#1A1410'
+  const fill    = isSelected ? '#B23A5E' : '#1D2440'
+  const stroke  = isSelected ? '#1D2440' : '#1D2440'
   const opacity = isSelected ? 0.45 : 0
 
   const sharedProps = {

@@ -84,7 +84,6 @@ export default function DailyQuestion({ question, userId, name, onClose }) {
                 onClick={() => answer(o.id)}
                 className="p-5 text-left bg-cream-light text-ink hover:bg-ink hover:text-cream transition-all group"
               >
-                <span className="editorial-num text-2xl text-clay group-hover:text-gold">{String(i + 1).padStart(2, '0')}</span>
                 <p className="font-display text-2xl mt-1 leading-tight">{o.label}</p>
                 {o.desc && <p className="text-xs mt-1 leading-snug text-ink-soft group-hover:text-cream/70">{o.desc}</p>}
               </button>
@@ -99,7 +98,6 @@ export default function DailyQuestion({ question, userId, name, onClose }) {
                 className="w-full p-5 flex items-baseline justify-between gap-5 text-left bg-cream-light text-ink hover:bg-ink hover:text-cream transition-all group"
               >
                 <span className="flex items-baseline gap-5">
-                  <span className="num-display text-xl text-clay group-hover:text-gold">{String(i + 1).padStart(2, '0')}</span>
                   <span className="font-display text-xl">{o.label}</span>
                 </span>
                 {o.desc && <span className="text-xs text-ink-softer group-hover:text-cream/70">{o.desc}</span>}

@@ -29,7 +29,7 @@ export default function Sport({ onNavigate }) {
             <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
               <SplitText byChar stagger={28}>Move your body,</SplitText>
               <br />
-              <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={500}>love your body.</SplitText></span>
+              <span className="display-italic"><SplitText byChar stagger={28} startDelay={500}>love your body.</SplitText></span>
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
@@ -43,7 +43,7 @@ export default function Sport({ onNavigate }) {
               <ul className="space-y-2 text-sm">
                 {sportData.map((r, i) => (
                   <li key={r.id} className="flex items-baseline gap-3 text-ink-soft">
-                    <span className="num-display text-xs text-clay w-6">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="num-display text-xs text-clay w-6">{i + 1}</span>
                     <span className="font-medium text-ink">{r.title}</span>
                     <span className="display-italic text-xs ml-auto">{r.duration}</span>
                   </li>
@@ -71,14 +71,14 @@ export default function Sport({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">The routines</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Six ways to <span className="display-italic text-clay">move.</span>
+              Six ways to <span className="display-italic">move.</span>
             </h2>
           </div>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {sportData.map((item, i) => (
-            <ExerciseCard key={item.id} data={item} delay={i * 60} num={String(i + 1).padStart(2, '0')} />
+            <ExerciseCard key={item.id} data={item} delay={i * 60} />
           ))}
         </div>
       </section>
@@ -94,7 +94,7 @@ export default function Sport({ onNavigate }) {
                     Pro Edition <TierBadge />
                   </span>
                   <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                    A three-week <span className="display-italic text-clay">progression.</span>
+                    A three-week <span className="display-italic">progression.</span>
                   </h2>
                 </div>
               </div>
@@ -103,7 +103,7 @@ export default function Sport({ onNavigate }) {
               {proPlans.map((p, i) => (
                 <Reveal key={p.week} delay={i * 100}>
                   <SpotlightCard className="bg-cream-light p-8 h-full">
-                    <span className="editorial-num text-4xl text-clay">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="editorial-num text-4xl text-clay">{i + 1}</span>
                     <p className="editorial-label mt-2">{p.week}</p>
                     <h3 className="font-display text-2xl text-ink mt-3">{p.focus}</h3>
                     <p className="text-sm text-ink-soft mt-3 leading-relaxed">{p.notes}</p>
@@ -118,7 +118,7 @@ export default function Sport({ onNavigate }) {
               <div className="lg:col-span-9">
                 <span className="editorial-label text-gold-dark">Pro Edition</span>
                 <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                  Want a <span className="display-italic text-clay">three-week plan?</span>
+                  Want a <span className="display-italic">three-week plan?</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed max-w-lg text-sm">
                   Structured cycles that build strength week by week, instead of guessing what to do next session.
@@ -126,7 +126,7 @@ export default function Sport({ onNavigate }) {
               </div>
               <div className="lg:col-span-3 lg:text-right">
                 <button onClick={() => onNavigate?.('pro')} className="btn-ink">
-                  Unlock <span className="display-italic">→</span>
+                  Unlock
                 </button>
               </div>
             </SpotlightCard>

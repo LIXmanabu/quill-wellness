@@ -74,7 +74,7 @@ function BreathingExercise() {
           <button
             key={t.id}
             onClick={() => { setTechId(t.id); stop() }}
-            className={`px-4 py-2 text-xs font-medium tracking-wide transition-all border ${
+            className={`px-4 py-2 text-xs font-medium  transition-all border ${
               techId === t.id
                 ? 'bg-gold text-ink border-gold'
                 : 'border-cream/30 text-cream/80 hover:border-cream'
@@ -105,15 +105,15 @@ function BreathingExercise() {
       </div>
 
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs text-cream/50 num-display tracking-wider">
-          {running ? `ROUND ${String(round + 1).padStart(2, '0')}` : 'TAP START TO BEGIN'}
+        <p className="text-xs text-cream/50 num-display">
+          {running ? `Round ${round + 1}` : 'Tap start to begin'}
         </p>
         {running ? (
-          <button onClick={stop} className="px-6 py-3 border border-cream/30 text-cream text-sm font-medium tracking-wide hover:border-cream transition-colors">
+          <button onClick={stop} className="px-6 py-3 border border-cream/30 text-cream text-sm font-medium hover:border-cream transition-colors">
             Stop
           </button>
         ) : (
-          <button onClick={start} className="px-6 py-3 bg-gold text-ink text-sm font-medium tracking-wide hover:bg-gold-light transition-colors">
+          <button onClick={start} className="px-6 py-3 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
             ▶ Start
           </button>
         )}
@@ -138,7 +138,7 @@ export default function Wellness({ onNavigate }) {
             <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
               <SplitText byChar stagger={28}>Care for</SplitText>
               <br />
-              <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={400}>your whole self.</SplitText></span>
+              <span className="display-italic"><SplitText byChar stagger={28} startDelay={400}>your whole self.</SplitText></span>
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
@@ -152,7 +152,7 @@ export default function Wellness({ onNavigate }) {
               <ul className="space-y-2 text-sm">
                 {wellnessData.map((w, i) => (
                   <li key={w.id} className="flex items-baseline gap-3 text-ink-soft">
-                    <span className="num-display text-xs text-clay w-6">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="num-display text-xs text-clay w-6">{i + 1}</span>
                     <span className="font-medium text-ink">{w.title}</span>
                   </li>
                 ))}
@@ -179,13 +179,13 @@ export default function Wellness({ onNavigate }) {
           <div className="mb-10 pb-4 border-b border-ink/15">
             <span className="editorial-label">The wellness pages</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Soft, useful, <span className="display-italic text-clay">honest.</span>
+              Soft, useful, <span className="display-italic">honest.</span>
             </h2>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {wellnessData.map((item, i) => (
-            <WellnessCard key={item.id} data={item} delay={i * 60} num={String(i + 1).padStart(2, '0')} />
+            <WellnessCard key={item.id} data={item} delay={i * 60} />
           ))}
         </div>
       </section>
@@ -200,7 +200,7 @@ export default function Wellness({ onNavigate }) {
               <div className="lg:col-span-9">
                 <span className="editorial-label text-gold-dark">Pro Edition</span>
                 <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                  Guided <span className="display-italic text-clay">breathing.</span>
+                  Guided <span className="display-italic">breathing.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
                   Box, 4-7-8, and coherent breathing, with a visual circle that paces you. Calms anxiety in under two minutes.
@@ -208,7 +208,7 @@ export default function Wellness({ onNavigate }) {
               </div>
               <div className="lg:col-span-3 lg:text-right">
                 <button onClick={() => onNavigate?.('pro')} className="btn-ink">
-                  Unlock <span className="display-italic">→</span>
+                  Unlock
                 </button>
               </div>
             </SpotlightCard>

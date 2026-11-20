@@ -27,7 +27,7 @@ export function ThemeProvider({ children }) {
     try { localStorage.setItem(KEY, theme) } catch {}
     // Keep the mobile browser chrome (status bar) matching the theme.
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#1A1510' : '#F7F2EA')
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#111628' : '#F1F2EC')
   }, [theme])
 
   const setTheme = useCallback((t) => setThemeState(t === 'dark' ? 'dark' : 'light'), [])

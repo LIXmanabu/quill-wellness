@@ -20,7 +20,7 @@ export default function About() {
         <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl text-ink leading-[0.9] tracking-tight">
           <SplitText byChar stagger={28}>About</SplitText>
           <br />
-          <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={500}>Quill.</SplitText></span>
+          <span className="display-italic"><SplitText byChar stagger={28} startDelay={500}>Quill.</SplitText></span>
         </h1>
         <Reveal delay={1000} className="mt-8 max-w-lg">
           <p className="display-italic text-2xl text-ink-soft leading-relaxed">
@@ -64,7 +64,6 @@ export default function About() {
                   'A fitness or diet prescription platform, there are no weight-loss goals here',
                 ].map((item, i) => (
                   <li key={item} className="flex items-baseline gap-3 text-ink-soft">
-                    <span className="num-display text-sm text-clay w-6">{String(i + 1).padStart(2, '0')}</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -80,7 +79,7 @@ export default function About() {
           <div className="border-t border-ink/15 pt-10 mb-10">
             <span className="editorial-label">Our principles</span>
             <h2 className="font-display text-5xl text-ink mt-2 leading-none">
-              Four things <span className="display-italic text-clay">we keep.</span>
+              Four things <span className="display-italic">we keep.</span>
             </h2>
           </div>
         </Reveal>

@@ -61,7 +61,7 @@ export default function TipLibrary({ onNavigate }) {
         <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
           <SplitText byChar stagger={28}>The daily</SplitText>
           <br />
-          <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={500}>almanac.</SplitText></span>
+          <span className="display-italic"><SplitText byChar stagger={28} startDelay={500}>almanac.</SplitText></span>
         </h1>
         <Reveal delay={1200} className="mt-8 max-w-md">
           <p className="text-lg text-ink-soft leading-relaxed">
@@ -94,7 +94,7 @@ export default function TipLibrary({ onNavigate }) {
                 <button
                   key={c}
                   onClick={() => setFilter(c)}
-                  className={`px-4 py-2 text-xs font-medium tracking-wide border transition-all ${
+                  className={`px-4 py-2 text-xs font-medium  border transition-all ${
                     active
                       ? 'bg-ink text-cream border-ink'
                       : c === 'foryou'
@@ -135,7 +135,6 @@ export default function TipLibrary({ onNavigate }) {
                   {/* Foreground content */}
                   <div className="relative z-10 flex flex-col h-full">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="editorial-num text-2xl text-gold">{String(i + 1).padStart(3, '0')}</span>
                       <div className="flex items-center gap-2">
                         <span className="editorial-label text-cream/80">{meta.label}</span>
                         <FavoriteButton id={`tip:${tip.id}`} label={tip.title} size="sm" />
@@ -158,13 +157,13 @@ export default function TipLibrary({ onNavigate }) {
             <SpotlightCard className="mt-12 pro-card p-8 sm:p-12 text-center">
               <span className="editorial-label text-gold-dark">Pro Edition</span>
               <h3 className="font-display text-4xl sm:text-5xl text-ink mt-3 leading-tight">
-                {dailyTips.length - visibleTips.length}+ more <span className="display-italic text-clay">tips await.</span>
+                {dailyTips.length - visibleTips.length}+ more <span className="display-italic">tips await.</span>
               </h3>
               <p className="text-sm text-ink-soft max-w-md mx-auto mt-4 mb-6 leading-relaxed">
                 Unlock the full library, all categories, and unlimited favorites with Quill Pro.
               </p>
               <MagneticButton onClick={() => onNavigate?.('pro')} className="btn-ink">
-                See Pro features <span className="display-italic">→</span>
+                See Pro features
               </MagneticButton>
             </SpotlightCard>
           </Reveal>

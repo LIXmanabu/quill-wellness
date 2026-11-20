@@ -93,7 +93,7 @@ function MacroBar({ label, current, target, accent }) {
           className="absolute inset-y-0 left-0 transition-all duration-500"
           style={{
             width: `${pct}%`,
-            background: over ? '#C8654A' : accent,
+            background: over ? '#B23A5E' : accent,
           }}
         />
       </div>
@@ -149,7 +149,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
               Track your day <TierBadge />
             </span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              What you ate <span className="display-italic text-clay">today.</span>
+              What you ate <span className="display-italic">today.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Log what you eat. Quill scores your day against your goal and suggests the next snack or meal to fill in what's missing.
@@ -157,7 +157,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
           </div>
           <div className="text-right">
             <p className="editorial-label">{todayDate}</p>
-            <p className="display-italic text-2xl text-clay mt-1">your day</p>
+            <p className="display-italic text-2xl mt-1">your day</p>
           </div>
         </div>
       </Reveal>
@@ -178,7 +178,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                 <select
                   value={goal}
                   onChange={(e) => setGoal(e.target.value)}
-                  className="bg-cream-light border border-ink/20 px-3 py-1.5 text-xs font-medium tracking-wide hover:border-ink transition-colors cursor-pointer"
+                  className="bg-cream-light border border-ink/20 px-3 py-1.5 text-xs font-medium hover:border-ink transition-colors cursor-pointer"
                   data-cursor-label="change goal"
                 >
                   {Object.entries(goalTargets).map(([k, v]) => (
@@ -188,12 +188,12 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
               </div>
 
               <div className="space-y-4">
-                <MacroBar label="Calories" current={totals.kcal} target={target.kcal} accent="#1A1410" />
+                <MacroBar label="Calories" current={totals.kcal} target={target.kcal} accent="#1D2440" />
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                   <MacroBar label="Protein" current={totals.p} target={target.p} accent="#3D4A40" />
                   <MacroBar label="Carbs" current={totals.c} target={target.c} accent="#B08A2E" />
                   <MacroBar label="Fat" current={totals.f} target={target.f} accent="#9B4423" />
-                  <MacroBar label="Fibre" current={totals.fib} target={target.fib} accent="#5A6B5D" />
+                  <MacroBar label="Fibre" current={totals.fib} target={target.fib} accent="#4F7465" />
                 </div>
               </div>
             </div>
@@ -212,7 +212,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                   <p className="display-italic text-cream/80 text-base mt-4 leading-relaxed">
                     {suggestion.reason}
                   </p>
-                  <div className="flex flex-wrap gap-2 mt-5 text-[10px]">
+                  <div className="flex flex-wrap gap-2 mt-5 text-xs">
                     <span className="border border-cream/30 px-2 py-1 text-cream/80">
                       <span className="num-display text-cream text-base">{suggestion.food.p}</span>g protein
                     </span>
@@ -226,10 +226,10 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                 </div>
                 <button
                   onClick={() => add(suggestion.food, 1, suggestion.slot)}
-                  className="inline-flex items-center gap-2 px-5 py-3 bg-gold text-ink text-sm font-medium tracking-wide hover:bg-gold-light transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors"
                   data-cursor-label="log this"
                 >
-                  Log it <span className="display-italic">→</span>
+                  Log it
                 </button>
               </div>
             </SpotlightCard>
@@ -243,7 +243,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                 {todays.length > 0 && (
                   <button
                     onClick={clearDay}
-                    className="text-xs text-ink-soft hover:text-clay transition-colors display-italic"
+                    className="text-xs text-ink-soft transition-colors display-italic"
                     data-cursor-label="clear day"
                   >
                     clear day
@@ -271,7 +271,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                                 <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: style.dot }} />
                                 <div className="flex-1 min-w-0">
                                   <p className="text-sm text-ink leading-tight">{m.name}</p>
-                                  <p className="text-[11px] text-ink-softer mt-0.5">
+                                  <p className="text-xs text-ink-softer mt-0.5">
                                     {m.serving} · {Math.round(m.kcal * m.servings)} kcal · {Math.round(m.p * m.servings)}p / {Math.round(m.c * m.servings)}c / {Math.round(m.f * m.servings)}f
                                   </p>
                                 </div>
@@ -329,7 +329,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                   <button
                     key={s}
                     onClick={() => setSelectedSlot(s)}
-                    className={`px-2.5 py-1 text-[11px] font-medium tracking-wide border transition-all ${
+                    className={`px-2.5 py-1 text-xs font-medium  border transition-all ${
                       activeSlot === s
                         ? 'bg-ink text-cream border-ink'
                         : 'border-ink/20 text-ink-soft hover:border-ink bg-cream-light'
@@ -370,10 +370,10 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                       <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: style.dot }} />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-ink leading-tight truncate">{food.name}</p>
-                        <p className="text-[11px] text-ink-softer">{food.serving} · {food.kcal} kcal · {food.p}p / {food.c}c</p>
+                        <p className="text-xs text-ink-softer">{food.serving} · {food.kcal} kcal · {food.p}p / {food.c}c</p>
                       </div>
                       {alreadyLogged && (
-                        <span className="text-[10px] text-sage-dark font-medium">logged</span>
+                        <span className="text-xs text-sage-dark font-medium">logged</span>
                       )}
                       <span className="num-display text-lg text-ink-softer group-hover:text-clay transition-colors leading-none">+</span>
                     </button>
@@ -384,7 +384,7 @@ export default function DietTracker({ initialGoal = 'balanced' }) {
                     onClick={() => setShowAll(true)}
                     className="w-full text-center py-3 text-xs text-ink-soft hover:text-ink transition-colors display-italic"
                   >
-                    show all {foods.length} foods →
+                    show all {foods.length} foods
                   </button>
                 )}
                 {filtered.length === 0 && (

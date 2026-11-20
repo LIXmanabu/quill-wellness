@@ -1,21 +1,9 @@
-import { useScrollReveal } from '../../hooks/useScrollReveal.js'
-
-export default function Reveal({ children, as: As = 'div', className = '', direction = 'up', delay = 0, threshold = 0.15, once = true }) {
-  const [ref, visible] = useScrollReveal({ threshold, once })
-
-  const classMap = {
-    up: 'reveal',
-    left: 'reveal-slide-left',
-    right: 'reveal-slide-right',
-  }
-
-  return (
-    <As
-      ref={ref}
-      className={`${classMap[direction] || 'reveal'} ${visible ? 'is-visible' : ''} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </As>
-  )
+/*
+  Reveal used to fade/slide each section in on scroll. That effect is retired
+  (scattered entrance motion reads as templated, and it hid content until it
+  scrolled into view). It now renders its content plainly; the props are kept
+  so existing call sites don't need to change.
+*/
+export default function Reveal({ children, as: As = 'div', className = '' }) {
+  return <As className={className || undefined}>{children}</As>
 }

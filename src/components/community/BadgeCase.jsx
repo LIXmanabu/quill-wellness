@@ -54,7 +54,7 @@ export default function BadgeCase({ totalLikes = 0, isSelf = false, isAdmin = fa
             disabled={busy}
             role="switch"
             aria-checked={on}
-            className={`shrink-0 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] px-3 py-2 border transition-colors disabled:opacity-50 ${
+            className={`shrink-0 inline-flex items-center gap-2 text-xs font-semibold   px-3 py-2 border transition-colors disabled:opacity-50 ${
               on ? 'bg-ink text-cream border-ink' : 'border-ink/20 text-ink-soft hover:border-ink/40'
             }`}
             title={isAdmin ? 'Show every medal on your profile to everyone' : 'Preview every medal (only you see this)'}
@@ -79,12 +79,12 @@ export default function BadgeCase({ totalLikes = 0, isSelf = false, isAdmin = fa
                 loading="lazy"
               />
               <span
-                className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] leading-tight ${earned ? '' : 'text-ink-softer'}`}
+                className={`text-xs sm:text-[10px] font-bold   leading-tight ${earned ? '' : 'text-ink-softer'}`}
                 style={earned ? { color: b.accent } : undefined}
               >
                 {b.label}
               </span>
-              <span className="text-[9px] num-display text-ink-softer leading-none">
+              <span className="text-xs num-display text-ink-softer leading-none">
                 {b.min >= 1000 ? `${b.min / 1000}k` : b.min}
               </span>
             </div>
@@ -93,7 +93,7 @@ export default function BadgeCase({ totalLikes = 0, isSelf = false, isAdmin = fa
       </div>
 
       {isSelf && on && (
-        <p className="text-[11px] text-ink-softer mt-3 leading-snug">
+        <p className="text-xs text-ink-softer mt-3 leading-snug">
           {isAdmin
             ? 'All medals are showing on your profile to everyone. Turn off to go back to the medals your routines have earned.'
             : 'Preview is on — only you see all medals here. Others see the ones your routines have truly earned.'}

@@ -52,7 +52,7 @@ export default function UpdatePasswordModal() {
               className="w-full border border-ink/20 bg-cream px-4 py-2.5 text-sm font-sans text-ink placeholder:text-ink-softer outline-none focus:border-ink transition-colors" />
 
             {password.length > 0 && (
-              <ul className="text-[11px] space-y-1 pt-2">
+              <ul className="text-xs space-y-1 pt-2">
                 {[['At least 8 characters', checks.length], ['A letter', checks.letter], ['A number', checks.number]].map(([label, ok]) => (
                   <li key={label} className={`flex items-center gap-1.5 ${ok ? 'text-sage-dark' : 'text-ink-softer'}`}>
                     <span>{ok ? '✓' : '○'}</span> {label}

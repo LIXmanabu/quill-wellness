@@ -177,12 +177,12 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
                     activePage === s.key ? 'bg-bone' : 'active:bg-cream'
                   }`}
                 >
-                  <span className="text-[10px] num-display text-clay w-6 shrink-0">{s.no}</span>
+                  <span className="text-xs num-display text-clay w-6 shrink-0">{s.no}</span>
                   <span className="min-w-0">
                     <span className="flex items-center gap-2 font-display text-xl text-ink">
                       {s.label}
                       {s.key === 'community' && requestCount > 0 && (
-                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] num-display bg-clay text-cream rounded-full">
+                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-xs num-display bg-clay text-cream rounded-full">
                           {requestCount > 9 ? '9+' : requestCount}
                         </span>
                       )}
@@ -200,7 +200,6 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
                 }`}
               >
                 <span className="display-italic text-base">{tier === 'free' ? 'Try' : 'Manage'} Pro</span>
-                <span>→</span>
               </button>
             </div>
           </div>
@@ -227,12 +226,12 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
                   <span className="relative">
                     {icons[t.key]}
                     {t.key === 'myquill' && favCount > 0 && (
-                      <span className="absolute -top-1 -right-2 inline-flex items-center justify-center min-w-[15px] h-[15px] px-1 text-[9px] num-display bg-clay text-cream rounded-full">
+                      <span className="absolute -top-1 -right-2 inline-flex items-center justify-center min-w-[15px] h-[15px] px-1 text-xs num-display bg-clay text-cream rounded-full">
                         {favCount}
                       </span>
                     )}
                   </span>
-                  <span className="text-[10px] tracking-wide font-medium">{t.label}</span>
+                  <span className="text-xs font-medium">{t.label}</span>
                   {active && <span className="absolute top-0 w-7 h-px bg-clay" aria-hidden="true" />}
                 </button>
               </li>
@@ -250,12 +249,12 @@ export default function BottomTabBar({ activePage, onNavigate, onOpenSearch }) {
               <span className="relative">
                 {icons.more}
                 {requestCount > 0 && (
-                  <span className="absolute -top-1 -right-2 inline-flex items-center justify-center min-w-[15px] h-[15px] px-1 text-[9px] num-display bg-clay text-cream rounded-full">
+                  <span className="absolute -top-1 -right-2 inline-flex items-center justify-center min-w-[15px] h-[15px] px-1 text-xs num-display bg-clay text-cream rounded-full">
                     {requestCount > 9 ? '9+' : requestCount}
                   </span>
                 )}
               </span>
-              <span className="text-[10px] tracking-wide font-medium">More</span>
+              <span className="text-xs font-medium">More</span>
               {(moreActive || sheetOpen) && <span className="absolute top-0 w-7 h-px bg-clay" aria-hidden="true" />}
             </button>
           </li>

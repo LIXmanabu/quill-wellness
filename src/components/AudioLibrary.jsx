@@ -32,11 +32,11 @@ const sounds = [
   // ─── Free (4) ────────────────────────────────────────────────
   { id: 'white',   tier: 'free', label: 'White noise',     cat: 'Sleep', desc: 'Pure broadband white noise, masks distractions',  url: `${import.meta.env.BASE_URL}sounds/white-noise.wav`, accent: '#9B8E82' },
   { id: 'crickets',tier: 'free', label: 'Night crickets',  cat: 'Sleep', desc: 'Summer crickets at night, countryside calm',       url: M(1789), accent: '#3D4A40' },
-  { id: 'rain',    tier: 'free', label: 'Rain on roof',    cat: 'Sleep', desc: 'Light steady rain on a quiet street',               url: M(1253), accent: '#5A6B5D' },
+  { id: 'rain',    tier: 'free', label: 'Rain on roof',    cat: 'Sleep', desc: 'Light steady rain on a quiet street',               url: M(1253), accent: '#4F7465' },
   { id: 'wind',    tier: 'free', label: 'Wind in trees',   cat: 'Sleep', desc: 'Steady breeze through leaves',                      url: M(2658), accent: '#6BAEEF' },
   // ─── Pro adds (+2 → 6 total) ─────────────────────────────────
   { id: 'ocean',   tier: 'pro',  label: 'Ocean waves',     cat: 'Sleep', desc: 'Sea waves rolling in to shore',                     url: M(1196), accent: '#6BAEEF' },
-  { id: 'fire',    tier: 'pro',  label: 'Fireplace',       cat: 'Focus', desc: 'Wood crackling in a hearth',                        url: M(1330), accent: '#C8654A' },
+  { id: 'fire',    tier: 'pro',  label: 'Fireplace',       cat: 'Focus', desc: 'Wood crackling in a hearth',                        url: M(1330), accent: '#B23A5E' },
   // ─── Max adds (+2 → 8 total) ─────────────────────────────────
   { id: 'forest',  tier: 'max',  label: 'Forest birds',    cat: 'Focus', desc: 'Soft birdsong in an open forest',                   url: M(1210), accent: '#3D4A40' },
   { id: 'stream',  tier: 'max',  label: 'Mountain stream', cat: 'Focus', desc: 'Flowing water in a quiet creek',                    url: M(3126), accent: '#D4A744' },
@@ -154,7 +154,7 @@ export default function AudioLibrary() {
           <div>
             <span className="editorial-label">Sounds &amp; breathwork</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Sounds for the <span className="display-italic text-clay">moment.</span>
+              Sounds for the <span className="display-italic">moment.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Real ambient loops you can leave running while you sleep, work, or unwind. Plus three breathwork patterns with a visual timer.
@@ -201,7 +201,7 @@ export default function AudioLibrary() {
                 <div className="flex items-start justify-between mb-3">
                   <span className={`editorial-label ${active ? 'text-gold' : ''}`}>{s.cat}</span>
                   {!unlocked ? (
-                    <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide border bg-gold-paler text-gold-dark border-gold/30">
+                    <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold border bg-gold-paler text-gold-dark border-gold/30">
                       {s.tier}
                     </span>
                   ) : (
@@ -254,12 +254,12 @@ export default function AudioLibrary() {
                 <span className="num-display text-xs text-ink-soft w-8 text-right">{Math.round(volume * 100)}</span>
               </div>
             )}
-            <button onClick={() => stop()} className="text-xs text-ink-soft hover:text-clay display-italic">stop</button>
+            <button onClick={() => stop()} className="text-xs text-ink-soft display-italic">stop</button>
           </div>
         </Reveal>
       )}
 
-      <p className="text-[10px] text-ink-softer italic mt-2 mb-12">
+      <p className="text-xs text-ink-softer italic mt-2 mb-12">
         Loops via <a href="https://mixkit.co/free-sound-effects/" target="_blank" rel="noopener noreferrer" className="underline hover:text-clay">Mixkit free sound library</a> and <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-clay">Wikimedia Commons</a>.
       </p>
 
@@ -401,7 +401,7 @@ function Breathwork() {
               </button>
             ) : (
               <button onClick={start} className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-ink text-sm font-medium hover:bg-gold-light transition-colors">
-                Start <span className="display-italic">→</span>
+                Start
               </button>
             )}
             <p className="text-xs text-cream/60">

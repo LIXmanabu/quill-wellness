@@ -132,7 +132,7 @@ export default function MyQuill({ onNavigate }) {
             <SplitText byChar stagger={28}>{`${greeting},`}</SplitText>
           </span>
           <br />
-          <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={500}>here you are.</SplitText></span>
+          <span className="display-italic"><SplitText byChar stagger={28} startDelay={500}>here you are.</SplitText></span>
         </h1>
         <Reveal delay={400} className="mt-8 max-w-md">
           <p className="text-lg text-ink-soft leading-relaxed">
@@ -169,9 +169,9 @@ export default function MyQuill({ onNavigate }) {
               </ConfirmButton>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-ink/10 border border-ink/10">
-              <ProfileChip num="01" label="Skin type" value={skinTypeLabels[profile.skinType] || 'Not set'} />
-              <ProfileChip num="02" label="Goal" value={goalLabels[profile.goal] || 'Not set'} />
-              <ProfileChip num="03" label="Time / day" value={profile.timePerDay ? `${profile.timePerDay} min` : 'Not set'} />
+              <ProfileChip label="Skin type" value={skinTypeLabels[profile.skinType] || 'Not set'} />
+              <ProfileChip label="Goal" value={goalLabels[profile.goal] || 'Not set'} />
+              <ProfileChip label="Time / day" value={profile.timePerDay ? `${profile.timePerDay} min` : 'Not set'} />
             </div>
 
             {/* Beta access — redeem a tester code here, from your account. */}
@@ -216,7 +216,7 @@ export default function MyQuill({ onNavigate }) {
                       <span className={`w-full aspect-square max-w-[44px] flex items-center justify-center border display-italic ${done ? 'bg-ink text-cream border-ink' : 'bg-cream-light border-ink/15 text-ink-softer'}`}>
                         {done ? '✓' : ''}
                       </span>
-                      <span className="text-[10px] text-ink-softer uppercase">
+                      <span className="text-xs text-ink-softer">
                         {d.toLocaleDateString('en-GB', { weekday: 'narrow' })}
                       </span>
                     </div>
@@ -226,7 +226,7 @@ export default function MyQuill({ onNavigate }) {
             </div>
 
             <button onClick={() => onNavigate?.('today')} className="btn-ghost link-underline mt-6">
-              Go to Today →
+              Go to Today
             </button>
           </div>
         </Reveal>
@@ -239,7 +239,7 @@ export default function MyQuill({ onNavigate }) {
             <div className="mb-10 pb-4 border-b border-ink/15">
               <span className="editorial-label">Your routine</span>
               <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                A day, <span className="display-italic text-clay">your way.</span>
+                A day, <span className="display-italic">your way.</span>
               </h2>
               <p className="text-sm text-ink-soft mt-3 max-w-xl">
                 Built around your goal ({routine.label.toLowerCase()}) and your {routine.minutes}-minute window. Adapt it; don't worship it.
@@ -252,7 +252,7 @@ export default function MyQuill({ onNavigate }) {
               <RoutineColumn time="Morning" kicker="Start the day" steps={routine.morning} accent="#D4A744" />
             </Reveal>
             <Reveal delay={80}>
-              <RoutineColumn time="Evening" kicker="Wind it down" steps={routine.evening} accent="#5A6B5D" />
+              <RoutineColumn time="Evening" kicker="Wind it down" steps={routine.evening} accent="#4F7465" />
             </Reveal>
           </div>
 
@@ -286,7 +286,7 @@ export default function MyQuill({ onNavigate }) {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
           <Reveal>
             <button onClick={() => setShowMorePlan((v) => !v)} className="btn-ghost link-underline">
-              {showMorePlan ? 'Hide the rest of your plan ↑' : 'See the rest of your plan →'}
+              {showMorePlan ? 'Hide the rest of your plan ↑' : 'See the rest of your plan'}
             </button>
           </Reveal>
         </section>
@@ -301,7 +301,7 @@ export default function MyQuill({ onNavigate }) {
               <div>
                 <span className="editorial-label">The other routine</span>
                 <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                  What <span className="display-italic text-clay">protects it.</span>
+                  What <span className="display-italic">protects it.</span>
                 </h2>
                 <p className="text-sm text-ink-soft mt-3 max-w-xl">
                   {complement.why}
@@ -313,10 +313,10 @@ export default function MyQuill({ onNavigate }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-ink/15 border border-ink/15">
             <Reveal>
-              <RoutineColumn time="Morning" kicker="Supporting AM" steps={complement.morning} accent="#C8654A" />
+              <RoutineColumn time="Morning" kicker="Supporting AM" steps={complement.morning} accent="#B23A5E" />
             </Reveal>
             <Reveal delay={80}>
-              <RoutineColumn time="Evening" kicker="Supporting PM" steps={complement.evening} accent="#8FA694" />
+              <RoutineColumn time="Evening" kicker="Supporting PM" steps={complement.evening} accent="#7FA090" />
             </Reveal>
           </div>
 
@@ -335,7 +335,7 @@ export default function MyQuill({ onNavigate }) {
                 Your answers, your tips <TierBadge />
               </span>
               <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                For each thing <span className="display-italic text-clay">you told us.</span>
+                For each thing <span className="display-italic">you told us.</span>
               </h2>
               <p className="text-sm text-ink-soft mt-3 max-w-xl">
                 A morning routine, broken down by every answer you gave. One block for your skin type, one for your goal, one for the time you have.
@@ -351,13 +351,13 @@ export default function MyQuill({ onNavigate }) {
                     <div className="pb-4 mb-5 border-b border-ink/10">
                       <span className="editorial-label">{block.kicker}</span>
                       <p className="font-display text-3xl text-ink mt-1 leading-tight">{block.label}</p>
-                      <p className="display-italic text-sm text-clay mt-2 leading-relaxed">{block.why}</p>
+                      <p className="display-italic text-sm mt-2 leading-relaxed">{block.why}</p>
                     </div>
                     <ol className="space-y-3 flex-1">
                       {block.steps.map((step, j) => (
                         <li key={j} className="flex items-baseline gap-4">
                           <span className="num-display text-base text-clay flex-shrink-0 w-7">
-                            {String(j + 1).padStart(2, '0')}
+                            {j + 1}
                           </span>
                           <span className="text-sm text-ink leading-relaxed">{step}</span>
                         </li>
@@ -379,7 +379,7 @@ export default function MyQuill({ onNavigate }) {
                       <ol className="space-y-2 mt-4">
                         {block.steps.slice(0, 2).map((step, j) => (
                           <li key={j} className="flex items-baseline gap-3 text-sm text-ink-soft">
-                            <span className="num-display text-xs text-clay">{String(j + 1).padStart(2, '0')}</span>
+                            <span className="num-display text-xs text-clay">{j + 1}</span>
                             <span className="leading-snug">{step}</span>
                           </li>
                         ))}
@@ -392,7 +392,7 @@ export default function MyQuill({ onNavigate }) {
                   <div className="lg:col-span-9">
                     <span className="editorial-label text-gold-dark">Pro Edition</span>
                     <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                      Tailored routines for <span className="display-italic text-clay">each of your answers.</span>
+                      Tailored routines for <span className="display-italic">each of your answers.</span>
                     </h3>
                     <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
                       Five concrete morning-routine steps for your skin type, five for your goal, and five for the time you have, all explained, all editable.
@@ -400,7 +400,7 @@ export default function MyQuill({ onNavigate }) {
                   </div>
                   <div className="lg:col-span-3 lg:text-right">
                     <MagneticButton onClick={() => onNavigate?.('pro')} className="btn-ink">
-                      Unlock <span className="display-italic">→</span>
+                      Unlock
                     </MagneticButton>
                   </div>
                 </div>
@@ -417,7 +417,7 @@ export default function MyQuill({ onNavigate }) {
             <div className="mb-10 pb-4 border-b border-ink/15">
               <span className="editorial-label">Advice</span>
               <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                The four <span className="display-italic text-clay">that matter most.</span>
+                The four <span className="display-italic">that matter most.</span>
               </h2>
               <p className="text-sm text-ink-soft mt-3 max-w-xl">
                 If you only took four things from Quill, based on what you're working toward, these would be them.
@@ -430,7 +430,7 @@ export default function MyQuill({ onNavigate }) {
               <Reveal key={i} delay={i * 50}>
                 <SpotlightCard className="bg-cream-light p-6 sm:p-8 h-full group">
                   <div className="flex items-baseline justify-between mb-4">
-                    <span className="editorial-num text-3xl text-clay">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="editorial-num text-3xl text-clay">{i + 1}</span>
                     <span className="editorial-label">Advice</span>
                   </div>
                   <h3 className="font-display text-2xl text-ink leading-tight">{a.title}</h3>
@@ -450,7 +450,7 @@ export default function MyQuill({ onNavigate }) {
           <div className="mb-8 pb-4 border-b border-ink/15">
             <span className="editorial-label">Your instruments</span>
             <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-              Tools, <span className="display-italic text-clay">when you reach for them.</span>
+              Tools, <span className="display-italic">when you reach for them.</span>
             </h2>
             <p className="text-sm text-ink-soft mt-3 max-w-xl">
               Open one at a time. They stay folded away until you want them, so this page stays calm.
@@ -500,7 +500,7 @@ export default function MyQuill({ onNavigate }) {
             <div className="mb-8 pb-4 border-b border-ink/15">
               <span className="editorial-label">Read next</span>
               <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
-                Made for <span className="display-italic text-clay">your day.</span>
+                Made for <span className="display-italic">your day.</span>
               </h2>
             </div>
           </Reveal>
@@ -517,7 +517,6 @@ export default function MyQuill({ onNavigate }) {
                     <p className="font-display text-2xl text-ink mt-1">{r.label}</p>
                     <p className="display-italic text-sm text-ink-soft mt-1">— {r.why}</p>
                   </div>
-                  <span className="display-italic text-3xl text-ink-softer group-hover:text-clay group-hover:translate-x-1 transition-all">→</span>
                 </button>
               </Reveal>
             ))}
@@ -532,7 +531,7 @@ export default function MyQuill({ onNavigate }) {
             <div>
               <span className="editorial-label">Your collection</span>
               <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                Favorites <span className="display-italic text-clay">({resolved.length})</span>
+                Favorites <span className="display-italic">({resolved.length})</span>
               </h2>
             </div>
             {!isPro && <span className="editorial-label">Free · 3 max</span>}
@@ -548,7 +547,7 @@ export default function MyQuill({ onNavigate }) {
                 Tap the heart on any tip, routine, or exercise to save it here for quick access.
               </p>
               <button onClick={() => onNavigate?.('tips')} className="btn-ink mt-6">
-                Browse tips <span className="display-italic">→</span>
+                Browse tips
               </button>
             </div>
           </Reveal>
@@ -561,7 +560,7 @@ export default function MyQuill({ onNavigate }) {
                     <FavoriteButton id={f.id} label={f.title} size="sm" />
                   </div>
                   <span className="editorial-num text-2xl text-ink-softer group-hover:text-clay transition-colors">
-                    {String(i + 1).padStart(2, '0')}
+                    {i + 1}
                   </span>
                   <p className="editorial-label mt-1">{f.kicker}</p>
                   <h3 className="font-display text-2xl text-ink mt-2 leading-tight pr-8">{f.title}</h3>
@@ -595,7 +594,7 @@ function RoutineColumn({ time, kicker, steps, accent }) {
         {steps.map((step, i) => (
           <li key={i} className="flex items-baseline gap-4">
             <span className="num-display text-base flex-shrink-0 w-7" style={{ color: accent }}>
-              {String(i + 1).padStart(2, '0')}
+              {i + 1}
             </span>
             <span className="text-sm text-ink leading-relaxed">{step}</span>
           </li>

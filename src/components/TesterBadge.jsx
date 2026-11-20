@@ -56,12 +56,12 @@ export default function TesterBadge() {
             href={mailto}
             className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-ink text-cream text-sm font-medium hover:bg-clay transition-colors"
           >
-            Request a change →
+            Request a change
           </a>
           <button
             type="button"
             onClick={() => { setTester(false); setOpen(false) }}
-            className="mt-2 w-full text-center text-xs text-ink-softer hover:text-clay display-italic"
+            className="mt-2 w-full text-center text-xs text-ink-softer display-italic"
           >
             Leave the beta
           </button>
@@ -73,7 +73,7 @@ export default function TesterBadge() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label="Beta tester menu"
-        className="flex items-center gap-1.5 px-3 py-2 bg-sage text-cream text-xs font-bold uppercase tracking-[0.16em] shadow-soft-lg border-2 border-sage hover:bg-ink hover:border-ink transition-colors"
+        className="flex items-center gap-1.5 px-3 py-2 bg-sage text-cream text-xs font-bold shadow-soft-lg border-2 border-sage hover:bg-ink hover:border-ink transition-colors"
       >
         <span className="w-1.5 h-1.5 rounded-full bg-cream/90" aria-hidden="true" />
         Beta

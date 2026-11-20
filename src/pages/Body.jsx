@@ -28,12 +28,12 @@ const regionList = [
 ]
 
 const relatedPairs = [
-  { areas: 'Neck · Shoulders · Head', tip: 'Tension headaches usually start in upper traps. Stretch shoulders before chasing the headache.' },
-  { areas: 'Hips · Lower back · Knees', tip: 'Tight hip flexors yank the lumbar spine and shift knee tracking. Foam-roll hips first.' },
-  { areas: 'Stomach · Mood · Sleep', tip: 'The gut-brain axis is real. Bloating + low mood + bad sleep often share a root: stress + diet.' },
-  { areas: 'Feet · Calves · Lower back', tip: 'Tight calves shorten stride and tilt the pelvis. Daily 30s calf stretch can help low-back pain.' },
-  { areas: 'Face · Hydration · Sleep', tip: 'Dull skin + dark circles correlate more with sleep + water than with any product. Fix those first.' },
-  { areas: 'Chest · Posture · Breathing', tip: 'Slouched posture compresses the diaphragm. Sit tall to breathe deeper, and feel calmer.' },
+  { areas: 'Neck, shoulders, head', tip: 'Tension headaches usually start in upper traps. Stretch shoulders before chasing the headache.' },
+  { areas: 'Hips, lower back, knees', tip: 'Tight hip flexors yank the lumbar spine and shift knee tracking. Foam-roll hips first.' },
+  { areas: 'Stomach, mood, sleep', tip: 'The gut-brain axis is real. Bloating + low mood + bad sleep often share a root: stress + diet.' },
+  { areas: 'Feet, calves, lower back', tip: 'Tight calves shorten stride and tilt the pelvis. Daily 30s calf stretch can help low-back pain.' },
+  { areas: 'Face, hydration, sleep', tip: 'Dull skin + dark circles correlate more with sleep + water than with any product. Fix those first.' },
+  { areas: 'Chest, posture, breathing', tip: 'Slouched posture compresses the diaphragm. Sit tall to breathe deeper, and feel calmer.' },
 ]
 
 export default function Body({ onNavigate }) {
@@ -49,7 +49,7 @@ export default function Body({ onNavigate }) {
       {/* HERO */}
       <section style={{ viewTransitionName: 'hero-body' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-10">
         <div className="border-b border-ink/15 pb-3 mb-10 flex items-center justify-between">
-          <span className="editorial-label">Chapter 01 · Atlas</span>
+          <span className="editorial-label">Body atlas</span>
           <span className="editorial-label hidden sm:inline">{regionList.length} regions</span>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -57,7 +57,7 @@ export default function Body({ onNavigate }) {
             <h1 className="font-display text-[14vw] sm:text-[10vw] lg:text-[8vw] text-ink leading-[0.9] tracking-tight">
               <SplitText byChar stagger={28}>Your body,</SplitText>
               <br />
-              <span className="display-italic text-clay"><SplitText byChar stagger={28} startDelay={400}>your atlas.</SplitText></span>
+              <span className="display-italic"><SplitText byChar stagger={28} startDelay={400}>your atlas.</SplitText></span>
             </h1>
             <Reveal delay={1200} className="mt-8 max-w-md">
               <p className="text-lg text-ink-soft leading-relaxed">
@@ -86,7 +86,7 @@ export default function Body({ onNavigate }) {
             <div className="mb-8 pb-4 border-b border-ink/15">
               <span className="editorial-label">For your goal</span>
               <h2 className="font-display text-4xl sm:text-5xl text-ink mt-2 leading-none">
-                What your body needs <span className="display-italic text-clay">to {goalPlan.label.toLowerCase()}.</span>
+                What your body needs <span className="display-italic">to {goalPlan.label.toLowerCase()}.</span>
               </h2>
               <p className="text-sm text-ink-soft mt-3 max-w-xl">{goalPlan.why}</p>
             </div>
@@ -99,7 +99,7 @@ export default function Body({ onNavigate }) {
                 <ol className="mt-4 space-y-2.5">
                   {goalPlan.steps.map((s, i) => (
                     <li key={i} className="flex gap-3 text-ink leading-snug">
-                      <span className="num-display text-ink-softer flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="num-display text-ink-softer flex-shrink-0">{i + 1}</span>
                       <span>{s}</span>
                     </li>
                   ))}
@@ -115,7 +115,7 @@ export default function Body({ onNavigate }) {
                   <p className="text-sm text-ink-soft mt-2 leading-relaxed flex-1">{goalPlan.complement.why}</p>
                   <button onClick={() => onNavigate(goalPlan.complement.section)}
                     className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-clay hover:text-clay-dark transition-colors link-underline self-start">
-                    Explore <span className="display-italic">→</span>
+                    Explore
                   </button>
                 </SpotlightCard>
               </Reveal>
@@ -135,7 +135,7 @@ export default function Body({ onNavigate }) {
                 {selectedRegion && (
                   <button
                     onClick={closePanel}
-                    className="text-[10px] font-semibold uppercase tracking-[0.15em] text-ink-soft hover:text-ink transition-colors"
+                    className="text-xs font-semibold text-ink-soft hover:text-ink transition-colors"
                   >
                     Clear
                   </button>
@@ -173,7 +173,7 @@ export default function Body({ onNavigate }) {
 
                   <div className="p-6 space-y-3">
                     {bodyData[selectedRegion]?.concerns.map((concern, i) => (
-                      <ConcernAccordionItem key={i} concern={concern} defaultOpen={i === 0} num={String(i + 1).padStart(2, '0')} />
+                      <ConcernAccordionItem key={i} concern={concern} defaultOpen={i === 0} />
                     ))}
 
                     <div className="pt-3 border-t border-ink/10">
@@ -195,10 +195,7 @@ export default function Body({ onNavigate }) {
                         onClick={() => setSelectedRegion(r.id)}
                         className="card-paper card-paper-hover p-4 text-left group"
                       >
-                        <span className="editorial-num text-2xl text-ink-softer group-hover:text-clay transition-colors">
-                          {String(i + 1).padStart(2, '0')}
-                        </span>
-                        <p className="font-display text-xl text-ink mt-1 leading-none">{r.label}</p>
+                        <p className="font-display text-xl text-ink leading-none">{r.label}</p>
                       </button>
                     ))}
                   </div>
@@ -234,7 +231,7 @@ export default function Body({ onNavigate }) {
                   Cross-references <TierBadge />
                 </span>
                 <h2 className="font-display text-5xl sm:text-6xl text-ink mt-2 leading-none">
-                  When one part <span className="display-italic text-clay">complains.</span>
+                  When one part <span className="display-italic">complains.</span>
                 </h2>
                 <p className="text-sm text-ink-soft mt-3 max-w-xl">
                   Bodies are systems. Cross-references for the most common pairings, fix causes, not symptoms.
@@ -245,8 +242,7 @@ export default function Body({ onNavigate }) {
               {relatedPairs.map((r, i) => (
                 <Reveal key={r.areas} delay={i * 50}>
                   <SpotlightCard className="bg-cream-light p-6 h-full">
-                    <span className="editorial-num text-2xl text-clay">{String(i + 1).padStart(2, '0')}</span>
-                    <p className="font-display text-xl text-ink mt-1 leading-tight">{r.areas}</p>
+                    <p className="font-display text-xl text-ink leading-tight">{r.areas}</p>
                     <p className="text-sm text-ink-soft mt-3 leading-relaxed">{r.tip}</p>
                   </SpotlightCard>
                 </Reveal>
@@ -259,7 +255,7 @@ export default function Body({ onNavigate }) {
               <div className="lg:col-span-9">
                 <span className="editorial-label text-gold-dark">Pro Edition</span>
                 <h3 className="font-display text-3xl sm:text-4xl text-ink mt-2 leading-tight">
-                  Related-areas <span className="display-italic text-clay">cheat-sheet.</span>
+                  Related-areas <span className="display-italic">cheat-sheet.</span>
                 </h3>
                 <p className="text-ink-soft mt-3 leading-relaxed text-sm max-w-lg">
                   When your neck hurts, your shoulders probably need attention too. Cross-referenced tips so you fix the cause, not just the symptom.
@@ -267,7 +263,7 @@ export default function Body({ onNavigate }) {
               </div>
               <div className="lg:col-span-3 lg:text-right">
                 <button onClick={() => onNavigate?.('pro')} className="btn-ink">
-                  Unlock <span className="display-italic">→</span>
+                  Unlock
                 </button>
               </div>
             </SpotlightCard>
@@ -297,7 +293,6 @@ function ConcernAccordionItem({ concern, defaultOpen = false, num }) {
           <ul className="space-y-2.5 mb-3">
             {concern.suggestions.map((s, i) => (
               <li key={i} className="flex items-baseline gap-3">
-                <span className="text-xs num-display text-clay w-5 flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
                 <p className="text-sm text-ink-soft leading-relaxed">{s}</p>
               </li>
             ))}

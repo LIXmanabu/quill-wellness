@@ -25,7 +25,7 @@ export function Avatar({ url, name, size = 36 }) {
 export function CategoryBadge({ category }) {
   const accent = categoryAccent(category)
   return (
-    <span className={`chip card-${accent} text-[10px] uppercase tracking-[0.12em] font-semibold py-0.5`}>
+    <span className={`chip card-${accent} text-xs   font-semibold py-0.5`}>
       {categoryLabel(category)}
     </span>
   )
@@ -45,7 +45,7 @@ export function VisibilityIcon({ visibility, showLabel = false, className = '' }
         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         {v.d}
       </svg>
-      {showLabel && <span className="text-[10px] uppercase tracking-[0.14em] font-semibold">{v.label}</span>}
+      {showLabel && <span className="text-xs font-semibold">{v.label}</span>}
     </span>
   )
 }
@@ -59,7 +59,7 @@ export function StatusPill({ status }) {
   }
   const s = map[status]
   if (!s) return null
-  return <span className={`chip ${s.c} border-transparent text-[10px] py-0.5`}>{s.t}</span>
+  return <span className={`chip ${s.c} border-transparent text-xs py-0.5`}>{s.t}</span>
 }
 
 export function timeAgo(iso) {

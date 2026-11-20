@@ -79,19 +79,17 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
     onNavigate(key)
   }
 
-  const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-shadow duration-300 bg-cream pt-[env(safe-area-inset-top)] ${scrolled ? 'border-b border-ink/15 shadow-soft' : 'border-b border-ink/10'}`}>
       {/* Editorial top strip */}
       <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="masthead">
-          <span>Quill · Wellness Quarterly</span>
-          <span>Issue 01 · {date}</span>
+          <span aria-hidden="true" />
           {isTester ? (
             <span className="inline-flex items-center gap-3">
               <span className="text-clay font-semibold" title="You’re previewing Quill as a beta tester">
-                Tester · {tierLabel}
+                Testing {tierLabel}
               </span>
               <a href={feedbackHref} className="text-clay hover:text-ink transition-colors" title="Send the team a note">
                 ✎ Request a change
@@ -122,10 +120,10 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
               md+). Updates live as the tester switches Free/Pro/Max. */}
           {isTester && (
             <span
-              className="md:hidden inline-flex items-center px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-clay border border-clay/40 bg-clay-paler rounded-full shrink-0"
+              className="md:hidden inline-flex items-center px-2 py-1 text-xs font-bold text-clay border border-clay/40 bg-clay-paler rounded-full shrink-0"
               title="You’re previewing Quill as a beta tester"
             >
-              Tester · {tier === 'max' ? 'Max' : tier === 'pro' ? 'Pro' : 'Free'}
+              Testing {tier === 'max' ? 'Max' : tier === 'pro' ? 'Pro' : 'Free'}
             </span>
           )}
 
@@ -167,24 +165,21 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                   ref={(el) => (tabRefs.current[tab.key] = el)}
                   onClick={() => handleNav(tab.key)}
                   onMouseEnter={() => setHoverKey(tab.key)}
-                  className={`relative text-sm tracking-wide font-medium transition-all duration-300 py-1 shrink-0 whitespace-nowrap ${
+                  className={`relative text-sm  font-medium transition-all duration-300 py-1 shrink-0 whitespace-nowrap ${
                     isActive ? 'text-ink' : 'text-ink-soft hover:text-ink'
                   }`}
                 >
                   <span className="flex items-center gap-1.5">
-                    <span className="text-[10px] num-display text-ink-softer">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
                     <span className={`inline-block transition-transform duration-500 ${isActive ? '-translate-y-px' : ''}`}>
                       {tab.label}
                     </span>
                     {tab.key === 'myquill' && favCount > 0 && (
-                      <span className="ml-1 inline-flex items-center justify-center w-4 h-4 text-[9px] num-display bg-clay text-cream rounded-full animate-pop-in">
+                      <span className="ml-1 inline-flex items-center justify-center w-4 h-4 text-xs num-display bg-clay text-cream rounded-full animate-pop-in">
                         {favCount}
                       </span>
                     )}
                     {tab.key === 'community' && requestCount > 0 && (
-                      <span className="ml-1 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-[9px] num-display bg-clay text-cream rounded-full animate-pop-in">
+                      <span className="ml-1 inline-flex items-center justify-center min-w-[16px] h-4 px-1 text-xs num-display bg-clay text-cream rounded-full animate-pop-in">
                         {requestCount > 9 ? '9+' : requestCount}
                       </span>
                     )}
@@ -217,7 +212,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => window.dispatchEvent(new Event(PROFILE_MODAL_EVENT))}
-                  className="w-8 h-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-7 sm:h-7 rounded-full bg-clay/20 flex items-center justify-center text-[11px] font-bold text-clay uppercase hover:bg-clay/30 transition-colors focus-visible:ring-2 focus-visible:ring-clay"
+                  className="w-8 h-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-7 sm:h-7 rounded-full bg-clay/20 flex items-center justify-center text-xs font-bold text-clay hover:bg-clay/30 transition-colors focus-visible:ring-2 focus-visible:ring-clay"
                   aria-label="Open your Quill profile & badges"
                   title="My Quill profile"
                 >
@@ -225,7 +220,7 @@ export default function Navbar({ activePage, onNavigate, onOpenSearch }) {
                 </button>
                 <button
                   onClick={signOut}
-                  className="hidden lg:inline text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-soft hover:text-ink transition-colors"
+                  className="hidden lg:inline text-xs font-semibold text-ink-soft hover:text-ink transition-colors"
                 >
                   Sign out
                 </button>
